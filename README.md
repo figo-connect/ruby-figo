@@ -1,4 +1,4 @@
-ruby-figo [![Build Status](https://secure.travis-ci.org/fiog-connect/ruby-figo.png)](https://travis-ci.org/figo-connect/ruby-figo)
+ruby-figo [![Build Status](https://secure.travis-ci.org/figo-connect/ruby-figo.png)](https://travis-ci.org/figo-connect/ruby-figo)
 =========
 
 Ruby bindings for the figo connect API: http://figo.me
