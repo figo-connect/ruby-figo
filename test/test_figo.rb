@@ -1,5 +1,5 @@
-require 'test/unit'
-require 'figo'
+require "test/unit"
+require "figo"
 
 class FigoTest < Test::Unit::TestCase
 

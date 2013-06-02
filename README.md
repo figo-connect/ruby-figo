@@ -21,18 +21,18 @@ and require it
 Now you can create a new session and access data:
 
 ```ruby
-    session = Figo::Session.create("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
-	
-	# print out a list of accounts including its balance
-	session.accounts.each do |account|
-		puts account
-		puts account.balance
-	end
+    session = Figo::Session.new("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
+    
+    # Print out a list of accounts.
+    session.accounts.each do |account|
+      puts account
+      puts account.balance
+    end
 
-	# print out the list of all transactions on a specific account
-	session.get_account("A1.2").transactions do |transaction|
-	    puts transaction
-	end
+    # Print out the list of all transactions of a specific account.
+    session.get_account("A1.2").transactions.each do |transaction|
+      puts transaction
+    end
 ```
 
 Requirements
