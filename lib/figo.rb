@@ -34,7 +34,7 @@ module Figo
       # Attribute ca_file must be set, otherwise verify_callback would never be called.
       @ca_file = ""
       @verify_callback = proc do |preverify_ok, store_context|
-        if preverify_ok and store_context.error == 0 and store_context.chain.length > 0
+        if preverify_ok and store_context.error == 0
           certificate = OpenSSL::X509::Certificate.new(store_context.chain[0])
           fingerprint = Digest::SHA1.hexdigest(certificate.to_der).upcase.scan(/../).join(":")
           VALID_FINGERPRINTS.include?(fingerprint)
@@ -83,18 +83,12 @@ module Figo
       @https = HTTPS.new("figo-#{client_id}")
     end
 
-    def query_api(path, data = nil, method = "GET") # :nodoc:
+    def query_api(path, data = nil) # :nodoc:
         uri = URI("https://#{API_ENDPOINT}#{path}")
         puts uri
 
         # Setup HTTP request.
-        request = case method
-          when "POST"
-            Net::HTTP::Post.new(path)
-          else
-            Net::HTTP::Get.new(path)
-        end
-
+        request = Net::HTTP::Post.new(path)
         request.basic_auth(@client_id, @client_secret)
         request["Content-Type"] = "application/x-www-form-urlencoded"
         request['User-Agent'] =  "ruby-figo"
@@ -125,7 +119,7 @@ module Figo
         data = { "grant_type" => "refresh_token", "refresh_token" => authorization_code_or_refresh_token }
         data["scope"] = scope unless scope.nil?
       end
-      return query_api("/auth/token", data, "POST")
+      return query_api("/auth/token", data)
     end
 
     # Revoke refresh token or access token.
