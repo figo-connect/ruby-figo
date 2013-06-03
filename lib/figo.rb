@@ -192,8 +192,6 @@ module Figo
 
     # Request the URL a user should open in the web browser to start the synchronization process.
     def sync_url(redirect_uri, state, disable_notifications = false, if_not_synced_since = 0)
-      disable_notifications = disable_notifications ? "1" : "0"
-      if_not_synced_since = if_not_synced_since.to_s
       data = { "redirect_uri" => redirect_uri, "state" => state, "disable_notifications" => disable_notifications, "if_not_synced_since" => if_not_synced_since }
       response = query_api("/rest/sync", data, "POST")
       return "https://#{API_ENDPOINT}/task/start?id=#{response["task_token"]}"
