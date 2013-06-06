@@ -81,7 +81,8 @@ module Figo
         when Net::HTTPForbidden
           raise Error.new("forbidden", "Insufficient permission.")
         when Net::HTTPNotFound
-          raise Error.new("not_found", "Requested object does not exist.")
+          #raise Error.new("not_found", "Requested object does not exist.")
+          return nil
         when Net::HTTPMethodNotAllowed
           raise Error.new("method_not_allowed", "Unexpected request method.")
         when Net::HTTPServiceUnavailable
@@ -186,7 +187,13 @@ module Figo
       response = @https.request(uri, request)
 
       # Evaluate HTTP response.
-      return response.body == "" ? {} : JSON.parse(response.body)
+      if response.nil?
+        return nil
+      elsif response.body.nil?
+        return nil
+      else
+        return response.body == "" ? nil : JSON.parse(response.body)
+      end
     end
 
     # Request list of accounts.
@@ -225,16 +232,27 @@ module Figo
       return response["notifications"].map {|notification| Notification.new(self, notification)}
     end
 
+    # Request specific notification.
+    def get_notification(notification_id)
+      response = query_api("/rest/notifications/#{notification_id}")
+      return response.nil? ? nil : Notification.new(self, response)
+    end
+
     # Register notification.
     def add_notification(observe_key, notify_uri, state)
-      data = { "observe_key" => observe_key, "notify_uri" => notify_uri, "state" => state }
-      response = query_api("/rest/notifications", data, "POST")
-      return response["notification_id"]
+      response = query_api("/rest/notifications", { "observe_key" => observe_key, "notify_uri" => notify_uri, "state" => state }, "POST")
+      return Notification.new(self, response)
+    end
+
+    # Update/modify a notification
+    def modify_notification(notification)
+        response = query_api("/rest/notifications/#{notification.notification_id}", { "observe_key" => notification.observe_key, "notify_uri" => notification.notify_uri, "state" => notification.state }, "PUT")
+        return nil
     end
 
     # Unregister notification.
-    def remove_notification(notification_id)
-      query_api("/rest/notifications/#{notification_id}", nil, "DELETE")
+    def remove_notification(notification)
+      query_api("/rest/notifications/#{notification.notification_id}", nil, "DELETE")
       return nil
     end
 
