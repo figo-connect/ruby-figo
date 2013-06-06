@@ -24,7 +24,7 @@ require "json"
 require "logger"
 require 'net/http/persistent'
 require "digest/sha1"
-require "./lib/models.rb"
+require_relative "models.rb"
 
 $logger = Logger.new(STDOUT)
 
