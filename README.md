@@ -1,7 +1,7 @@
 ruby-figo [![Build Status](https://secure.travis-ci.org/figo-connect/ruby-figo.png)](https://travis-ci.org/figo-connect/ruby-figo)
 =========
 
-Ruby bindings for the figo connect API: http://figo.me
+Ruby bindings for the figo Connect API: http://developer.figo.me
 
 Usage
 =====
