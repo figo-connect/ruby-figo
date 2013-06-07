@@ -20,63 +20,62 @@
 # THE SOFTWARE.
 # 
 
-
 require "test/unit"
-require "figo"
+require_relative "../lib/figo"
 
 
 class FigoTest < Test::Unit::TestCase
-    def setup
-        Figo.const_set("API_ENDPOINT", "api.staging.figo.me")
-        Figo.const_set("VALID_FINGERPRINTS", ["AF:FF:C3:2A:45:13:86:FB:28:57:55:80:0A:58:23:C7:7A:70:B6:2D"])
-        #code
-    end
+
+  def setup
+    $api_endpoint = "api.staging.figo.me"
+    $valid_fingerprints = ["AF:FF:C3:2A:45:13:86:FB:28:57:55:80:0A:58:23:C7:7A:70:B6:2D"]
+  end
     
-    def test_accounts
-        sut = Figo::Session.new("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
+  def test_accounts
+    sut = Figo::Session.new("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
 
-        sut.accounts
-        sut.get_account "A1.1"
-        account = sut.get_account "A1.2"
-        assert_equal account.account_id, "A1.2"
+    sut.accounts
+    sut.get_account "A1.1"
+    account = sut.get_account "A1.2"
+    assert_equal account.account_id, "A1.2"
 
-        # account sub-resources
-        balance = sut.get_account("A1.2").balance
-        assert balance.balance
-        assert balance.balance_date
+    # account sub-resources
+    balance = sut.get_account("A1.2").balance
+    assert balance.balance
+    assert balance.balance_date
 
-        transactions = sut.get_account("A1.2").transactions
-        assert transactions.length > 0
-    end
+    transactions = sut.get_account("A1.2").transactions
+    assert transactions.length > 0
+  end
 
-    def test_global_transactions
-        sut = Figo::Session.new("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
-        transactions = sut.transactions
-        self.assert transactions.length > 0
-    end
+  def test_global_transactions
+    sut = Figo::Session.new("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
+    transactions = sut.transactions
+    self.assert transactions.length > 0
+  end
 
-    def test_sync_uri
-        sut = Figo::Session.new("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
-        sut.sync_url("qwe", "qew")
-    end
+  def test_sync_uri
+    sut = Figo::Session.new("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
+    sut.sync_url("qwe", "qew")
+  end
 
-    def test_create_update_delete_notification
-        sut = Figo::Session.new("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
+  def test_create_update_delete_notification
+    sut = Figo::Session.new("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
 
-        notification = sut.add_notification(observe_key="/rest/transactions", notify_uri="http://figo.me/test", state="qwe")
-        assert_equal notification.observe_key, "/rest/transactions"
-        assert_equal notification.notify_uri, "http://figo.me/test"
-        assert_equal notification.state, "qwe"
+    notification = sut.add_notification(observe_key="/rest/transactions", notify_uri="http://figo.me/test", state="qwe")
+    assert_equal notification.observe_key, "/rest/transactions"
+    assert_equal notification.notify_uri, "http://figo.me/test"
+    assert_equal notification.state, "qwe"
 
-        notification.state = "asd"
-        sut.modify_notification(notification)
+    notification.state = "asd"
+    sut.modify_notification(notification)
         
-        notification = sut.get_notification(notification.notification_id)
-        assert_equal notification.observe_key, "/rest/transactions"
-        assert_equal notification.notify_uri, "http://figo.me/test"
-        assert_equal notification.state, "asd"
+    notification = sut.get_notification(notification.notification_id)
+    assert_equal notification.observe_key, "/rest/transactions"
+    assert_equal notification.notify_uri, "http://figo.me/test"
+    assert_equal notification.state, "asd"
 
-        sut.remove_notification(notification)
-        assert_equal sut.get_notification(notification.notification_id), nil
-    end
+    sut.remove_notification(notification)
+    assert_equal sut.get_notification(notification.notification_id), nil
+  end
 end
