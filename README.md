@@ -35,6 +35,8 @@ Now you can create a new session and access data:
     end
 ```
 
+You can find more documentation at http://rubydoc.info/github/figo-connect/ruby-figo/master/frames
+
 Requirements
 ============
 
