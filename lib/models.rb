@@ -108,7 +108,7 @@ module Figo
     end
 
     # Request a specific transaction.
-    def transactions(transaction_id)
+    def transaction(transaction_id)
       response = @session.query_api("/rest/accounts/#{@account_id}/transactions/#{transaction_id}")
       return Transaction.new(@session, response)
     end
