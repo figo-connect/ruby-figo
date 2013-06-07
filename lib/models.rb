@@ -23,6 +23,7 @@
 require "date"
 require "flt"
 
+
 module Figo
 
   # Set decimal precision to two digits.
@@ -104,6 +105,12 @@ module Figo
       data["include_pending"] = include_pending ? "1" : "0"
       response = @session.query_api("/rest/accounts/#{@account_id}/transactions?" + URI.encode_www_form(data)) 
       return response["transactions"].map {|transaction| Transaction.new(@session, transaction)}
+    end
+
+    # Request a specific transaction.
+    def transactions(transaction_id)
+      response = @session.query_api("/rest/accounts/#{@account_id}/transactions/#{transaction_id}")
+      return Transaction.new(@session, response)
     end
 
   end
