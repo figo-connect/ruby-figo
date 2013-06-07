@@ -26,14 +26,15 @@ require 'net/http/persistent'
 require "digest/sha1"
 require_relative "models.rb"
 
-$logger = Logger.new(STDOUT)
 
 module Figo
 
-  API_ENDPOINT = "api.leanbank.com"
+  $api_endpoint = "api.leanbank.com"
 
-  VALID_FINGERPRINTS = ["A6:FE:08:F4:A8:86:F9:C1:BF:4E:70:0A:BD:72:AE:B8:8E:B7:78:52",
-                        "AD:A0:E3:2B:1F:CE:E8:44:F2:83:BA:AE:E4:7D:F2:AD:44:48:7F:1E"]
+  $valid_fingerprints = ["A6:FE:08:F4:A8:86:F9:C1:BF:4E:70:0A:BD:72:AE:B8:8E:B7:78:52",
+                         "AD:A0:E3:2B:1F:CE:E8:44:F2:83:BA:AE:E4:7D:F2:AD:44:48:7F:1E"]
+
+  $logger = Logger.new(STDOUT)
 
   class Error < RuntimeError
 
@@ -53,13 +54,14 @@ module Figo
     def initialize(name = nil, proxy = nil)
       super(name, proxy)
 
+      # Verify fingerprint of server SSL/TLS certificate.
       # Attribute ca_file must be set, otherwise verify_callback would never be called.
-      @ca_file = ""
+      @ca_file = "lib/cacert.pem"
       @verify_callback = proc do |preverify_ok, store_context|
         if preverify_ok and store_context.error == 0
           certificate = OpenSSL::X509::Certificate.new(store_context.chain[0])
           fingerprint = Digest::SHA1.hexdigest(certificate.to_der).upcase.scan(/../).join(":")
-          VALID_FINGERPRINTS.include?(fingerprint)
+          $valid_fingerprints.include?(fingerprint)
         else
           false
         end
@@ -81,7 +83,6 @@ module Figo
         when Net::HTTPForbidden
           raise Error.new("forbidden", "Insufficient permission.")
         when Net::HTTPNotFound
-          #raise Error.new("not_found", "Requested object does not exist.")
           return nil
         when Net::HTTPMethodNotAllowed
           raise Error.new("method_not_allowed", "Unexpected request method.")
@@ -107,29 +108,30 @@ module Figo
     end
 
     def query_api(path, data = nil) # :nodoc:
-        uri = URI("https://#{API_ENDPOINT}#{path}")
-        puts uri
+      uri = URI("https://#{$api_endpoint}#{path}")
 
-        # Setup HTTP request.
-        request = Net::HTTP::Post.new(path)
-        request.basic_auth(@client_id, @client_secret)
-        request["Content-Type"] = "application/x-www-form-urlencoded"
-        request['User-Agent'] =  "ruby-figo"
-        request.body = URI.encode_www_form(data) unless data.nil?
+      # Setup HTTP request.
+      request = Net::HTTP::Post.new(path)
+      request.basic_auth(@client_id, @client_secret)
+      request["Accept"] = "application/json"
+      request["Content-Type"] = "application/x-www-form-urlencoded"
+      request['User-Agent'] =  "ruby-figo"
+      request.body = URI.encode_www_form(data) unless data.nil?
 
-        # Send HTTP request.
-        response = @https.request(uri, request)
+      # Send HTTP request.
+      response = @https.request(uri, request)
 
-        # Evaluate HTTP response.
-        return response.body == "" ? {} : JSON.parse(response.body)
+      # Evaluate HTTP response.
+      return response.body == "" ? {} : JSON.parse(response.body)
     end
+
 
     # Get the URL a user should open in the web browser to start the login process.
     def login_url(state, scope = nil)
       data = { "response_type" => "code", "client_id" => @client_id, "state" => state }
       data["redirect_uri"] = @redirect_uri unless @redirect_uri.nil?
       data["scope"] = scope unless scope.nil?
-      return "https://#{API_ENDPOINT}/auth/code?" + URI.encode_www_form(data) 
+      return "https://#{$api_endpoint}/auth/code?" + URI.encode_www_form(data) 
     end
 
     # Exchange authorization code or refresh token for access token.
@@ -164,7 +166,7 @@ module Figo
     end
 
     def query_api(path, data=nil, method="GET") # :nodoc:
-      uri = URI("https://#{API_ENDPOINT}#{path}")
+      uri = URI("https://#{$api_endpoint}#{path}")
 
       # Setup HTTP request.
       request = case method
@@ -179,6 +181,7 @@ module Figo
       end
 
       request["Authorization"] = "Bearer #{@access_token}"
+      request["Accept"] = "application/json"
       request["Content-Type"] = "application/json"
       request['User-Agent'] =  "ruby-figo"
       request.body = JSON.generate(data) unless data.nil?
@@ -223,7 +226,7 @@ module Figo
     def sync_url(redirect_uri, state, disable_notifications = false, if_not_synced_since = 0)
       data = { "redirect_uri" => redirect_uri, "state" => state, "disable_notifications" => disable_notifications, "if_not_synced_since" => if_not_synced_since }
       response = query_api("/rest/sync", data, "POST")
-      return "https://#{API_ENDPOINT}/task/start?id=#{response["task_token"]}"
+      return "https://#{$api_endpoint}/task/start?id=#{response["task_token"]}"
     end
 
     # Request list of registered notifications.
@@ -240,14 +243,16 @@ module Figo
 
     # Register notification.
     def add_notification(observe_key, notify_uri, state)
-      response = query_api("/rest/notifications", { "observe_key" => observe_key, "notify_uri" => notify_uri, "state" => state }, "POST")
+      data = { "observe_key" => observe_key, "notify_uri" => notify_uri, "state" => state }
+      response = query_api("/rest/notifications", data, "POST")
       return Notification.new(self, response)
     end
 
     # Update/modify a notification
     def modify_notification(notification)
-        response = query_api("/rest/notifications/#{notification.notification_id}", { "observe_key" => notification.observe_key, "notify_uri" => notification.notify_uri, "state" => notification.state }, "PUT")
-        return nil
+      data = { "observe_key" => notification.observe_key, "notify_uri" => notification.notify_uri, "state" => notification.state }
+      response = query_api("/rest/notifications/#{notification.notification_id}", data, "PUT")
+      return nil
     end
 
     # Unregister notification.
