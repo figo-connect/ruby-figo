@@ -21,8 +21,7 @@
 # 
 
 require "json"
-require "logger"
-require 'net/http/persistent'
+require "net/http/persistent"
 require "digest/sha1"
 require_relative "models.rb"
 
@@ -34,8 +33,6 @@ module Figo
 
   $valid_fingerprints = ["A6:FE:08:F4:A8:86:F9:C1:BF:4E:70:0A:BD:72:AE:B8:8E:B7:78:52",
                          "AD:A0:E3:2B:1F:CE:E8:44:F2:83:BA:AE:E4:7D:F2:AD:44:48:7F:1E"]
-
-  $logger = Logger.new(STDOUT)
 
   # Base class for all errors transported via the figo Connect API.
   class Error < RuntimeError
@@ -104,7 +101,6 @@ module Figo
         when Net::HTTPServiceUnavailable
           raise Error.new("service_unavailable", "Exceeded rate limit.")
         else
-          $logger.warn("Querying the API failed when accessing '#{path}': #{response.code}")
           raise Error.new("internal_server_error", "We are very sorry, but something went wrong.")
       end
     end
@@ -141,7 +137,7 @@ module Figo
       request.basic_auth(@client_id, @client_secret)
       request["Accept"] = "application/json"
       request["Content-Type"] = "application/x-www-form-urlencoded"
-      request['User-Agent'] =  "ruby-figo"
+      request["User-Agent"] =  "ruby-figo"
       request.body = URI.encode_www_form(data) unless data.nil?
 
       # Send HTTP request.
@@ -163,6 +159,7 @@ module Figo
     #        validated the authenticity of the call to the redirect URL
     # @param scope [String] optional scope of data access to ask the user for, 
     #        e.g. `accounts=ro`
+    # @return [String] the URL to be opened by the user.
     def login_url(state, scope = nil)
       data = { "response_type" => "code", "client_id" => @client_id, "state" => state }
       data["redirect_uri"] = @redirect_uri unless @redirect_uri.nil?
@@ -196,7 +193,7 @@ module Figo
     #
     # @note this action has immediate effect, i.e. you will not be able use that token anymore after this call.
     #
-    # @param token [String] access or refresh token to be revoked
+    # @param refresh_token_or_access_token [String] access or refresh token to be revoked
     # @return [nil]
     def revoke_token(refresh_token_or_access_token)
       data = { "token" => refresh_token_or_access_token }
@@ -240,7 +237,7 @@ module Figo
       request["Authorization"] = "Bearer #{@access_token}"
       request["Accept"] = "application/json"
       request["Content-Type"] = "application/json"
-      request['User-Agent'] =  "ruby-figo"
+      request["User-Agent"] =  "ruby-figo"
       request.body = JSON.generate(data) unless data.nil?
 
       # Send HTTP request.
@@ -275,7 +272,7 @@ module Figo
 
     # Request list of transactions.
     #
-    # @param since [String] this parameter can either be a transaction ID or a date
+    # @param since [String, Date] this parameter can either be a transaction ID or a date
     # @param start_id [String] do only return transactions which were booked after the start transaction ID
     # @param count [Intger] limit the number of returned transactions
     # @param include_pending [Boolean] this flag indicates whether pending transactions should be included 

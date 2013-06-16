@@ -155,7 +155,7 @@ module Figo
 
     # Request list of transactions of this account.
     #
-    # @param since [String] this parameter can either be a transaction ID or a date
+    # @param since [String, Date] this parameter can either be a transaction ID or a date
     # @param start_id [String] do only return transactions which were booked after the start transaction ID
     # @param count [Intger] limit the number of returned transactions
     # @param include_pending [Boolean] this flag indicates whether pending transactions should be included 
