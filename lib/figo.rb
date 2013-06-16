@@ -218,6 +218,7 @@ module Figo
     #
     # @param path [String] the URL path on the server
     # @param data [hash] this optional object will be used as JSON-encoded POST content.
+    # @param method [String] the HTTP method
     # @return [Hash] JSON response
     def query_api(path, data=nil, method="GET") # :nodoc:
       uri = URI("https://#{$api_endpoint}#{path}")
@@ -267,14 +268,14 @@ module Figo
     # @return [Account] account object
     def get_account(account_id)
       response = query_api("/rest/accounts/#{account_id}")
-      return Account.new(self, response)
+      return response.nil? ? nil : Account.new(self, response)
     end
 
     # Request list of transactions.
     #
     # @param since [String, Date] this parameter can either be a transaction ID or a date
     # @param start_id [String] do only return transactions which were booked after the start transaction ID
-    # @param count [Intger] limit the number of returned transactions
+    # @param count [Integer] limit the number of returned transactions
     # @param include_pending [Boolean] this flag indicates whether pending transactions should be included 
     #        in the response; pending transactions are always included as a complete set, regardless of 
     #        the `since` parameter
@@ -291,7 +292,7 @@ module Figo
 
     # Request the URL a user should open in the web browser to start the synchronization process.
     #
-    # @param redirect_uri [String] URI the user is redirected to after the process completes
+    # @param redirect_uri [String] the user will be redirected to this URL after the process completes
     # @param state [String] this string will be passed on through the complete synchronization process 
     #        and to the redirect target at the end. It should be used to validated the authenticity of 
     #        the call to the redirect URL
@@ -335,7 +336,7 @@ module Figo
       return Notification.new(self, response)
     end
 
-    # Modify a notification.
+    # Modify notification.
     #
     # @param notification [Notification] modified notification object
     # @return [nil]

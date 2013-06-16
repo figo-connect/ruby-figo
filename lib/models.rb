@@ -157,11 +157,11 @@ module Figo
     #
     # @param since [String, Date] this parameter can either be a transaction ID or a date
     # @param start_id [String] do only return transactions which were booked after the start transaction ID
-    # @param count [Intger] limit the number of returned transactions
+    # @param count [Integer] limit the number of returned transactions
     # @param include_pending [Boolean] this flag indicates whether pending transactions should be included 
     #        in the response; pending transactions are always included as a complete set, regardless of 
     #        the `since` parameter
-    # @return [Array] an array of `Transaction` objects, one for each transaction of the user
+    # @return [Array] an array of `Transaction` objects, one for each transaction of this account
     def transactions(since = nil, start_id = nil, count = 1000, include_pending = false)
       data = {}
       data["since"] = (since.is_a?(Date) ? since.to_s : since) unless since.nil?
@@ -172,13 +172,13 @@ module Figo
       return response["transactions"].map {|transaction| Transaction.new(@session, transaction)}
     end
 
-    # Request a specific transaction.
+    # Request specific transaction.
     #
     # @param transaction_id [String] ID of the transaction to be retrieved
     # @return [Transaction] transaction object
     def transaction(transaction_id)
       response = @session.query_api("/rest/accounts/#{@account_id}/transactions/#{transaction_id}")
-      return Transaction.new(@session, response)
+      return response.nil? ? nil : Transaction.new(@session, response)
     end
 
   end

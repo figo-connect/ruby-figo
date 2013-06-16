@@ -6,7 +6,7 @@ Ruby bindings for the figo Connect API: http://developer.figo.me
 Usage
 =====
 
-First, you've to install the gem
+First, you've to install the gem:
 
 ```bash
 gem install figo
@@ -19,7 +19,7 @@ require "figo"
 
 session = Figo::Session.new("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
 
-# Print out a list of account numbers and balances.
+# Print out list of account numbers and balances.
 session.accounts.each do |account|
   puts account.account_number
   puts account.balance.balance
@@ -58,7 +58,7 @@ def process_redirect(authorization_code, state)
   # Start session.
   session = Figo::Session.new(token_hash["access_token"])
   
-  # Print out a list of account numbers.
+  # Print out list of account numbers.
   session.accounts.each do |account|
     puts account.account_number
   end
