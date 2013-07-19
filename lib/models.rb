@@ -36,6 +36,7 @@ module Figo
     CREDIT_CARD = "Credit card"
     LOAN        = "Loan account"
     PAYPAL      = "PayPal"
+    CASH_BOOK   = "Cash book"
     UNKNOWN     = "Unknown"
   end
 
