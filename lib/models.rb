@@ -227,7 +227,7 @@ module Figo
     # @return [String]
     attr_accessor :account_number
 
-    # Bank code of originator or recipien.
+    # Bank code of originator or recipient.
     # @return [String]
     attr_accessor :bank_code
 

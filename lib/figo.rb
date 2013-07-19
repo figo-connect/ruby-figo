@@ -176,7 +176,7 @@ module Figo
     # @param scope [String] optional scope of data access to ask the user for, 
     #        e.g. `accounts=ro`
     # @return [Hash] object with the keys `access_token`, `refresh_token` and 
-    #        `expires,` as documented in the figo Connect API specification.
+    #        `expires`, as documented in the figo Connect API specification.
     def obtain_access_token(authorization_code_or_refresh_token, scope = nil)
       # Authorization codes always start with "O" and refresh tokens always start with "R".
       if authorization_code_or_refresh_token[0] == "O"
@@ -342,7 +342,7 @@ module Figo
     # @return [nil]
     def modify_notification(notification)
       data = { "observe_key" => notification.observe_key, "notify_uri" => notification.notify_uri, "state" => notification.state }
-      response = query_api("/rest/notifications/#{notification.notification_id}", data, "PUT")
+      query_api("/rest/notifications/#{notification.notification_id}", data, "PUT")
       return nil
     end
 
