@@ -29,10 +29,9 @@ require_relative "models.rb"
 # Ruby bindings for the figo Connect API: http://developer.figo.me
 module Figo
 
-  $api_endpoint = "api.leanbank.com"
+  $api_endpoint = "api.figo.me"
 
-  $valid_fingerprints = ["A6:FE:08:F4:A8:86:F9:C1:BF:4E:70:0A:BD:72:AE:B8:8E:B7:78:52",
-                         "AD:A0:E3:2B:1F:CE:E8:44:F2:83:BA:AE:E4:7D:F2:AD:44:48:7F:1E"]
+  $valid_fingerprints = ["3A:62:54:4D:86:B4:34:38:EA:34:64:4E:95:10:A9:FF:37:27:69:C0"]
 
   # Base class for all errors transported via the figo Connect API.
   class Error < RuntimeError
