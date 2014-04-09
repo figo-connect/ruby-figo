@@ -26,11 +26,6 @@ require_relative "../lib/figo"
 
 class FigoTest < Test::Unit::TestCase
 
-  def setup
-    $api_endpoint = "api.staging.figo.me"
-    $valid_fingerprints = ["AF:FF:C3:2A:45:13:86:FB:28:57:55:80:0A:58:23:C7:7A:70:B6:2D"]
-  end
-    
   def test_accounts
     sut = Figo::Session.new("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
 
