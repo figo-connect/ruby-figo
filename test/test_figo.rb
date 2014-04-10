@@ -20,11 +20,11 @@
 # THE SOFTWARE.
 # 
 
-require "test/unit"
+require "minitest/autorun"
 require_relative "../lib/figo"
 
 
-class FigoTest < Test::Unit::TestCase
+class FigoTest < MiniTest::Unit::TestCase
 
   def test_accounts
     sut = Figo::Session.new("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
