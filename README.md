@@ -1,7 +1,7 @@
-ruby-figo [![Build Status](https://secure.travis-ci.org/figo-connect/ruby-figo.png)](https://travis-ci.org/figo-connect/ruby-figo)
+ruby-figo [![Build Status](https://secure.travis-ci.org/figo-connect/ruby-figo.png)](https://travis-ci.org/figo-connect/ruby-figo) [![Gem Version](http://img.shields.io/gem/v/figo.svg)](http://rubygems.org/gems/figo)
 =========
 
-Ruby bindings for the figo Connect API: http://developer.figo.me
+Ruby bindings for the figo Connect API: http://docs.figo.io
 
 Usage
 =====
@@ -57,7 +57,7 @@ def process_redirect(authorization_code, state)
 
   # Start session.
   session = Figo::Session.new(token_hash["access_token"])
-  
+
   # Print out list of account numbers.
   session.accounts.each do |account|
     puts account.account_number
