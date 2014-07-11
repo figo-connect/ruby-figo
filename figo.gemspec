@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "figo"
-  s.version     = "1.2.0"
+  s.version     = "1.2.1"
   s.authors     = ["Stefan Richter"]
   s.email       = ["stefan.richter@figo.me"]
   s.homepage    = "https://github.com/figo-connect/ruby-figo"

@@ -195,14 +195,14 @@ module Figo
     # Request list of transactions of this account
     #
     # @param since [String, Date] this parameter can either be a transaction ID or a date
-    # @param start_id [String] do only return transactions which were booked after the start transaction ID
     # @param count [Integer] limit the number of returned transactions
+    # @param offset [Integer] which offset into the result set should be used to determin the first transaction to return (useful in combination with count)
     # @param include_pending [Boolean] this flag indicates whether pending transactions should be included
     #        in the response; pending transactions are always included as a complete set, regardless of
     #        the `since` parameter
     # @return [Array] an array of `Transaction` objects, one for each transaction of this account
-    def transactions(since = nil, start_id = nil, count = 1000, include_pending = false)
-      @session.transactions @account_id, since, start_id, count, include_pending
+    def transactions(since = nil, count = 1000, offset = 0, include_pending = false)
+      @session.transactions @account_id, since, count, offset, include_pending
     end
 
     # Request specific transaction.
