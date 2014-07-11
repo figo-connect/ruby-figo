@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
   s.name        = "figo"
-  s.version     = "1.1.1"
-  s.authors     = ["Stefan Richter", "Michael Haller"]
-  s.email       = ["stefan.richter@figo.me", "michael.haller@figo.me"]
+  s.version     = "1.2.0"
+  s.authors     = ["Stefan Richter"]
+  s.email       = ["stefan.richter@figo.me"]
   s.homepage    = "https://github.com/figo-connect/ruby-figo"
   s.license     = "MIT"
   s.summary     = %q{API wrapper for figo Connect.}
-  s.description = %q{Library to easily use the API of http://www.figo.me}
+  s.description = %q{Library to easily use the API of http://figo.io}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
