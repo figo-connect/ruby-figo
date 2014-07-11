@@ -48,8 +48,10 @@ module Figo
         next unless respond_to? "#{key}="
         next if value.nil?
 
-        if key == "status"
+        if key == "status" and value.is_a? Hash
           value = SynchronizationStatus.new(session, value)
+        elsif key == "balance" and value.is_a? Hash
+          value = AccountBalance.new(session, value)
         elsif key == "amount" or key == "balance" or key == "credit_line" or key == "monthly_spending_limit"
           value = Flt::DecNum(value.to_s)
         elsif key.end_with?("_date")
@@ -192,6 +194,10 @@ module Figo
     # @return [SynchronizationStatus]
     attr_accessor :status
 
+    # AccountBalance object
+    # @return [AccountBalance]
+    attr_accessor :balance
+
     # Request list of transactions of this account
     #
     # @param since [String, Date] this parameter can either be a transaction ID or a date
@@ -233,13 +239,6 @@ module Figo
     # @return [Bank] `Bank` object for the respective bank
     def bank
       @session.get_bank @bank_id
-    end
-
-    # Retrieve balance of this account
-    #
-    # @return [AccountBalance] `AccountBalance` of this account
-    def balance
-      @session.get_account_balance @account_id
     end
   end
 

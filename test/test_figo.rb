@@ -38,9 +38,8 @@ class FigoTest < MiniTest::Unit::TestCase
     assert_equal account.account_id, "A1.2"
 
     # account sub-resources
-    balance = @sut.get_account("A1.2").balance
-    assert balance.balance
-    assert balance.balance_date
+    assert @sut.get_account("A1.2").balance.balance
+    assert @sut.get_account("A1.2").balance.balance_date
 
     transactions = @sut.get_account("A1.2").transactions
     assert transactions.length > 0
