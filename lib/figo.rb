@@ -331,6 +331,29 @@ module Figo
       query_api_object AccountBalance, "/rest/accounts/#{account_id}/balance", account_balance.dump(), "PUT"
     end
 
+    # Retrieve specific bank
+    #
+    # @return [Bank] bank object
+    def get_bank(bank_id)
+      query_api_object Bank, "/rest/banks/#{bank_id}"
+    end
+
+    # Modify bank
+    #
+    # @param bank [Bank] modified bank object
+    # @return [Bank] modified bank object returned by server
+    def modify_bank(bank)
+      query_api_object Bank, "/rest/banks/#{bank.bank_id}", bank.dump(), "PUT"
+    end
+
+    # Remove stored PIN from bank
+    #
+    # @param bank [Bank, String] the bank whose stored PIN should be removed or its ID
+    # @return [nil]
+    def remove_bank_pin(bank)
+      query_app bank.is_a?(String) ? "/rest/banks/#{bank}/submit": "/rest/banks/#{bank.bank_id}/submit", nil, "POST"
+    end
+
     # Retrieve list of transactions (on all or a specific account)
     #
     # @param account_id [String] ID of the account for which to list the transactions

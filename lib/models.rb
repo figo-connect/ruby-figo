@@ -268,6 +268,19 @@ module Figo
     attr_accessor :status
   end
 
+  # Object representing a bank, i.e. an connection to a bank
+  class Bank < Base
+    @dump_attributes = [:sepa_creditor_id]
+
+    # SEPA direct debit creditor ID
+    # @return [String]
+    attr_accessor :sepa_creditor_id
+
+    # This flag indicates whether the user has chosen to save the PIN on the figo Connect server
+    # @return [Boolean]
+    attr_accessor :save_pin
+  end
+
   # Object representing one bank transaction on a certain bank account of the User
   class Transaction < Base
     @dump_attributes = []
