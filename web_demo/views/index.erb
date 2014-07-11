@@ -1,0 +1,41 @@
+<div class="container-fluid" role="main">
+    <h1><%= @current_account.nil? ? "Unified Inbox" : @current_account.name %></h1>
+
+    <% if @current_account %>
+        <div class="panel panel-default">
+            <div class="panel-heading">Account Details</div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">Owner: <%= @current_account.owner %></li>
+                    <li class="list-group-item">Account Number: <%= @current_account.account_number %></li>
+                    <li class="list-group-item">Bank Code: <%= @current_account.bank_code %></li>
+                    <li class="list-group-item">IBAN: <%= @current_account.iban %></li>
+                    <li class="list-group-item">Balance: <%= @current_account.balance.balance %> <%= @current_account.currency %></li>
+                </ul>
+            </div>
+        </div>
+    <% end %>
+
+    <table class="table table-hover table-condensed">
+        <thead><tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Account Number</th>
+            <th>Purpose</th>
+            <th style="text-align: right;">Amount</th>
+        </tr></thead>
+        <tbody>
+            <% if @transactions %>
+            <% @transactions.each do |transaction| %>
+                <tr>
+                    <td><%= transaction.value_date %></td>
+                    <td><%= transaction.name %></td>
+                    <td><%= transaction.account_number %></td>
+                    <td><%= transaction.purpose %></td>
+                    <td style="text-align: right; <% if transaction.amount < 0 %>color: red;<% end %>"><%= transaction.amount %></td>
+                </tr>
+            <% end %>
+            <% end %>
+        </tbody>
+    </table>
+</div>

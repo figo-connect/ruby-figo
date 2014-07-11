@@ -67,7 +67,11 @@ end
 
 You can find more documentation at http://rubydoc.info/github/figo-connect/ruby-figo/master/frames
 
+Demos
+-----
+In this repository you can also have a look at a simple console(`console_demo.rb`) and web demo(`web_demo`). While the console demo simply accesses the figo API, the web demo implements the full OAuth flow.
+
 Requirements
-============
+------------
 
 This gem requires Ruby 1.9.
