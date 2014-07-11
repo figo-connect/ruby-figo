@@ -19,8 +19,8 @@
 
 	</head>
 	<body>
-		<div class="container">
-			<div class="navbar navbar-default" role="navigation">
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
 			  <div class="navbar-header">
 			    <a class="navbar-brand" href="/">figo web banking</a>
 			  </div>
@@ -34,16 +34,14 @@
 					<p class="navbar-text navbar-right">Signed in as <a href="/logout" class="navbar-link"><%= @user.email %></a></p>
 			  </div><!--/.nav-collapse -->
 			</div>
+		</div>
 
-			<div>
-			      <%if @error then %>
-			          <div class="alert alert-error"><%=@error%></div>
-			      <% end %>
-			      <%= yield %>
-			</div>
-
-	</div>
-
+		<div class="container-fluid" role="main">
+			<%if @error then %>
+				<div class="alert alert-error"><%=@error%></div>
+			<% end %>
+			<%= yield %>
+		</div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
