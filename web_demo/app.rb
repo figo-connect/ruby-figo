@@ -13,7 +13,6 @@ end
 
 get '/callback*' do
   if params['state'] != "qweqwe"
-    logger.info "qwe"
     raise Exception.new("Bogus redirect, wrong state")
   end
 
@@ -29,7 +28,6 @@ get '/logout' do
 end
 
 before '/' do
-  logger.info request.path_info
   unless session[:figo_token] or request.path_info == "/callback" then
     redirect to(connection.login_url("qweqwe", "accounts=ro transactions=ro balance=ro user=ro"))
   end
