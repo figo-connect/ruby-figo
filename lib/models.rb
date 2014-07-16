@@ -271,6 +271,10 @@ module Figo
   class Bank < Base
     @dump_attributes = [:sepa_creditor_id]
 
+    # Internal figo Connect bank ID
+    # @return [String]
+    attr_accessor :bank_id
+
     # SEPA direct debit creditor ID
     # @return [String]
     attr_accessor :sepa_creditor_id
