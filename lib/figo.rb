@@ -351,7 +351,7 @@ module Figo
     # @param bank [Bank, String] the bank whose stored PIN should be removed or its ID
     # @return [nil]
     def remove_bank_pin(bank)
-      query_app bank.is_a?(String) ? "/rest/banks/#{bank}/submit": "/rest/banks/#{bank.bank_id}/submit", nil, "POST"
+      query_api bank.is_a?(String) ? "/rest/banks/#{bank}/submit": "/rest/banks/#{bank.bank_id}/submit", nil, "POST"
     end
 
     # Retrieve list of transactions (on all or a specific account)
