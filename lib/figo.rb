@@ -202,11 +202,25 @@ module Figo
     # @param email [String] Email address; It must obey the figo username & password policy
     # @param password [String] New figo Account password; It must obey the figo username & password policy
     # @param language [String] Two-letter code of preferred language
-    # @param send_newsletter [Boolean] This flag indicates whether the user has agreed to be contacted by email -- Not accepted by backend
+    # @param send_newsletter [Boolean] This flag indicates whether the user has agreed to be contacted by email -- Not accepted by Figo backend
     # @return [Hash] object with the key `recovery_password` as documented in the figo Connect API specification
     def create_user(name, email, password, language='de', send_newsletter=true)
-        data = { 'name' => name, 'email' => email, 'password' => password, 'language' => language, 'affiliate_client_id' => @client_id} #'send_newsletter' => send_newsletter, 
+        data = { 'name' => name, 'email' => email, 'password' => password, 'language' => language, 'affiliate_client_id' => @client_id}
         return query_api("/auth/user", data)
+    end
+
+    # Login a existing Figo User
+    #
+    # @param email [String] Email address
+    # @param password [String] User account password
+    # @param device_name [String] Human-readable name for the device where the client application runs
+    # @param device_type [String] One of the device types iPhone, iPad, WWW, Windows, Mac or Linux
+    # @param device_udid [String] Device UDID for associating notification subscriptions with individual devices
+    # @param scope [String] A space delimited set of requested permissions.
+    # @return [Hash] Object with the keys `access_token`, `expires_in`, `refresh_token`, `scope`, `token_type` as documented in the figo Connect API specification
+    def login_user(username, password, device_name = nil, device_type = nil, device_udid = nil, scope = nil)
+        data = {'grant_type' => 'password', 'username' => username, 'password' => password, 'device_name' => device_name, 'device_type' => device_type, 'device_udid' => device_udid, 'scope' => scope}
+        return query_api("/auth/token", data)
     end
   end
 
