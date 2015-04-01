@@ -202,7 +202,7 @@ module Figo
     # @param email [String] Email address; It must obey the figo username & password policy
     # @param password [String] New figo Account password; It must obey the figo username & password policy
     # @param language [String] Two-letter code of preferred language
-    # @param send_newsletter [Boolean] This flag indicates whether the user has agreed to be contacted by email -- Not accepted by backend
+    # @param send_newsletter [Boolean] This flag indicates whether the user has agreed to be contacted by email -- Not accepted by backend at the moment
     # @return [Hash] object with the key `recovery_password` as documented in the figo Connect API specification
     def create_user(name, email, password, language='de', send_newsletter=true)
         data = { 'name' => name, 'email' => email, 'password' => password, 'language' => language, 'affiliate_client_id' => @client_id} #'send_newsletter' => send_newsletter, 
