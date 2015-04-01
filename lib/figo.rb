@@ -354,6 +354,15 @@ module Figo
       query_api bank.is_a?(String) ? "/rest/banks/#{bank}/submit": "/rest/banks/#{bank.bank_id}/submit", nil, "POST"
     end
 
+    # Get bank information from standard bank code
+    #
+    # @param country_code [String]
+    # @param bank_code [String] bank sort code (Bankleitzahl)
+    # @return [Hash] JSON response
+    def find_bank(bank_code, country_code)
+      query_api "/rest/catalog/banks/#{country_code}/#{bank_code}"
+    end
+
     # Retrieve list of transactions (on all or a specific account)
     #
     # @param account_id [String] ID of the account for which to list the transactions
