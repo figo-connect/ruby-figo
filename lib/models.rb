@@ -207,8 +207,8 @@ module Figo
     #        in the response; pending transactions are always included as a complete set, regardless of
     #        the `since` parameter
     # @return [Array] an array of `Transaction` objects, one for each transaction of this account
-    def transactions(since = nil, count = 1000, offset = 0, include_pending = false)
-      @session.transactions @account_id, since, count, offset, include_pending
+    def transactions(since = nil, count = 1000, offset = 0, include_pending = false, additional_parameters = {})
+      @session.transactions @account_id, since, count, offset, include_pending, additional_parameters
     end
 
     # Request specific transaction.
