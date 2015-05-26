@@ -376,7 +376,7 @@ module Figo
     def transactions(account_id = nil, since = nil, count = 1000, offset = 0, include_pending = false, additional_params = {})
       data = {"count" => count.to_s, "offset" => offset.to_s, "include_pending" => include_pending ? "1" : "0"}
       data["since"] = ((since.is_a?(Date) ? since.to_s : since) unless since.nil?)
-      data.reverse_merge!(additional_params)
+      data.merge!(additional_params)
 
       query_api_object Transaction, (account_id.nil? ? "/rest/transactions?" : "/rest/accounts/#{account_id}/transactions?") + URI.encode_www_form(data), nil, "GET", "transactions"
     end
