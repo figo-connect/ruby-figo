@@ -163,6 +163,17 @@ module Figo
     end
 
 
+
+    ##
+    # Trying to login a user using their credentials +username+ and +password+. 
+    # Upon successful login, the returned json contains an :access token.
+    def credential_login(username, password)
+      credential_login_request = { "grant_type" => "password", 
+                                   "username" => username,
+                                   "password" => password }
+      return query_api("/auth/token", credential_login_request)
+    end
+
     # Exchange authorization code or refresh token for access token.
     #
     # @param authorization_code_or_refresh_token [String] either the authorization
