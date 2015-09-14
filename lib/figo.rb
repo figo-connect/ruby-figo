@@ -316,12 +316,14 @@ module Figo
 
     # Adds a new bank account for the user of the current session.
     #
+    # @param bank_code [String] bank code. 
     # @param credentials [Array] list of login credential strings whose order must match with the order the credential list from the corresponding login settings.
     # @param country [String] two letter country code.
     # @param options [Hash] can contain optional key-value pairs such as values for 'bank_code', 'iban' etc.
     # @return [String] An immediate task token.
-    def setup_new_bank_account(credentials, country = 'de', options = {})
-      data = { "country" => country,
+    def setup_new_bank_account(bank_code, credentials, country = 'de', options = {})
+      data = { "bank_code" => bank_code,
+               "country" => country,
                "credentials" => credentials
       }
       data = data.merge(options)
