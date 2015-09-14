@@ -164,9 +164,12 @@ module Figo
 
 
 
-    ##
     # Trying to login a user using their credentials +username+ and +password+. 
     # Upon successful login, the returned json contains an :access token.
+    # @param username [String] the username (typically an eMail) of the user. 
+    # @param password [String] the password of the user. 
+    # @return [Hash] object with the keys `access_token`, `refresh_token` and
+    #        `expires`, as documented in the figo Connect API specification.
     def credential_login(username, password)
       credential_login_request = { "grant_type" => "password", 
                                    "username" => username,
@@ -309,6 +312,20 @@ module Figo
     # @return [Account] account object
     def get_account(account_id)
       query_api_object Account, "/rest/accounts/#{account_id}"
+    end
+
+    # Adds a new bank account for the user of the current session.
+    #
+    # @param credentials [Array] list of login credential strings whose order must match with the order the credential list from the corresponding login settings.
+    # @param country [String] two letter country code.
+    # @param options [Hash] can contain optional key-value pairs such as values for 'bank_code', 'iban' etc.
+    # @return [String] An immediate task token.
+    def setup_new_bank_account(credentials, country = 'de', options = {})
+      data = { "country" => country,
+               "credentials" => credentials
+      }
+      data = data.merge(options)
+      query_api "/rest/accounts", data, "POST"
     end
 
     # Modify specific account
