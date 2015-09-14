@@ -518,6 +518,16 @@ module Figo
       return "https://#{$api_endpoint}/task/start?id=#{response["task_token"]}"
     end
 
+
+    # Get the current state of a task by ID. 
+    #
+    # @param token_id [String] Id of the task token whose state will be checked. 
+    # @return [Hash] A JSON response that contains information such as 'is_erroneous' or 'is_ended' about the task. 
+    def get_task_state(token_id)
+      data = { 'id' => token_id }
+      return query_api "/task/progress?id=" + token_id, data, "POST"
+    end
+
     # Remove payment
     #
     # @param payment [Payment, String] payment object which should be removed
