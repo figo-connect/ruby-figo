@@ -43,6 +43,12 @@ module Figo
     def initialize(session, hash)
       @session = session
 
+      decnum_keys = %w(
+        amount balance
+        credit_line
+        monthly_spending_limit
+      )
+
       hash.each do |key, value|
         key = key.to_s if key.is_a? Symbol
         next unless respond_to? "#{key}="
@@ -52,7 +58,7 @@ module Figo
           value = SynchronizationStatus.new(session, value)
         elsif key == "balance" and value.is_a? Hash
           value = AccountBalance.new(session, value)
-        elsif key == "amount" or key == "balance" or key == "credit_line" or key == "monthly_spending_limit"
+        elsif decnum_keys.include? key
           value = Flt::DecNum(value.to_s)
         elsif key.end_with?("_date")
           value = DateTime.iso8601(value)
