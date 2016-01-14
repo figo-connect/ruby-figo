@@ -43,6 +43,18 @@ module Figo
     def initialize(session, hash)
       @session = session
 
+      decnum_keys = %w(
+        amount balance
+        credit_line
+        monthly_spending_limit
+        quantity
+        amount
+        amount_original_currency
+        exchange_rate
+        price
+        purchase_price
+      )
+
       hash.each do |key, value|
         key = key.to_s if key.is_a? Symbol
         next unless respond_to? "#{key}="
@@ -52,7 +64,7 @@ module Figo
           value = SynchronizationStatus.new(session, value)
         elsif key == "balance" and value.is_a? Hash
           value = AccountBalance.new(session, value)
-        elsif key == "amount" or key == "balance" or key == "credit_line" or key == "monthly_spending_limit"
+        elsif decnum_keys.include? key
           value = Flt::DecNum(value.to_s)
         elsif key.end_with?("_date")
           value = DateTime.iso8601(value)
@@ -462,5 +474,86 @@ module Figo
     # ID of the transaction corresponding to this payment. This field is only set if the payment has been matched to a transaction
     # @return [String]
     attr_accessor :transaction_id
+  end
+
+  # Object representing a depot security
+  class Security < Base
+    @dump_attributes = []
+
+    # Internal figo Connect security ID
+    # @return [String]
+    attr_accessor :security_id
+
+    # Internal figo Connect account ID
+    # @return [String]
+    attr_accessor :account_id
+
+    # Name of the security
+    # @return [String]
+    attr_accessor :name
+
+    # International Securities Identification Number
+    # @return [String]
+    attr_accessor :isin
+
+    # Wertpapierkennnummer (if available)
+    # @return [String]
+    attr_accessor :wkn
+
+    # Market name
+    # @return [String]
+    attr_accessor :market
+
+    # Three-character currency code when measured in currency (and not pieces)
+    # @return [String]
+    attr_accessor :currency
+
+    # Number of pieces or value
+    # @return [Number]
+    attr_accessor :quantity
+
+    # Monetary value in account currency
+    # @return [Number]
+    attr_accessor :amount
+
+    # Monetary value in trading currency
+    # @return [Number]
+    attr_accessor :amount_original_currency
+
+    # Exchange rate between trading and account currency
+    # @return [Number]
+    attr_accessor :exchange_rate
+
+    # Current price
+    # @return [Number]
+    attr_accessor :price
+
+    # Currency of current price
+    # @return [String]
+    attr_accessor :price_currency
+
+    # Purchase price
+    # @return [Number]
+    attr_accessor :purchase_price
+
+    # Currency of purchase price
+    # @return [String]
+    attr_accessor :purchase_price_currency
+
+    # This flag indicates whether the security has already been marked as visited by the user
+    # @return [Boolean]
+    attr_accessor :visited
+
+    # Trading timestamp
+    # @return [String]
+    attr_accessor :trade_timestamp
+
+    # Internal creation timestamp on the figo Connect server
+    # @return [String]
+    attr_accessor :creation_timestamp
+
+    # Internal modification timestamp on the figo Connect server
+    # @return [String]
+    attr_accessor :modification_timestamp
   end
 end

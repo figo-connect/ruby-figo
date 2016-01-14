@@ -4,3 +4,6 @@ rvm:
   - 2.0.0
   - 2.1.1
   - ruby-head
+install:
+  - "gem install bundler"
+  - "bundle install --jobs=3 --retry=3"

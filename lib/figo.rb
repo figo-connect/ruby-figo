@@ -494,5 +494,12 @@ module Figo
     def remove_payment(payment)
       query_api "/rest/accounts/#{payment.account_id}/payments/#{payment.payment_id}", nil, "DELETE"
     end
+
+    # Retrieve securities of all of the user's accounts
+    #
+    # @return [Security] an array of `Security` objects
+    def securities
+      query_api_object Security, "/rest/securities", nil, "GET", "securities"
+    end
   end
 end
