@@ -119,6 +119,13 @@ module Figo
       @https = HTTPS.new("figo-#{client_id}")
     end
 
+    # Checks, whether the HTTPS Connection is currently active and successfully connected.
+    #
+    # @return [Boolean] Whether the HTTPS Connection exists and could successfully connect.
+    def valid_ssl_connection?
+      return !@https.nil? && @https != false 
+    end
+
     # Helper method for making a OAuth 2.0 request.
     #
     # @param path [String] the URL path on the server
