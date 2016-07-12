@@ -119,6 +119,13 @@ module Figo
       @https = HTTPS.new("figo-#{client_id}")
     end
 
+    # Checks, whether the HTTPS Connection is currently active and successfully connected.
+    #
+    # @return [Boolean] Whether the HTTPS Connection exists and could successfully connect.
+    def valid_ssl_connection?
+      return !@https.nil? && @https != false 
+    end
+
     # Helper method for making a OAuth 2.0 request.
     #
     # @param path [String] the URL path on the server
@@ -162,6 +169,20 @@ module Figo
       return "https://#{$api_endpoint}/auth/code?" + URI.encode_www_form(data)
     end
 
+
+
+    # Trying to login a user using their credentials +username+ and +password+. 
+    # Upon successful login, the returned json contains an :access token.
+    # @param username [String] the username (typically an eMail) of the user. 
+    # @param password [String] the password of the user. 
+    # @return [Hash] object with the keys `access_token`, `refresh_token` and
+    #        `expires`, as documented in the figo Connect API specification.
+    def credential_login(username, password)
+      credential_login_request = { "grant_type" => "password", 
+                                   "username" => username,
+                                   "password" => password }
+      return query_api("/auth/token", credential_login_request)
+    end
 
     # Exchange authorization code or refresh token for access token.
     #
@@ -298,6 +319,22 @@ module Figo
     # @return [Account] account object
     def get_account(account_id)
       query_api_object Account, "/rest/accounts/#{account_id}"
+    end
+
+    # Adds a new bank account for the user of the current session.
+    #
+    # @param bank_code [String] bank code. 
+    # @param credentials [Array] list of login credential strings whose order must match with the order the credential list from the corresponding login settings.
+    # @param country [String] two letter country code.
+    # @param options [Hash] can contain optional key-value pairs such as values for 'bank_code', 'iban' etc.
+    # @return [String] An immediate task token.
+    def setup_new_bank_account(bank_code, credentials, country = 'de', options = {})
+      data = { "bank_code" => bank_code,
+               "country" => country,
+               "credentials" => credentials
+      }
+      data = data.merge(options)
+      query_api "/rest/accounts", data, "POST"
     end
 
     # Modify specific account
@@ -486,6 +523,16 @@ module Figo
 
       response = query_api "/rest/accounts/#{payment.account_id}/payments/#{payment.payment_id}/submit", params, "POST"
       return "https://#{$api_endpoint}/task/start?id=#{response["task_token"]}"
+    end
+
+
+    # Get the current state of a task by ID. 
+    #
+    # @param token_id [String] Id of the task token whose state will be checked. 
+    # @return [Hash] A JSON response that contains information such as 'is_erroneous' or 'is_ended' about the task. 
+    def get_task_state(token_id)
+      data = { 'id' => token_id }
+      return query_api "/task/progress?id=" + token_id, data, "POST"
     end
 
     # Remove payment

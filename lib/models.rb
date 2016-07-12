@@ -211,6 +211,18 @@ module Figo
       @session.transactions @account_id, since, count, offset, include_pending
     end
 
+
+    # Returns BIC including the optional Branch Code. If no Branch Code is provided, 'XXX' is used as Branch Code.
+    #
+    # @return [String] The BIC including the Branch Code.
+    def bic_with_branch_code
+      if self.bic.length == 8
+        return "#{self.bic}XXX"
+      else
+        return self.bic
+      end
+    end
+
     # Request specific transaction.
     #
     # @param transaction_id [String] ID of the transaction to be retrieved
