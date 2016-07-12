@@ -25,24 +25,46 @@ require "minitest/autorun"
 require "minitest/reporters"
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 require_relative "../lib/figo"
-require "yaml"
 
 class FigoTest < MiniTest::Unit::TestCase
-  CONFIG = YAML.load_file(File.join(__dir__, 'CONFIG.yml'))
-
   def setup
     @sut = Figo::Session.new(CONFIG["ACCESS_TOKEN"])
   end
 
-  def test_missing_handling
-    assert_nil @sut.get_account "A1.42"
+  ##   Securities
+  # Retrieve a Security
+  def test_retreive_a_security
+    assert @sut.get_security("A1.4", "S1.1")
   end
 
-  def test_error_handling
-    assert_raises(Figo::Error) { @sut.sync_url "http://localhost:3003/", "" }
+  # Retrieve Securities of all Accounts
+  def test_retreive_securities_of_all_accounts
+    assert @sut.get_securities({})
   end
 
-  def test_sync_uri
-    @sut.sync_url("qwe", "qew")
+  # Retrieve Securities of one Account
+  def test_retreive_securities_of_one_account
+    assert @sut.get_securities({account_id: "A1.4"})
+  end
+
+  # Modify a Security
+  def test_modify_a_security
+    execption = assert_raises(Figo::Error) { @sut.modify_security("A1.4", "S1.1", true) }
+    assert "Missing, invalid or expired access token.", execption.message
+    # assert @sut.modify_security("A1.4", "S1.1", true)
+  end
+
+  # Modify all Securities of all Accounts
+  def test_modify_all_securities_of_all_accounts
+    execption = assert_raises(Figo::Error) { @sut.modify_securities(true) }
+    assert "Missing, invalid or expired access token.", execption.message
+    # assert @sut.modify_securities(true)
+  end
+
+  # Modify all Securities of one Account
+  def test_modify_all_securities_of_one_accounts
+    execption = assert_raises(Figo::Error) { @sut.modify_securities(true, "A1.4") }
+    assert "Missing, invalid or expired access token.", execption.message
+    # assert @sut.modify_securities(true, "A1.4")
   end
 end

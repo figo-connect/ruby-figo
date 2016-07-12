@@ -10,5 +10,5 @@ end
 
 # Print out the list of all transaction originators/recipients of a specific account.
 session.get_account("A1.1").transactions.each do |transaction|
-  puts transaction.name
+ puts transaction.name
 end

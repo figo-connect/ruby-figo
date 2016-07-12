@@ -25,24 +25,44 @@ require "minitest/autorun"
 require "minitest/reporters"
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 require_relative "../lib/figo"
-require "yaml"
+
+AUTHORIZATION = {
+  CLIENT_ID: "",
+  CLIENT_SECRET: "",
+  USERNAME: "",
+  PASSWORD: "",
+  AUTHORIZATION_CODE: ""
+}
 
 class FigoTest < MiniTest::Unit::TestCase
-  CONFIG = YAML.load_file(File.join(__dir__, 'CONFIG.yml'))
 
   def setup
     @sut = Figo::Session.new(CONFIG["ACCESS_TOKEN"])
   end
 
-  def test_missing_handling
-    assert_nil @sut.get_account "A1.42"
-  end
+  # Obtain Authorization Code
+  # login url
+  # Credential Login
+  # Exchange Authorization Code
+  # Revoke Token
+  # Exchange Refresh Token
+  def test_authentification_features
+    connection = Figo::Connection.new(CONFIG["CLIENT_ID"], CONFIG["CLIENT_SECRET"], "")
 
-  def test_error_handling
-    assert_raises(Figo::Error) { @sut.sync_url "http://localhost:3003/", "" }
-  end
+    refute_nil connection.login_url("qweqwe", "accounts=ro transactions=ro balance=ro user=ro")
 
-  def test_sync_uri
-    @sut.sync_url("qwe", "qew")
+    execption = assert_raises(Figo::Error) { connection.credential_login(CONFIG["USERNAME"], CONFIG["PASSWORD"]) }
+    assert "Unsupported grant type.", execption.message
+    # tokens = connection.credential_login(CONFIG["USERNAME"], CONFIG["PASSWORD"])
+
+    # assert tokens.access_token
+    # assert tokens.token_type
+    # assert tokens.refresh_token
+
+    # assert connection.obtain_access_token(CONFIG["AUTHORIZATION_CODE"])
+
+    # assert connection.revoke_token(tokens.refresh_token)
+
+    # assert connection.obtain_access_token(tokens.refresh_token)
   end
 end

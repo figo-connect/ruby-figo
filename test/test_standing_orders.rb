@@ -25,24 +25,25 @@ require "minitest/autorun"
 require "minitest/reporters"
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 require_relative "../lib/figo"
-require "yaml"
 
 class FigoTest < MiniTest::Unit::TestCase
-  CONFIG = YAML.load_file(File.join(__dir__, 'CONFIG.yml'))
-
   def setup
     @sut = Figo::Session.new(CONFIG["ACCESS_TOKEN"])
   end
 
-  def test_missing_handling
-    assert_nil @sut.get_account "A1.42"
+  ##   Standing Orders
+  # Retrieve a Standing Order
+  def test_retreive_a_standing_order
+    assert @sut.get_standing_order("SO1.1")
   end
 
-  def test_error_handling
-    assert_raises(Figo::Error) { @sut.sync_url "http://localhost:3003/", "" }
+  # Retrieve Standing Orders of all Accounts
+  def test_retreive_a_standing_orders_of_all_accounts
+    assert @sut.get_standing_orders().length > 0
   end
 
-  def test_sync_uri
-    @sut.sync_url("qwe", "qew")
+  # Retrieve Standing Orders of one Account
+  def test_retreive_a_standing_orders_of_one_account
+    assert @sut.get_account_standing_orders("A1.1").length > 0
   end
 end

@@ -25,24 +25,19 @@ require "minitest/autorun"
 require "minitest/reporters"
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 require_relative "../lib/figo"
-require "yaml"
 
 class FigoTest < MiniTest::Unit::TestCase
-  CONFIG = YAML.load_file(File.join(__dir__, 'CONFIG.yml'))
-
   def setup
     @sut = Figo::Session.new(CONFIG["ACCESS_TOKEN"])
   end
 
-  def test_missing_handling
-    assert_nil @sut.get_account "A1.42"
-  end
+  ##   Business Process System
+  def test_create_and_begin_process
+    process = Figo::Process.new(@sut, { email: "example@example.com", password: "password", redirect_uri: "http://127.0.0.1", state: "123", steps: [] })
 
-  def test_error_handling
-    assert_raises(Figo::Error) { @sut.sync_url "http://localhost:3003/", "" }
-  end
-
-  def test_sync_uri
-    @sut.sync_url("qwe", "qew")
+    execption = assert_raises(Figo::Error) { @sut.create_process(process) }
+    assert "Missing, invalid or expired access token.", execption.message
+    # assert @sut.create_process(process)
+    # assert_nil @sut.start_task(@sut.create_process(process))
   end
 end
