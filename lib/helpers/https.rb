@@ -5,7 +5,7 @@ module Figo
     # Overwrite `initialize` method from `Net::HTTP::Persistent`.
     #
     # Verify fingerprints of server SSL/TLS certificates.
-    def initialize(name = nil, proxy = nil)
+    def initialize(name = nil, proxy = nil, fingerprints)
       super(name, proxy)
 
       # Attribute ca_file must be set, otherwise verify_callback would never be called.
@@ -14,7 +14,7 @@ module Figo
         if preverify_ok and store_context.error == 0
           certificate = OpenSSL::X509::Certificate.new(store_context.chain[0])
           fingerprint = Digest::SHA1.hexdigest(certificate.to_der).upcase.scan(/../).join(":")
-          $valid_fingerprints.include?(fingerprint)
+          fingerprints.include?(fingerprint)
         else
           false
         end
