@@ -77,10 +77,10 @@ module Figo
   def credential_login(username, password, device_name = nil, device_type = nil, device_udid = nil, scope = nil)
     options = { grant_type: "password", username: username, password: password }
 
-    options.device_name = device_name if (device_name)
-    options.device_type = device_type if (device_type)
-    options.device_udid = device_udid if (device_udid)
-    options.scope = scope if (scope)
+    options[:device_name] = device_name if (device_name)
+    options[:device_type] = device_type if (device_type)
+    options[:device_udid] = device_udid if (device_udid)
+    options[:scope] = scope if (scope)
 
     query_api "/auth/token", options
   end
