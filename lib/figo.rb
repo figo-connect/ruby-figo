@@ -30,7 +30,7 @@ require_relative "./authentification/api_call.rb"
 
 # Ruby bindings for the figo Connect API: http://developer.figo.me
 module Figo
-  $config = YAML.load_file(File.join(__dir__, '../CONFIG.yml'))
+  $config = YAML.load_file(File.join(__dir__, '../config.yml'))
   $api_endpoint = $config["API_ENDPOINT"]
   $valid_fingerprints = $config["FINGER_PRINTS"]
 
