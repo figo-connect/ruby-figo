@@ -6,7 +6,7 @@ module Figo
     #
     # Verify fingerprints of server SSL/TLS certificates.
     def initialize(name = nil, proxy = nil, fingerprints)
-      super(name, proxy)
+      super(name: name, proxy: proxy)
 
       # Attribute ca_file must be set, otherwise verify_callback would never be called.
       @ca_file = "lib/cacert.pem"
