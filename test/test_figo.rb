@@ -28,7 +28,7 @@ require_relative "../lib/figo"
 require "yaml"
 
 class FigoTest < MiniTest::Unit::TestCase
-  CONFIG = YAML.load_file(File.join(__dir__, 'CONFIG.yml'))
+  CONFIG = YAML.load_file(File.join(__dir__, 'config.yml'))
 
   def setup
     @sut = Figo::Session.new(CONFIG["ACCESS_TOKEN"])
