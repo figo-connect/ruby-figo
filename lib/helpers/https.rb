@@ -13,7 +13,7 @@ module Figo
       @verify_callback = proc do |preverify_ok, store_context|
         if preverify_ok and store_context.error == 0
           certificate = OpenSSL::X509::Certificate.new(store_context.chain[0])
-          fingerprint = Digest::SHA1.hexdigest(certificate.to_der).upcase.scan(/../).join(":")
+          fingerprint = Digest::SHA256.hexdigest(certificate.to_der).upcase.scan(/../).join(":")
           fingerprints.include?(fingerprint)
         else
           false
