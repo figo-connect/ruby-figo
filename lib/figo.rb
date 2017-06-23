@@ -30,8 +30,8 @@ require_relative "models.rb"
 module Figo
   $api_endpoint = "api.figo.me"
 
-  $valid_fingerprints = ["38:AE:4A:32:6F:16:EA:15:81:33:8B:B0:D8:E4:A6:35:E7:27:F1:07",
-                         "DB:E2:E9:15:8F:C9:90:30:84:FE:36:CA:A6:11:38:D8:5A:20:5D:93"]
+  $valid_fingerprints = ["79:B2:A2:93:00:85:3B:06:92:B1:B5:F2:24:79:48:58:3A:A5:22:0F:C5:CD:E9:49:9A:C8:45:1E:DB:E0:DA:50",
+                         "07:0F:14:AE:B9:4A:FB:3D:F8:00:E8:2B:69:A8:51:5C:EE:D2:F5:B1:BA:89:7B:EF:64:32:45:8F:61:CF:9E:33"]
 
   # Base class for all errors transported via the figo Connect API.
   class Error < RuntimeError
@@ -65,7 +65,7 @@ module Figo
       @verify_callback = proc do |preverify_ok, store_context|
         if preverify_ok and store_context.error == 0
           certificate = OpenSSL::X509::Certificate.new(store_context.chain[0])
-          fingerprint = Digest::SHA1.hexdigest(certificate.to_der).upcase.scan(/../).join(":")
+          fingerprint = Digest::SHA256.hexdigest(certificate.to_der).upcase.scan(/../).join(":")
           $valid_fingerprints.include?(fingerprint)
         else
           false

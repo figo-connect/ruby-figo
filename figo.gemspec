@@ -14,5 +14,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency "flt"
-  s.add_dependency "net-http-persistent"
+  s.add_dependency "net-http-persistent", "2.9.4"
 end
