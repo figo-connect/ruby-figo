@@ -24,6 +24,10 @@ module Figo
     # @return [String]
     attr_accessor :account_number
 
+    # BIC of payer
+    # @return [String]
+    attr_accessor :bic
+
     # Bank code of originator or recipient
     # @return [String]
     attr_accessor :bank_code
