@@ -10,7 +10,7 @@ module Figo
 
     # Internal figo Connect User ID
     # @return [String]
-    attr_accessor :User_id
+    attr_accessor :user_id
 
     # First and last name
     # @return [String]
