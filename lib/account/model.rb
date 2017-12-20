@@ -28,6 +28,10 @@ module Figo
     # @return [Boolean]
     attr_accessor :auto_sync
 
+    # This flag indicates whether the account saves the pin
+    # @return [Boolean]
+    attr_accessor :save_pin
+
     # Account number
     # @return [String]
     attr_accessor :account_number

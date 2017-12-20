@@ -10,8 +10,17 @@ module Figo
   #        in the response; pending transactions are always included as a complete set, regardless of
   #        the `since` parameter
   # @return [Array] an array of `Transaction` objects, one for each transaction of the user
-  def transactions(account_id = nil, since = nil, count = 1000, offset = 0, include_pending = false)
-    data = {"count" => count.to_s, "offset" => offset.to_s, "include_pending" => include_pending ? "1" : "0"}
+  def transactions(account_id = nil, since = nil, count = 1000, offset = 0, include_pending = false,
+    since_type = nil, sort = "desc", type = nil, include_statistics = false)
+    data = {
+      "count" => count.to_s,
+      "offset" => offset.to_s,
+      "include_pending" => include_pending ? "1" : "0",
+      "since_type" => since_type.to_s,
+      "sort" => sort.to_s,
+      "type" => type.to_s,
+      "include_statistics" => include_statistics ? "1" : "0"
+    }
     data["since"] = ((since.is_a?(Date) ? since.to_s : since) unless since.nil?)
 
     query_api_object Transaction, (account_id.nil? ? "/rest/transactions?" : "/rest/accounts/#{account_id}/transactions?") + URI.encode_www_form(data), nil, "GET", "transactions"

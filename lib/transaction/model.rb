@@ -71,5 +71,12 @@ module Figo
     # Internal modification timestamp on the figo Connect server
     # @return [DateTime]
     attr_accessor :modification_timestamp
+
+    # Missing attributes
+    attr_accessor :iban
+    attr_accessor :bic
+    attr_accessor :sepa_remittance_info
+    attr_accessor :end_to_end_reference
+    attr_accessor :customer_reference
   end
 end
