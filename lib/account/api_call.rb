@@ -20,7 +20,7 @@ module Figo
   # @param account [Account] modified account to be saved
   # @return [Account] modified account returned by the server
   def modify_account(account)
-    query_api_object Account, "/rest/accounts/#{account.account_id}", account.dump(), "PUT"
+    query_api_object Account, "/rest/accounts/#{account.account_id}", {auto_sync: account.auto_sync}, "PUT"
   end
 
   # Remove specific account
