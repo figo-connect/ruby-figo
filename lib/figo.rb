@@ -38,6 +38,7 @@ module Figo
 
   # Base class for all errors transported via the figo Connect API.
   class Error < RuntimeError
+    attr_accessor :code
     # Initialize error object.
     #
     # @param error [String] the error code
