@@ -40,20 +40,17 @@ module Figo
   # @param state [String] Any kind of string that will be forwarded in the callback response message
   # @param redirect_uri [String] At the end of the submission process a response will be sent to this callback URL
   # @return [String] The result parameter is the URL to be opened by the user.
-  def submit_payment (payment, tan_scheme_id, state, redirect_uri)
+  def submit_payment(payment, tan_scheme_id, state, redirect_uri)
     params = {tan_scheme_id: tan_scheme_id, state: state}
     if(redirect_uri)
       params["redirect_uri"] = redirect_uri;
     end
 
-    res = query_api("/rest/accounts/" + payment.account_id + "/payments/" + payment.payment_id + "/submit", params, "POST")
+    res = query_api("/rest/accounts/#{payment.account_id}/payments/#{payment.payment_id}/submit", params, "POST")
+    task_token = res['task_token'] if res
 
-    if(res.task_token)
-      "https://" + Config.api_endpoint + "/task/start?id=" + result.task_token
-      callback(error);
-    else
-      res
-    end
+    url = "https://#{$api_endpoint}/task/start?id=#{task_token}" if task_token
+    url ? url : res
   end
 
   # Remove payment
