@@ -119,9 +119,10 @@ module Figo
     # Create session object with access token.
     #
     # @param access_token [String] the access token
-    def initialize(access_token, fingerprints = $valid_fingerprints, api_endpoint = $api_endpoint)
+    def initialize(access_token, keep_alive = 30, fingerprints = $valid_fingerprints, api_endpoint = $api_endpoint)
       @access_token = access_token
       @https = HTTPS.new("figo-#{access_token}", nil, fingerprints)
+      @https.keep_alive = keep_alive
       @api_endpoint = api_endpoint
     end
 
