@@ -43,12 +43,14 @@ module Figo
   # @param credentials [Array] List of login credential strings
   # @param bank_code [String] Bank code (will be overriden if IBAN is present)
   # @param iban [String] IBAN
-  # @param save_pon [Boolean] This flag indicates whether the user has chosen to save the PIN on the figo Connect server
-  def add_account(country, credentials, bank_code, iban, save_pin)
+  # @param save_pin [Boolean] This flag indicates whether the user has chosen to save the PIN on the figo Connect server
+  # @param disable_first_sync [Boolean] This flag indicates whether we want to sync account transactions when connecting to it
+  def add_account(country, credentials, bank_code, iban, save_pin, disable_first_sync = false)
     data = {"country" => country, "credentials" => credentials}
     data["iban"] = iban if (iban)
     data["bank_code"] = bank_code if(bank_code)
     data["save_pin"] = !!save_pin == save_pin ? save_pin : false
+    data["disable_first_sync"] = disable_first_sync
 
     query_api_object TaskToken, "/rest/accounts", data, "POST"
   end
