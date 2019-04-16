@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.name        = "figo"
   s.version     = "1.4.2"
   s.authors     = ["figo GmbH"]
-  s.email       = ["developers@figo.io"]
+  s.email       = ["devs@figo.io"]
   s.homepage    = "https://github.com/figo-connect/ruby-figo"
   s.license     = "MIT"
   s.summary     = %q{API wrapper for figo Connect.}
