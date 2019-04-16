@@ -32,7 +32,6 @@ require_relative "./authentification/api_call.rb"
 module Figo
   $config = YAML.load_file(File.join(__dir__, '../config.yml'))
   $api_endpoint = $config["API_ENDPOINT"]
-  $valid_fingerprints = $config["FINGER_PRINTS"]
 
   # Represents a non user-bound connection to the figo Connect API.
   #
@@ -44,11 +43,11 @@ module Figo
     # @param client_id [String] the client ID
     # @param client_secret [String] the client secret
     # @param redirect_uri [String] optional redirect URI
-    def initialize(client_id, client_secret, redirect_uri = nil, fingerprints = $valid_fingerprints, api_endpoint = $api_endpoint)
+    def initialize(client_id, client_secret, redirect_uri = nil, api_endpoint = $api_endpoint)
       @client_id = client_id
       @client_secret = client_secret
       @redirect_uri = redirect_uri
-      @https = HTTPS.new("figo-#{client_id}", nil, fingerprints)
+      @https = HTTPS.new("figo-#{client_id}", nil)
       @api_endpoint = api_endpoint
     end
 
@@ -119,9 +118,9 @@ module Figo
     # Create session object with access token.
     #
     # @param access_token [String] the access token
-    def initialize(access_token, fingerprints = $valid_fingerprints, api_endpoint = $api_endpoint)
+    def initialize(access_token, api_endpoint = $api_endpoint)
       @access_token = access_token
-      @https = HTTPS.new("figo-#{access_token}", nil, fingerprints)
+      @https = HTTPS.new("figo-#{access_token}", nil)
       @api_endpoint = api_endpoint
     end
 
