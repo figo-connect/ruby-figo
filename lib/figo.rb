@@ -64,7 +64,7 @@ module Figo
       request.basic_auth(@client_id, @client_secret)
       request["Accept"] = "application/json"
       request["Content-Type"] = "application/x-www-form-urlencoded"
-      request["User-Agent"] =  "figo-ruby/1.4.0"
+      request["User-Agent"] =  "figo-ruby/1.4.2"
       request.body = URI.encode_www_form(data) unless data.nil?
 
       # Send HTTP request.
@@ -148,7 +148,7 @@ module Figo
       request["Authorization"] = "Bearer #{@access_token}"
       request["Accept"] = "application/json"
       request["Content-Type"] = "application/json"
-      request["User-Agent"] =  "figo-ruby/1.4.0"
+      request["User-Agent"] =  "figo-ruby/1.4.2"
 
       request.body = JSON.generate(data) unless data.nil?
 
