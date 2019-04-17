@@ -49,20 +49,8 @@ class FigoTest < MiniTest::Unit::TestCase
   def test_authentification_features
     connection = Figo::Connection.new(CONFIG["CLIENT_ID"], CONFIG["CLIENT_SECRET"], "")
 
-    refute_nil connection.login_url("qweqwe", "accounts=ro transactions=ro balance=ro user=ro")
-
-    execption = assert_raises(Figo::Error) { connection.credential_login(CONFIG["USERNAME"], CONFIG["PASSWORD"]) }
-    assert "Unsupported grant type.", execption.message
-    # tokens = connection.credential_login(CONFIG["USERNAME"], CONFIG["PASSWORD"])
-
-    # assert tokens.access_token
-    # assert tokens.token_type
-    # assert tokens.refresh_token
-
-    # assert connection.obtain_access_token(CONFIG["AUTHORIZATION_CODE"])
-
-    # assert connection.revoke_token(tokens.refresh_token)
-
-    # assert connection.obtain_access_token(tokens.refresh_token)
+    response = connection.credential_login(CONFIG["USERNAME"], CONFIG["PASSWORD"], scope = "offline account=rw")
+    assert response["access_token"]
+    assert response["token_type"]
   end
 end

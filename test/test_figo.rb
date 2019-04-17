@@ -43,6 +43,6 @@ class FigoTest < MiniTest::Unit::TestCase
   end
 
   def test_sync_uri
-    @sut.sync_url("qwe", "qew")
+    @sut.sync_url("http://example.com", "qew")
   end
 end

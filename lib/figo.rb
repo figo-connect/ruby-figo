@@ -32,7 +32,6 @@ require_relative "./authentification/api_call.rb"
 module Figo
   $config = YAML.load_file(File.join(__dir__, '../config.yml'))
   $api_endpoint = $config["API_ENDPOINT"]
-  $valid_fingerprints = $config["FINGER_PRINTS"]
 
   # Represents a non user-bound connection to the figo Connect API.
   #
@@ -44,11 +43,11 @@ module Figo
     # @param client_id [String] the client ID
     # @param client_secret [String] the client secret
     # @param redirect_uri [String] optional redirect URI
-    def initialize(client_id, client_secret, redirect_uri = nil, fingerprints = $valid_fingerprints, api_endpoint = $api_endpoint)
+    def initialize(client_id, client_secret, redirect_uri = nil, api_endpoint = $api_endpoint)
       @client_id = client_id
       @client_secret = client_secret
       @redirect_uri = redirect_uri
-      @https = HTTPS.new("figo-#{client_id}", nil, fingerprints)
+      @https = HTTPS.new("figo-#{client_id}", nil)
       @api_endpoint = api_endpoint
     end
 
@@ -65,7 +64,7 @@ module Figo
       request.basic_auth(@client_id, @client_secret)
       request["Accept"] = "application/json"
       request["Content-Type"] = "application/x-www-form-urlencoded"
-      request["User-Agent"] =  "figo-ruby/1.3.1"
+      request["User-Agent"] =  "figo-ruby/1.4.2"
       request.body = URI.encode_www_form(data) unless data.nil?
 
       # Send HTTP request.
@@ -105,9 +104,6 @@ module Figo
     require_relative "./standing_order/model.rb"
     require_relative "./standing_order/api_call.rb"
 
-    require_relative "./process/model.rb"
-    require_relative "./process/api_call.rb"
-
     require_relative "./security/model.rb"
     require_relative "./security/api_call.rb"
 
@@ -119,9 +115,9 @@ module Figo
     # Create session object with access token.
     #
     # @param access_token [String] the access token
-    def initialize(access_token, fingerprints = $valid_fingerprints, api_endpoint = $api_endpoint)
+    def initialize(access_token, api_endpoint = $api_endpoint)
       @access_token = access_token
-      @https = HTTPS.new("figo-#{access_token}", nil, fingerprints)
+      @https = HTTPS.new("figo-#{access_token}", nil)
       @api_endpoint = api_endpoint
     end
 
@@ -149,7 +145,7 @@ module Figo
       request["Authorization"] = "Bearer #{@access_token}"
       request["Accept"] = "application/json"
       request["Content-Type"] = "application/json"
-      request["User-Agent"] =  "figo-ruby/1.3.1"
+      request["User-Agent"] =  "figo-ruby/1.4.2"
 
       request.body = JSON.generate(data) unless data.nil?
 
