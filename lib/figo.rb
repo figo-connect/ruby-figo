@@ -104,9 +104,6 @@ module Figo
     require_relative "./standing_order/model.rb"
     require_relative "./standing_order/api_call.rb"
 
-    require_relative "./process/model.rb"
-    require_relative "./process/api_call.rb"
-
     require_relative "./security/model.rb"
     require_relative "./security/api_call.rb"
 
