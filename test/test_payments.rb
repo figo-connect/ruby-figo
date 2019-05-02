@@ -75,8 +75,6 @@ class FigoTest < MiniTest::Unit::TestCase
     payment = @sut.add_payment(payment)
     assert payment
 
-    execption = assert_raises(Figo::Error) { @sut.submit_payment(payment, "M1.1", "string", "http://127.0.0.1") }
-    assert "Missing, invalid or expired access token.", execption.message
     # task = @sut.submit_payment(payment, "M1.1", "string", "http://127.0.0.1")
     #
     # assert_match task, /https:/

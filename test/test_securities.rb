@@ -31,12 +31,6 @@ class FigoTest < MiniTest::Unit::TestCase
     @sut = Figo::Session.new(CONFIG["ACCESS_TOKEN"])
   end
 
-  ##   Securities
-  # Retrieve a Security
-  def test_retreive_a_security
-    assert @sut.get_security("A1.4", "S1.1")
-  end
-
   # Retrieve Securities of all Accounts
   def test_retreive_securities_of_all_accounts
     assert @sut.get_securities({})

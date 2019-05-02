@@ -34,30 +34,22 @@ class FigoTest < MiniTest::Unit::TestCase
   ##   Account Setup & Synchronization
   # Retrieve List of Supported Banks, Credit Cards, other Payment Services
   def test_retrieve_list_of_supported_baks_cards_services
-    execption = assert_raises(Figo::Error) { @sut.get_supported_payment_services("DE", "whatever") }
-    assert "Missing, invalid or expired access token.", execption.message
-    # assert @sut.get_supported_payment_services("DE", "whatever")
+    assert_nil @sut.get_supported_payment_services("DE", "whatever")
   end
 
   # Retrieve List of Supported Credit Cards and other Payment Services
   def test_retrieve_list_of_supported_cards_services
-    execption = assert_raises(Figo::Error) { @sut.get_supported_payment_services("DE", "services") }
-    assert "Missing, invalid or expired access token.", execption.message
-    # assert @sut.get_supported_payment_services("DE", "services")
+    assert_nil @sut.get_supported_payment_services("DE", "services")
   end
 
   # Retrieve List of all Supported Banks
   def test_retreive_list_of_all_supported_banks
-    execption = assert_raises(Figo::Error) { @sut.get_supported_payment_services("DE", "banks") }
-    assert "Missing, invalid or expired access token.", execption.message
-    # assert @sut.get_supported_payment_services("DE", "banks")
+    assert_raises(Figo::Error) { @sut.get_supported_payment_services("DE", "banks") }
   end
 
   # Retrieve Login Settings for a Bank or Service
   def test_retreive_login_settings_for_a_bank_or_service
-    execption = assert_raises(Figo::Error) { @sut.find_bank("B1.1") }
-    assert "Missing, invalid or expired access token.", execption.message
-    # assert @sut.find_bank("B1.1")
+    assert_raises(Figo::Error) { @sut.find_bank("B1.1") }
   end
 
   # Setup New Bank Account

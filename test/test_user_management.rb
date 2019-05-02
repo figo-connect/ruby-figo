@@ -40,16 +40,12 @@ class FigoTest < MiniTest::Unit::TestCase
 
   # Create New Figo User
   def test_create_new_figo_user
-    execption = assert_raises(Figo::Error) { @con.create_user("John Doe", "jd@example.io", "123456", "en") }
-    assert "Missing, invalid or expired access token.", execption.message
-    # assert @con.create_user("John Doe", "jd@example.io", "123456", "en")
+    assert_raises(Figo::Error) { @con.create_user("John Doe", "jd@example.io", "123456", "en") }
   end
 
   # Re-Send Verification Email
   def test_resend_verififcation_email
-    execption = assert_raises(Figo::Error) { @sut.resend_verification }
-    assert "Missing, invalid or expired access token.", execption.message
-    # assert_nil @sut.resend_verification
+    assert_nil @sut.resend_verification
   end
 
   # Modify Current User
@@ -74,8 +70,6 @@ class FigoTest < MiniTest::Unit::TestCase
       verified_email: true
     }
     new_user = Figo::User.new(@sut, new_user_hash)
-
-
     execption = assert_raises(Figo::Error) { @sut.modify_user(new_user) }
     assert "Missing, invalid or expired access token.", execption.message
     # api_user = @sut.modify_user(new_user)

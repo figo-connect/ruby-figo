@@ -3,22 +3,8 @@ module Figo
   # HTTPS class with certificate authentication and enhanced error handling.
   class HTTPS < Net::HTTP::Persistent
     # Overwrite `initialize` method from `Net::HTTP::Persistent`.
-    #
-    # Verify fingerprints of server SSL/TLS certificates.
-    def initialize(name = nil, proxy = nil, fingerprints)
+    def initialize(name = nil, proxy = nil)
       super(name: name, proxy: proxy)
-
-      # Attribute ca_file must be set, otherwise verify_callback would never be called.
-      @ca_file = "lib/cacert.pem"
-      @verify_callback = proc do |preverify_ok, store_context|
-        if preverify_ok and store_context.error == 0
-          certificate = OpenSSL::X509::Certificate.new(store_context.chain[0])
-          fingerprint = Digest::SHA256.hexdigest(certificate.to_der).upcase.scan(/../).join(":")
-          fingerprints.include?(fingerprint)
-        else
-          false
-        end
-      end
     end
 
     # Overwrite `request` method from `Net::HTTP::Persistent`.

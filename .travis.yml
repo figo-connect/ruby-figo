@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 2.1.1
+  - 2.3.4
   - ruby-head
 before_install: gem install bundler
 install:
@@ -8,5 +8,3 @@ install:
   - gem install rake
   - gem install minitest
   - gem install minitest-reporters
- 
-  

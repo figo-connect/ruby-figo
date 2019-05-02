@@ -95,12 +95,8 @@ class FigoTest < MiniTest::Unit::TestCase
 
   # Remove Stored Pin from Bank Account
   def test_remove_pin_from_bank_account
-
     new_bank_info = Figo::Bank.new(@sut, {bank_id: "B1.1", sepa_creditor_id: "DE02ZZZ0123456789", save_pin: true})
-
-    execption = assert_raises(Figo::Error) { @sut.remove_bank_pin(new_bank_info) }
-    assert "Missing, invalid or expired access token.", execption.message
-
-    # assert_nil @sut.remove_bank_pin(new_bank_info)
+    response = @sut.remove_bank_pin(new_bank_info)
+    assert response["save_pin"] == false
   end
 end
