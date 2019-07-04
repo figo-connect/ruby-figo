@@ -76,7 +76,7 @@ module Figo
     # @return [DateTime]
     attr_accessor :modification_timestamp
 
-    # Iban
+    # IBAN
     # @return [String]
     attr_accessor :iban
 

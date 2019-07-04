@@ -76,7 +76,7 @@ module Figo
     # @return [AccountBalance]
     attr_accessor :balance
 
-    # Supported Tan Schemas
+    # Supported Tan Schemes
     # @return [Array]
     attr_accessor :supported_tan_schemes
 
