@@ -75,5 +75,21 @@ module Figo
     # Internal modification timestamp on the figo Connect server
     # @return [DateTime]
     attr_accessor :modification_timestamp
+
+    # IBAN
+    # @return [String]
+    attr_accessor :iban
+
+    # Transaction Code
+    # @return [Integer]
+    attr_accessor :transaction_code
+
+    # Categories
+    # @return [Array]
+    attr_accessor :categories
+
+    # Visited
+    # @return [Boolean]
+    attr_accessor :visited
   end
 end

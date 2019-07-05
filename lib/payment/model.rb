@@ -75,5 +75,17 @@ module Figo
     # ID of the transaction corresponding to this payment. This field is only set if the payment has been matched to a transaction
     # @return [String]
     attr_accessor :transaction_id
+
+    # BIC
+    # @return [String]
+    attr_accessor :bic
+
+    # Text Key
+    # @return [Integer]
+    attr_accessor :text_key
+
+    # Text Key Extension
+    # @return [Integer]
+    attr_accessor :text_key_extension
   end
 end

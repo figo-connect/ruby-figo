@@ -76,6 +76,22 @@ module Figo
     # @return [AccountBalance]
     attr_accessor :balance
 
+    # Supported Tan Schemes
+    # @return [Array]
+    attr_accessor :supported_tan_schemes
+
+    # Save Pin
+    # @return [Boolean]
+    attr_accessor :save_pin
+
+    # Supported Payments
+    # @return [Hash]
+    attr_accessor :supported_payments
+
+    # Preferred Tan Scheme
+    # @return [String]
+    attr_accessor :preferred_tan_scheme
+
     # Request list of transactions of this account
     #
     # @param since [String, Date] this parameter can either be a transaction ID or a date
