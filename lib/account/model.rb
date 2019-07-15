@@ -88,9 +88,9 @@ module Figo
     # @return [Hash]
     attr_accessor :supported_payments
 
-    # Preferred Tan Scheme
+    # Internal figo Connect account ID
     # @return [String]
-    attr_accessor :preferred_tan_scheme
+    attr_accessor :access_id
 
     # Request list of transactions of this account
     #

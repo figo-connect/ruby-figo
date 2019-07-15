@@ -87,5 +87,25 @@ module Figo
     # Text Key Extension
     # @return [Integer]
     attr_accessor :text_key_extension
+
+    # Sepa Purpose Code
+    # @return [String]
+    attr_accessor :sepa_purpose_code
+
+    # End to End Reference
+    # @return [String]
+    attr_accessor :end_to_end_reference
+
+    # Created At
+    # @return [DateTime]
+    attr_accessor :created_at
+
+    # Modified At
+    # @return [DateTime]
+    attr_accessor :modified_at
+
+    # Submitted At
+    # @return [DateTime]
+    attr_accessor :submitted_at
   end
 end
