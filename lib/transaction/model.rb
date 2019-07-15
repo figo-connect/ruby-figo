@@ -91,5 +91,25 @@ module Figo
     # Visited
     # @return [Boolean]
     attr_accessor :visited
+
+    # Prima Nota Number
+    # @return [String]
+    attr_accessor :prima_nota_number
+
+    # Customer Reference
+    # @return [String]
+    attr_accessor :customer_reference
+
+    # Sepa Purpose Code
+    # @return [String]
+    attr_accessor :sepa_purpose_code
+
+    # Sepa Remittance Info
+    # @return [String]
+    attr_accessor :sepa_remittance_info
+
+    # Booking Key
+    # @return [String]
+    attr_accessor :booking_key
   end
 end
