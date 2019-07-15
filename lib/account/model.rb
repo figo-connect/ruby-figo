@@ -88,10 +88,6 @@ module Figo
     # @return [Hash]
     attr_accessor :supported_payments
 
-    # Preferred Tan Scheme
-    # @return [String]
-    attr_accessor :preferred_tan_scheme
-
     # Request list of transactions of this account
     #
     # @param since [String, Date] this parameter can either be a transaction ID or a date
