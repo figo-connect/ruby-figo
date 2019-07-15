@@ -111,5 +111,17 @@ module Figo
     # Booking Key
     # @return [String]
     attr_accessor :booking_key
+
+    # SEPA creditor identifier
+    # @return [String]
+    attr_accessor :creditor_id
+
+    # End to End Reference
+    # @return [String]
+    attr_accessor :end_to_end_reference
+
+    # Mandate Reference
+    # @return [String]
+    attr_accessor :mandate_reference
   end
 end
