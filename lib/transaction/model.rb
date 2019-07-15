@@ -123,5 +123,21 @@ module Figo
     # Mandate Reference
     # @return [String]
     attr_accessor :mandate_reference
+
+    # Booked At
+    # @return [DateTime]
+    attr_accessor :booked_at
+
+    # Settled At
+    # @return [DateTime]
+    attr_accessor :settled_at
+
+    # Created At
+    # @return [DateTime]
+    attr_accessor :created_at
+
+    # Modified At
+    # @return [DateTime]
+    attr_accessor :modified_at
   end
 end

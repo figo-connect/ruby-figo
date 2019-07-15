@@ -95,5 +95,17 @@ module Figo
     # End to End Reference
     # @return [String]
     attr_accessor :end_to_end_reference
+
+    # Created At
+    # @return [DateTime]
+    attr_accessor :created_at
+
+    # Modified At
+    # @return [DateTime]
+    attr_accessor :modified_at
+
+    # Submitted At
+    # @return [DateTime]
+    attr_accessor :submitted_at
   end
 end
