@@ -71,7 +71,7 @@ module Figo
       response = @https.request(uri, request)
 
       # Evaluate HTTP response.
-      return response.body == "" ? {} : JSON.parse(response.body)
+      response.body && !response.body.empty? ? JSON.parse(response.body) : nil
     end
   end
 
