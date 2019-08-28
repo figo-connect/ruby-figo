@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
+require 'securerandom'
+
 module Setup
   def setup
-    # this is an existing user
-    @username = 'test@example.com'
+    @username = "#{SecureRandom.alphanumeric(8)}@test.com"
     @password = 'password'
     @client_id = 'CaESKmC8MAhNpDe5rvmWnSkRE_7pkkVIIgMwclgzGcQY'
     @client_secret = 'STdzfv0GXtEj_bwYn7AgCVszN1kKq5BdgEIKOM_fzybQ'
@@ -19,11 +20,11 @@ module Setup
   end
 
   def figo_session
-    Figo::Session.new(access_token)
+    @figo_session ||= Figo::Session.new(access_token)
   end
 
   def figo_connection
-    Figo::Connection.new(client_id, client_secret)
+    @figo_connection ||= Figo::Connection.new(client_id, client_secret)
   end
 
   def create_user

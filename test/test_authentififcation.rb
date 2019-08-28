@@ -23,6 +23,7 @@
 require 'flt'
 require 'minitest/autorun'
 require 'minitest/reporters'
+
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 require_relative '../lib/figo'
 require_relative 'setup'
@@ -31,16 +32,20 @@ class FigoTest < MiniTest::Unit::TestCase
   include Setup
 
   def test_user_credential_request
+    create_user
     response = figo_connection.user_credential_request(username, password)
     assert response['access_token']
     assert response['token_type']
+    destroy_user
   end
 
   def test_refresh_token_request
+    create_user
     refresh_token = figo_connection.user_credential_request(username, password)['refresh_token']
     response = figo_connection.refresh_token_request(refresh_token)
     assert response['access_token']
     assert response['token_type']
+    destroy_user
   end
 
   # Need an OAuth code
@@ -51,8 +56,10 @@ class FigoTest < MiniTest::Unit::TestCase
   # end
 
   def test_revoke_token
+    create_user
     refresh_token = figo_connection.user_credential_request(username, password)['refresh_token']
     figo_connection.revoke_token(refresh_token)
     assert_raises(Figo::Error) { figo_connection.refresh_token_request(refresh_token) }
+    destroy_user
   end
 end
