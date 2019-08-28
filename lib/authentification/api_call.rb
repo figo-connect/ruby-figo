@@ -18,7 +18,6 @@ module Figo
     return "https://#{$api_endpoint}/auth/code?" + URI.encode_www_form(data)
   end
 
-
   # Exchange authorization code or refresh token for access token.
   #
   # @param authorization_code_or_refresh_token [String] either the authorization
@@ -36,53 +35,54 @@ module Figo
       data = { "grant_type" => "refresh_token", "refresh_token" => authorization_code_or_refresh_token }
       data["scope"] = scope unless scope.nil?
     end
-    query_api "/auth/token", data
-  end
-
-  # Revoke refresh token or access token.
-  #
-  # @note this action has immediate effect, i.e. you will not be able use that token anymore after this call.
-  #
-  # @param refresh_token_or_access_token [String] access or refresh token to be revoked
-  # @return [nil]
-  def revoke_token(refresh_token_or_access_token)
-    data = { "token" => refresh_token_or_access_token }
-    query_api "/auth/revoke", data
-  end
-
-  # Create a new figo Account
-  #
-  # @param name [String] First and last name
-  # @param email [String] Email address; It must obey the figo username & password policy
-  # @param password [String] New figo Account password; It must obey the figo username & password policy
-  # @param language [String] Two-letter code of preferred language
-  # @param send_newsletter [Boolean] This flag indicates whether the user has agreed to be contacted by email -- Not accepted by backend at the moment
-  # @return [Hash] object with the key `recovery_password` as documented in the figo Connect API specification
-  def create_user(name, email, password, language='de', send_newsletter=true)
-      data = { 'name' => name, 'email' => email, 'password' => password, 'language' => language, 'affiliate_client_id' => @client_id} #'send_newsletter' => send_newsletter,
-    query_api "/auth/user", data
-  end
-
-  # Re-send verification email
-  #
-  def resend_verification()
-    query_api "/rest/user/resend_verification", nil, "POST"
+    query_api '/auth/token', data
   end
 
   # Return a Token dictionary which tokens are used for further API calls.
   #
   # @param username [String] figo username
   # @param password [String] figo password
-  # @return The result parameter is an object with the keys `access_token`, `token_type`, `expires_in`, `refresh_token` and `scope` as documented in the figo Connect API specification.
-  def credential_login(username, password, device_name = nil, device_type = nil, device_udid = nil, scope = nil)
-    options = { grant_type: "password", username: username, password: password }
+  # @return The result parameter is an object with the keys `access_token`, `token_type`,
+  #   `expires_in`, `refresh_token` and `scope` as documented in the figo Connect API specification.
+  def user_credential_request(username, password, scope = nil)
+    options = { grant_type: 'password', username: username, password: password }
+    options[:scope] = scope if scope
 
-    options[:device_name] = device_name if (device_name)
-    options[:device_type] = device_type if (device_type)
-    options[:device_udid] = device_udid if (device_udid)
-    options[:scope] = scope if (scope)
-
-    query_api "/auth/token", options
+    query_api '/auth/token', options
   end
 
+  # Return a Token dictionary which tokens are used for further API calls.
+  #
+  # @param refresh_token [String] figo refresh token
+  # @param scope [String] scope
+  # @return The result parameter is an object with the keys `access_token`, `token_type`,
+  #   `expires_in`, `refresh_token` and `scope` as documented in the figo Connect API specification.
+  def refresh_token_request(refresh_token, scope = nil)
+    options = { grant_type: 'refresh_token', refresh_token: refresh_token, scope: scope }
+    options[:scope] = scope if scope
+
+    query_api '/auth/token', options
+  end
+
+  # Return a Token dictionary which tokens are used for further API calls.
+  #
+  # @param code [String] code
+  # @param redirect_uri [String] redirect_uri
+  # @return The result parameter is an object with the keys `access_token`, `token_type`,
+  #   `expires_in`, `refresh_token` and `scope` as documented in the figo Connect API specification.
+  def authorization_code_request(code, redirect_uri)
+    options = { grant_type: 'authorization_code', code: code, redirect_uri: redirect_uri }
+    options[:scope] = scope if scope
+
+    query_api '/auth/token', options
+  end
+
+  # Revoke refresh token or access token.
+  #
+  # @note this action has immediate effect, i.e. you will not be able use that token anymore after this call.
+  # @param refresh_token_or_access_token [String] access or refresh token to be revoked
+  # @return [nil]
+  def revoke_token(refresh_token_or_access_token)
+    query_api '/auth/revoke', 'token': refresh_token_or_access_token
+  end
 end
