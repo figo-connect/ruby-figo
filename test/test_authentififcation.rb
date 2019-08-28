@@ -20,37 +20,39 @@
 # THE SOFTWARE.
 #
 
-require "flt"
-require "minitest/autorun"
-require "minitest/reporters"
+require 'flt'
+require 'minitest/autorun'
+require 'minitest/reporters'
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-require_relative "../lib/figo"
-
-AUTHORIZATION = {
-  CLIENT_ID: "",
-  CLIENT_SECRET: "",
-  USERNAME: "",
-  PASSWORD: "",
-  AUTHORIZATION_CODE: ""
-}
+require_relative '../lib/figo'
+require_relative 'setup'
 
 class FigoTest < MiniTest::Unit::TestCase
+  include Setup
 
-  def setup
-    @sut = Figo::Session.new(CONFIG["ACCESS_TOKEN"])
+  def test_user_credential_request
+    response = figo_connection.user_credential_request(username, password)
+    assert response['access_token']
+    assert response['token_type']
   end
 
-  # Obtain Authorization Code
-  # login url
-  # Credential Login
-  # Exchange Authorization Code
-  # Revoke Token
-  # Exchange Refresh Token
-  def test_authentification_features
-    connection = Figo::Connection.new(CONFIG["CLIENT_ID"], CONFIG["CLIENT_SECRET"], "")
+  def test_refresh_token_request
+    refresh_token = figo_connection.user_credential_request(username, password)['refresh_token']
+    response = figo_connection.refresh_token_request(refresh_token)
+    assert response['access_token']
+    assert response['token_type']
+  end
 
-    response = connection.credential_login(CONFIG["USERNAME"], CONFIG["PASSWORD"], scope = "offline account=rw")
-    assert response["access_token"]
-    assert response["token_type"]
+  # Need an OAuth code
+  # def test_authorization_code_request
+  #   response = figo_connection.authorization_code_request(authorization_code, redirect_uri)
+  #   assert response['access_token']
+  #   assert response['token_type']
+  # end
+
+  def test_revoke_token
+    refresh_token = figo_connection.user_credential_request(username, password)['refresh_token']
+    figo_connection.revoke_token(refresh_token)
+    assert_raises(Figo::Error) { figo_connection.refresh_token_request(refresh_token) }
   end
 end
