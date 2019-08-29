@@ -5,7 +5,7 @@ module Figo
     @dump_attributes = []
 
     # Internal figo id of synchronization
-    # @return [Integer]
+    # @return [String]
     attr_accessor :id
 
     # Synchronization status
@@ -13,11 +13,11 @@ module Figo
     attr_accessor :status
 
     # Challenge of synchronization
-    # @return [DateTime]
+    # @return [Challenge]
     attr_accessor :challenge
 
     # Error synchronization
-    # @return [DateTime]
+    # @return [Error]
     attr_accessor :error
 
     # Timestamp of synchronization

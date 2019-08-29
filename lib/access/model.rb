@@ -1,6 +1,6 @@
 require_relative "../base.rb"
 module Figo
-# Object representing one bank account of the User
+# Object representing one access of the User
   class Access < Base
     @dump_attributes = []
 
