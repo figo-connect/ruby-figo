@@ -33,9 +33,9 @@ class FigoTest < MiniTest::Unit::TestCase
 
   def test_user_management
     assert create_user # Create User
-    assert figo_session.user # Get User
+    assert figo_session.get_user # Get User
     assert figo_session.modify_user Figo::User.new(figo_session, modified_user_data) # Modify User
-    assert_equal figo_session.user.full_name, 'Yokopoko Mayoko'
+    assert_equal figo_session.get_user.full_name, 'Yokopoko Mayoko'
     assert_nil destroy_user # Delete User
   end
 
