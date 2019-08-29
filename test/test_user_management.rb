@@ -20,66 +20,31 @@
 # THE SOFTWARE.
 #
 
-require "flt"
-require "minitest/autorun"
-require "minitest/reporters"
+require 'flt'
+require 'minitest/autorun'
+require 'minitest/reporters'
+
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-require_relative "../lib/figo"
+require_relative '../lib/figo'
+require_relative 'setup'
 
 class FigoTest < MiniTest::Unit::TestCase
-  def setup
-    @sut = Figo::Session.new(CONFIG["ACCESS_TOKEN"])
-    @con = Figo::Connection.new(CONFIG["CLIENT_ID"], CONFIG["CLIENT_SECRET"])
+  include Setup
+
+  def test_user_management
+    assert create_user # Create User
+    assert figo_session.get_user # Get User
+    assert figo_session.modify_user Figo::User.new(figo_session, modified_user_data) # Modify User
+    assert_equal figo_session.get_user.full_name, 'Yokopoko Mayoko'
+    assert_nil destroy_user # Delete User
   end
 
-  ##   User Management
-  # Retrieve Current User
-  def test_retreive_current_user
-    assert @sut.user
-  end
+  private
 
-  # Create New Figo User
-  def test_create_new_figo_user
-    assert_raises(Figo::Error) { @con.create_user("John Doe", "jd@example.io", "123456", "en") }
-  end
-
-  # Re-Send Verification Email
-  def test_resend_verififcation_email
-    assert_nil @sut.resend_verification
-  end
-
-  # Modify Current User
-  def test_modify_current_user
-    old_user = @sut.user
-    new_user_hash = {
-      address: {
-          city: "Hamburg",
-          company: "blablabla",
-          postal_code: "10969",
-          street: "Ritterstr. 2-3"
-      },
-      email: "demo@figo.me",
-      join_date: "2012-04-19T17:25:54.000Z",
-      language: "en",
-      name: "ola ola",
-      premium: true,
-      premium_expires_on: "2014-04-19T17:25:54.000Z",
-      premium_subscription: "paymill",
-      send_newsletter: true,
-      user_id: "U12345",
-      verified_email: true
+  def modified_user_data
+    {
+      language: 'de',
+      full_name: 'Yokopoko Mayoko'
     }
-    new_user = Figo::User.new(@sut, new_user_hash)
-    execption = assert_raises(Figo::Error) { @sut.modify_user(new_user) }
-    assert "Missing, invalid or expired access token.", execption.message
-    # api_user = @sut.modify_user(new_user)
-    # assert_equal api_user.address["company"], "blablabla"
-  end
-
-  # Delete Current User
-  def test_delete_current_user
-    execption = assert_raises(Figo::Error) { @sut.remove_user }
-    assert "Missing, invalid or expired access token.", execption.message
-    # assert_nil @sut.remove_user
   end
 end
