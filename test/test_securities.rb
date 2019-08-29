@@ -25,39 +25,38 @@ require "minitest/autorun"
 require "minitest/reporters"
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 require_relative "../lib/figo"
+require_relative 'setup'
 
 class FigoTest < MiniTest::Unit::TestCase
-  def setup
-    @sut = Figo::Session.new(CONFIG["ACCESS_TOKEN"])
-  end
+  include Setup
 
   # Retrieve Securities of all Accounts
   def test_retreive_securities_of_all_accounts
-    assert @sut.get_securities({})
+    assert figo_session.get_securities({})
   end
 
   # Retrieve Securities of one Account
   def test_retreive_securities_of_one_account
-    assert @sut.get_securities({account_id: "A1.4"})
+    assert figo_session.get_securities({account_id: "A1.4"})
   end
 
   # Modify a Security
   def test_modify_a_security
-    execption = assert_raises(Figo::Error) { @sut.modify_security("A1.4", "S1.1", true) }
+    execption = assert_raises(Figo::Error) { figo_session.modify_security("A1.4", "S1.1", true) }
     assert "Missing, invalid or expired access token.", execption.message
     # assert @sut.modify_security("A1.4", "S1.1", true)
   end
 
   # Modify all Securities of all Accounts
   def test_modify_all_securities_of_all_accounts
-    execption = assert_raises(Figo::Error) { @sut.modify_securities(true) }
+    execption = assert_raises(Figo::Error) { figo_session.modify_securities(true) }
     assert "Missing, invalid or expired access token.", execption.message
     # assert @sut.modify_securities(true)
   end
 
   # Modify all Securities of one Account
   def test_modify_all_securities_of_one_accounts
-    execption = assert_raises(Figo::Error) { @sut.modify_securities(true, "A1.4") }
+    execption = assert_raises(Figo::Error) { figo_session.modify_securities(true, "A1.4") }
     assert "Missing, invalid or expired access token.", execption.message
     # assert @sut.modify_securities(true, "A1.4")
   end
