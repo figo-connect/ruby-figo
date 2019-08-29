@@ -25,22 +25,21 @@ require "minitest/autorun"
 require "minitest/reporters"
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 require_relative "../lib/figo"
+require_relative 'setup'
 
 class FigoTest < MiniTest::Unit::TestCase
-  def setup
-    @sut = Figo::Session.new(CONFIG["ACCESS_TOKEN"])
-  end
+  include Setup
 
   ##  Notifications & Web Hooks
   # Retrieve all Notifications
   def test_retrieve_all_notifications
-    notifications = @sut.notifications
+    notifications = figo_session.notifications
     assert notifications.length >= 0
   end
 
   # Create a New Notification
   def test_create_new_notification
-    added_notification = @sut.add_notification(Figo::Notification.new(@sut, {:observe_key => "/rest/transactions", :notify_uri => "http://figo.me/test", :state => "qwe"}))
+    added_notification = figo_session.add_notification(Figo::Notification.new(figo_session, {:observe_key => "/rest/transactions", :notify_uri => "http://figo.me/test", :state => "qwe"}))
 
     refute_nil added_notification.notification_id
     assert_equal added_notification.observe_key, "/rest/transactions"
@@ -50,9 +49,9 @@ class FigoTest < MiniTest::Unit::TestCase
 
   # Retrieve one Specific Notification
   def test_retrieve_one_specific_notification
-    added_notification = @sut.add_notification(Figo::Notification.new(@sut, {:observe_key => "/rest/transactions", :notify_uri => "http://figo.me/test", :state => "qwe"}))
+    added_notification = figo_session.add_notification(Figo::Notification.new(figo_session, {:observe_key => "/rest/transactions", :notify_uri => "http://figo.me/test", :state => "qwe"}))
 
-    retrieved_notification = @sut.get_notification(added_notification.notification_id)
+    retrieved_notification = figo_session.get_notification(added_notification.notification_id)
 
     assert_equal retrieved_notification.notification_id, added_notification.notification_id
     assert_equal retrieved_notification.observe_key, "/rest/transactions"
@@ -62,10 +61,10 @@ class FigoTest < MiniTest::Unit::TestCase
 
   # Modify Single Notification
   def test_modify_single_notification
-    added_notification = @sut.add_notification(Figo::Notification.new(@sut, {:observe_key => "/rest/transactions", :notify_uri => "http://figo.me/test", :state => "qwe"}))
+    added_notification = figo_session.add_notification(Figo::Notification.new(figo_session, {:observe_key => "/rest/transactions", :notify_uri => "http://figo.me/test", :state => "qwe"}))
 
     added_notification.state = "asd"
-    modified_notification = @sut.modify_notification(added_notification)
+    modified_notification = figo_session.modify_notification(added_notification)
 
     assert_equal modified_notification.notification_id, added_notification.notification_id
     assert_equal modified_notification.observe_key, "/rest/transactions"
@@ -75,9 +74,9 @@ class FigoTest < MiniTest::Unit::TestCase
 
   # Delete Notification
   def test_delete_notification
-    added_notification = @sut.add_notification(Figo::Notification.new(@sut, {:observe_key => "/rest/transactions", :notify_uri => "http://figo.me/test", :state => "qwe"}))
+    added_notification = figo_session.add_notification(Figo::Notification.new(figo_session, {:observe_key => "/rest/transactions", :notify_uri => "http://figo.me/test", :state => "qwe"}))
 
-    @sut.remove_notification(added_notification)
-    assert_nil @sut.get_notification(added_notification.notification_id)
+    figo_session.remove_notification(added_notification)
+    assert_nil figo_session.get_notification(added_notification.notification_id)
   end
 end
