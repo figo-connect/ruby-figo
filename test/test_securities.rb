@@ -40,24 +40,24 @@ class FigoTest < MiniTest::Unit::TestCase
     assert figo_session.get_securities({account_id: "A1.4"})
   end
 
-  # Modify a Security
-  def test_modify_a_security
-    execption = assert_raises(Figo::Error) { figo_session.modify_security("A1.4", "S1.1", true) }
-    assert "Missing, invalid or expired access token.", execption.message
-    # assert @sut.modify_security("A1.4", "S1.1", true)
-  end
+  # Test works but endpoint not present anymore in the API
+  # # Modify a Security
+  # def test_modify_a_security
+  #   exception = assert_raises(Figo::Error) { figo_session.modify_security("A1.4", "S1.1", true) }
+  #   assert "Missing, invalid or expired access token.", exception.message
+  # end
 
-  # Modify all Securities of all Accounts
-  def test_modify_all_securities_of_all_accounts
-    execption = assert_raises(Figo::Error) { figo_session.modify_securities(true) }
-    assert "Missing, invalid or expired access token.", execption.message
-    # assert @sut.modify_securities(true)
-  end
+  # Test works but endpoint not present anymore in the API
+  # # Modify all Securities of all Accounts
+  # def test_modify_all_securities_of_all_accounts
+  #   exception = assert_raises(Figo::Error) { figo_session.modify_securities(true) }
+  #   assert "Missing, invalid or expired access token.", exception.message
+  # end
 
-  # Modify all Securities of one Account
-  def test_modify_all_securities_of_one_accounts
-    execption = assert_raises(Figo::Error) { figo_session.modify_securities(true, "A1.4") }
-    assert "Missing, invalid or expired access token.", execption.message
-    # assert @sut.modify_securities(true, "A1.4")
-  end
+  # Test works but endpoint not present anymore in the API
+  # # Modify all Securities of one Account
+  # def test_modify_all_securities_of_one_accounts
+  #   exception = assert_raises(Figo::Error) { figo_session.modify_securities(true, "A1.4") }
+  #   assert "Missing, invalid or expired access token.", exception.message
+  # end
 end
