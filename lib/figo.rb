@@ -28,6 +28,8 @@ require_relative "./helpers/error.rb"
 
 require_relative "./authentification/api_call.rb"
 
+require 'active_support/core_ext/object/to_query'
+
 # Ruby bindings for the figo Connect API: http://developer.figo.me
 module Figo
   $config = YAML.load_file(File.join(__dir__, '../config.yml'))
