@@ -32,7 +32,7 @@ require_relative 'setup'
 class FigoTest < MiniTest::Unit::TestCase
   include Setup
 
-  ##   Transactions
+  ## Transactions
   # Retrieve a Transaction
   def test_retreive_a_transaction
     transactions = figo_session.get_account('A1.2').transactions
