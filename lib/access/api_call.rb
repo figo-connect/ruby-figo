@@ -14,7 +14,7 @@ module Figo
   # @param consent [Object] Configuration of the PSD2 consents
   # @return [Access] access object created
   def add_access(access_method_id, credentials, consent)
-    data = { "access_method_id": access_method_id, "credentials" : credentials, "consent": consent }
+    data = { access_method_id: access_method_id, credentials: credentials, consent: consent }
     query_api("/rest/accesses", data=data, method="POST")
   end
 

@@ -31,6 +31,10 @@ require_relative 'setup'
 class FigoTest < MiniTest::Unit::TestCase
   include Setup
 
+  def setup()
+    super(no_user=true)
+  end
+
   def test_user_management
     assert create_user # Create User
     assert figo_session.get_user # Get User
