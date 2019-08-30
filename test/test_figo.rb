@@ -26,23 +26,22 @@ require "minitest/reporters"
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 require_relative "../lib/figo"
 require "yaml"
+require_relative "setup"
 
 class FigoTest < MiniTest::Unit::TestCase
   CONFIG = YAML.load_file(File.join(__dir__, 'config.yml'))
-
-  def setup
-    @sut = Figo::Session.new(CONFIG["ACCESS_TOKEN"])
-  end
+  include Setup
 
   def test_missing_handling
-    assert_nil @sut.get_account "A1.42"
+    assert_nil figo_session.get_account "A1.42"
   end
 
   def test_error_handling
-    assert_raises(Figo::Error) { @sut.sync_url "http://localhost:3003/", "" }
+    assert_raises(Figo::Error) { figo_session.sync_url "http://localhost:3003/", "" }
   end
 
-  def test_sync_uri
-    @sut.sync_url("http://example.com", "qew")
+  def test_get_version
+    response = figo_connection.get_version
+    assert response.has_key?("version")
   end
 end

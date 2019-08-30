@@ -56,11 +56,11 @@ module Figo
     # @param path [String] the URL path on the server
     # @param data [Hash] this optional object will be used as url-encoded POST content.
     # @return [Hash] JSON response
-    def query_api(path, data = nil)
+    def query_api path, data = nil, method = 'POST'
       uri = URI("https://#{@api_endpoint}#{path}")
 
       # Setup HTTP request.
-      request = Net::HTTP::Post.new(path)
+      request = method == 'POST' ? Net::HTTP::Post.new(path) : Net::HTTP::Get.new(path)
       request.basic_auth(@client_id, @client_secret)
       request["Accept"] = "application/json"
       request["Content-Type"] = "application/x-www-form-urlencoded"
@@ -72,6 +72,10 @@ module Figo
 
       # Evaluate HTTP response.
       response.body && !response.body.empty? ? JSON.parse(response.body) : nil
+    end
+
+    def get_version
+      query_api '/version', data = nil, method = 'GET'
     end
   end
 
