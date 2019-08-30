@@ -77,6 +77,9 @@ module Figo
 
   # Represents a user-bound connection to the figo Connect API and allows access to the user's data.
   class Session
+    require_relative "./access/model.rb"
+    require_relative "./access/api_call.rb"
+
     require_relative "./account_balance/model.rb"
     require_relative "./account_balance/api_call.rb"
 
@@ -94,6 +97,9 @@ module Figo
 
     require_relative "./synchronization_status/model.rb"
     require_relative "./synchronization_status/api_call.rb"
+
+    require_relative "./sync/model.rb"
+    require_relative "./sync/api_call.rb"
 
     require_relative "./transaction/model.rb"
     require_relative "./transaction/api_call.rb"
