@@ -22,16 +22,9 @@
 # THE SOFTWARE.
 #
 
-require 'flt'
-require 'minitest/autorun'
-require 'minitest/reporters'
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-require_relative '../lib/figo'
-require 'yaml'
 require_relative 'setup'
 
-class FigoTest < MiniTest::Unit::TestCase
-  CONFIG = YAML.load_file(File.join(__dir__, 'config.yml'))
+class FigoTest < MiniTest::Spec
   include Setup
 
   def test_missing_handling

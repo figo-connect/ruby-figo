@@ -22,16 +22,13 @@
 # THE SOFTWARE.
 #
 
-require 'flt'
-require 'minitest/autorun'
-require 'minitest/reporters'
-
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-require_relative '../lib/figo'
 require_relative 'setup'
 
-class FigoTest < MiniTest::Unit::TestCase
+class FigoTest < MiniTest::Spec
   include Setup
+
+  before { create_user }
+  after { destroy_user }
 
   def test_user_credential_request
     response = figo_connection.user_credential_request(username, password)

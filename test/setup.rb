@@ -1,19 +1,20 @@
 # frozen_string_literal: true
 
+require 'flt'
+require 'minitest/autorun'
+require 'minitest/reporters'
 require 'securerandom'
 
+require_relative '../lib/figo'
+
 module Setup
-  def setup(no_user = false)
-    @no_user ||= no_user
+  Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+
+  def setup
     @username ||= "#{SecureRandom.alphanumeric(8)}@test.com"
     @password ||= 'password'
     @client_id ||= 'CaESKmC8MAhNpDe5rvmWnSkRE_7pkkVIIgMwclgzGcQY'
     @client_secret ||= 'STdzfv0GXtEj_bwYn7AgCVszN1kKq5BdgEIKOM_fzybQ'
-    create_user unless @no_user
-  end
-
-  def teardown
-    destroy_user unless @no_user
   end
 
   private

@@ -1,13 +1,8 @@
 # frozen_string_literal: true
 
-require 'flt'
-require 'minitest/autorun'
-require 'minitest/reporters'
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-require_relative '../lib/figo'
 require_relative 'setup'
 
-class FigoTest < MiniTest::Unit::TestCase
+class FigoTest < MiniTest::Spec
   include Setup
 
   def test_get_catalog_client_auth
@@ -17,9 +12,11 @@ class FigoTest < MiniTest::Unit::TestCase
   end
 
   def test_get_catalog_user_auth
+    create_user
     response = figo_session.get_supported_payment_services
     assert response.services.instance_of? Array
     assert response.banks.instance_of? Array
+    destroy_user
   end
 
   # Works but `GET /catalog` is very slow
