@@ -1,6 +1,7 @@
-require_relative "../base.rb"
-module Figo
+# frozen_string_literal: true
 
+require_relative '../base.rb'
+module Figo
   class TaskToken < Base
     @dump_attributes = [:task_token]
 
@@ -13,7 +14,7 @@ module Figo
   end
 
   class TaskState < Base
-    @dump_attributes = [:account_id, :message, :is_waiting_for_pin, :is_waiting_for_response, :is_erroneous, :is_ended, :challenge]
+    @dump_attributes = %i[account_id message is_waiting_for_pin is_waiting_for_response is_erroneous is_ended challenge]
 
     def initialize(session, json)
       super(session, json)

@@ -1,8 +1,10 @@
-require_relative "../base.rb"
+# frozen_string_literal: true
+
+require_relative '../base.rb'
 module Figo
-# Object representing one bank account of the User
+  # Object representing one bank account of the User
   class Account < Base
-    @dump_attributes = [:name, :owner, :auto_sync]
+    @dump_attributes = %i[name owner auto_sync]
 
     def initialize(session, json)
       super(session, json)

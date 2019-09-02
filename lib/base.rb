@@ -1,5 +1,7 @@
-require "date"
-require "flt"
+# frozen_string_literal: true
+
+require 'date'
+require 'flt'
 
 module Figo
   # Set decimal precision to two digits.
@@ -9,8 +11,8 @@ module Figo
   class Base
     # Attributes to be dumped (called by modify and create)
     @dump_attributes = []
-    def self.dump_attributes
-      @dump_attributes
+    class << self
+      attr_reader :dump_attributes
     end
 
     # Instantiate model object from hash.
@@ -25,15 +27,15 @@ module Figo
         next unless respond_to? "#{key}="
         next if value.nil?
 
-        if key == "status" and value.is_a? Hash
+        if (key == 'status') && value.is_a?(Hash)
           value = SynchronizationStatus.new(session, value)
-        elsif key == "balance" and value.is_a? Hash
+        elsif (key == 'balance') && value.is_a?(Hash)
           value = AccountBalance.new(session, value)
-        elsif key == "amount" or key == "balance" or key == "credit_line" or key == "monthly_spending_limit"
+        elsif (key == 'amount') || (key == 'balance') || (key == 'credit_line') || (key == 'monthly_spending_limit')
           value = Flt::DecNum(value.to_s)
-        elsif key.end_with?("_date")
+        elsif key.end_with?('_date')
           value = DateTime.iso8601(value)
-        elsif key.end_with?("_timestamp")
+        elsif key.end_with?('_timestamp')
           value = DateTime.iso8601(value)
         end
         send("#{key}=", value)
@@ -46,11 +48,12 @@ module Figo
       self.class.dump_attributes.each do |attribute|
         value = send attribute
         next if value.nil?
+
         value = value.to_f if value.is_a? Flt::DecNum
 
         result[attribute] = value
       end
-      return result
+      result
     end
   end
 end

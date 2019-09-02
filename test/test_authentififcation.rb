@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Copyright (c) 2013 figo GmbH
 #

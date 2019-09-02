@@ -1,4 +1,6 @@
-require_relative "model.rb"
+# frozen_string_literal: true
+
+require_relative 'model.rb'
 module Figo
   # Retrieve current User
   # @return [User] the current user

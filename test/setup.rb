@@ -12,7 +12,7 @@ module Setup
     create_user unless @no_user
   end
 
-  def teardown()
+  def teardown
     destroy_user unless @no_user
   end
 

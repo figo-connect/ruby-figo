@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Copyright (c) 2013 figo GmbH
 #
@@ -20,42 +22,42 @@
 # THE SOFTWARE.
 #
 
-require "flt"
-require "minitest/autorun"
-require "minitest/reporters"
+require 'flt'
+require 'minitest/autorun'
+require 'minitest/reporters'
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-require_relative "../lib/figo"
+require_relative '../lib/figo'
 
 class FigoTest < MiniTest::Unit::TestCase
   def setup
-    @sut = Figo::Session.new(CONFIG["ACCESS_TOKEN"])
+    @sut = Figo::Session.new(CONFIG['ACCESS_TOKEN'])
   end
 
   ##   Accounts
   # Retrieve Bank Account
   def test_retrieve_bank_account
-    account = @sut.get_account "A1.2"
-    assert_equal account.account_id, "A1.2"
+    account = @sut.get_account 'A1.2'
+    assert_equal account.account_id, 'A1.2'
   end
 
   # Retrieve all Bank Accounts
   def test_retreive_all_bank_accounts
     accounts = @sut.accounts
-    assert accounts.length > 0
+    assert !accounts.empty?
   end
 
   # Retrieve Bank Account Balance and Limits
   def test_retreive_bank_account_balance_and_limits
-    assert @sut.get_account_balance("A1.2")
+    assert @sut.get_account_balance('A1.2')
   end
 
   # Modify Bank Account
   def test_modify_bank_account
-    account = @sut.get_account "A1.2"
-    account.name = "new name"
+    account = @sut.get_account 'A1.2'
+    account.name = 'new name'
 
     execption = assert_raises(Figo::Error) { @sut.modify_account account }
-    assert "Missing, invalid or expired access token.", execption.message
+    assert 'Missing, invalid or expired access token.', execption.message
     # @sut.modify_account account
 
     # modified_account = @sut.get_account "A1.2"
@@ -66,28 +68,28 @@ class FigoTest < MiniTest::Unit::TestCase
   def test_set_account_sort_order
     accounts = @sut.accounts
     execption = assert_raises(Figo::Error) { @sut.account_sort_order(accounts) }
-    assert "Missing, invalid or expired access token.", execption.message
+    assert 'Missing, invalid or expired access token.', execption.message
 
     # assert @sut.account_sort_order(accounts)
   end
 
   # Delete bank account
   def test_delete_bank_account
-    execption = assert_raises(Figo::Error) { @sut.remove_account("A1.2") }
-    assert "Missing, invalid or expired access token.", execption.message
+    execption = assert_raises(Figo::Error) { @sut.remove_account('A1.2') }
+    assert 'Missing, invalid or expired access token.', execption.message
 
     # assert_nil @sut.remove_account("A1.2")
   end
 
   # Modify Bank Account Credit Line and Limits
   def test_modify_bank_account_credit_line_and_limits
-    old_balance = @sut.get_account_balance("A1.2")
+    old_balance = @sut.get_account_balance('A1.2')
     balance = old_balance.clone
 
     balance.balance = 1
 
-    execption = assert_raises(Figo::Error) { @sut.modify_account_balance("A1.2", balance) }
-    assert "Missing, invalid or expired access token.", execption.message
+    execption = assert_raises(Figo::Error) { @sut.modify_account_balance('A1.2', balance) }
+    assert 'Missing, invalid or expired access token.', execption.message
     # new_balance = @sut.modify_account_balance("A1.2", balance)
 
     # assert old_balance.balance != new_balance.balance
@@ -95,8 +97,8 @@ class FigoTest < MiniTest::Unit::TestCase
 
   # Remove Stored Pin from Bank Account
   def test_remove_pin_from_bank_account
-    new_bank_info = Figo::Bank.new(@sut, {bank_id: "B1.1", sepa_creditor_id: "DE02ZZZ0123456789", save_pin: true})
+    new_bank_info = Figo::Bank.new(@sut, bank_id: 'B1.1', sepa_creditor_id: 'DE02ZZZ0123456789', save_pin: true)
     response = @sut.remove_bank_pin(new_bank_info)
-    assert response["save_pin"] == false
+    assert response['save_pin'] == false
   end
 end

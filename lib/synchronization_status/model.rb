@@ -1,6 +1,8 @@
-require_relative "../base.rb"
+# frozen_string_literal: true
+
+require_relative '../base.rb'
 module Figo
-# Object representing the bank server synchronization status
+  # Object representing the bank server synchronization status
   class SynchronizationStatus < Base
     @dump_attributes = []
 
@@ -18,6 +20,6 @@ module Figo
 
     # Timestamp of last successful synchronization
     # @return [DateTime]
-  attr_accessor :success_timestamp
+    attr_accessor :success_timestamp
   end
 end

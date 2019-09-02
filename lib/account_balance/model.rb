@@ -1,8 +1,10 @@
-require_relative "../base.rb"
+# frozen_string_literal: true
+
+require_relative '../base.rb'
 module Figo
   # Object representing the balance of a certain bank account of the User
   class AccountBalance < Base
-    @dump_attributes = [:credit_line, :monthly_spending_limit]
+    @dump_attributes = %i[credit_line monthly_spending_limit]
 
     def initialize(session, json)
       super(session, json)

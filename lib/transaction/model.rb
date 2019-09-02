@@ -1,4 +1,6 @@
-require_relative "../base.rb"
+# frozen_string_literal: true
+
+require_relative '../base.rb'
 module Figo
   # Object representing one bank transaction on a certain bank account of the User
   class Transaction < Base

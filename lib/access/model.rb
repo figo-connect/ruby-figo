@@ -1,6 +1,8 @@
-require_relative "../base.rb"
+# frozen_string_literal: true
+
+require_relative '../base.rb'
 module Figo
-# Object representing one access of the User
+  # Object representing one access of the User
   class Access < Base
     @dump_attributes = []
 

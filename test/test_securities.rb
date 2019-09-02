@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Copyright (c) 2013 figo GmbH
 #
@@ -20,11 +22,11 @@
 # THE SOFTWARE.
 #
 
-require "flt"
-require "minitest/autorun"
-require "minitest/reporters"
+require 'flt'
+require 'minitest/autorun'
+require 'minitest/reporters'
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-require_relative "../lib/figo"
+require_relative '../lib/figo'
 require_relative 'setup'
 
 class FigoTest < MiniTest::Unit::TestCase
@@ -37,7 +39,7 @@ class FigoTest < MiniTest::Unit::TestCase
 
   # Retrieve Securities of one Account
   def test_retreive_securities_of_one_account
-    assert figo_session.get_securities({account_id: "A1.4"})
+    assert figo_session.get_securities(account_id: 'A1.4')
   end
 
   # Test works but endpoint not present anymore in the API

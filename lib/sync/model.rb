@@ -1,6 +1,8 @@
-require_relative "../base.rb"
+# frozen_string_literal: true
+
+require_relative '../base.rb'
 module Figo
-# Object representing the bank server synchronization
+  # Object representing the bank server synchronization
   class Sync < Base
     @dump_attributes = []
 

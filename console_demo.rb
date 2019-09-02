@@ -1,6 +1,8 @@
-require_relative "lib/figo"
+# frozen_string_literal: true
 
-session = Figo::Session.new("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
+require_relative 'lib/figo'
+
+session = Figo::Session.new('ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ')
 
 # Print out list of account numbers and balances.
 session.accounts.each do |account|
@@ -9,6 +11,6 @@ session.accounts.each do |account|
 end
 
 # Print out the list of all transaction originators/recipients of a specific account.
-session.get_account("A1.1").transactions.each do |transaction|
- puts transaction.name
+session.get_account('A1.1').transactions.each do |transaction|
+  puts transaction.name
 end

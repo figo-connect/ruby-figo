@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Copyright (c) 2013 figo GmbH
 #
@@ -20,17 +22,17 @@
 # THE SOFTWARE.
 #
 
-require "flt"
-require "minitest/autorun"
-require "minitest/reporters"
+require 'flt'
+require 'minitest/autorun'
+require 'minitest/reporters'
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-require_relative "../lib/figo"
-require_relative "setup"
+require_relative '../lib/figo'
+require_relative 'setup'
 
 class FigoTest < MiniTest::Unit::TestCase
   include Setup
 
-  i_suck_and_my_tests_are_order_dependent!()
+  i_suck_and_my_tests_are_order_dependent!
 
   ##  Payments
   # Retrieve all Payments

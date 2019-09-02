@@ -1,8 +1,10 @@
-require_relative "../base.rb"
+# frozen_string_literal: true
+
+require_relative '../base.rb'
 module Figo
-# Object representing a Payment
+  # Object representing a Payment
   class Payment < Base
-    @dump_attributes = [:type, :name, :account_number, :bank_code, :amount, :currency, :purpose]
+    @dump_attributes = %i[type name account_number bank_code amount currency purpose]
 
     def initialize(session, json)
       super(session, json)

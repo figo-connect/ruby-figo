@@ -1,4 +1,6 @@
-require_relative "../base.rb"
+# frozen_string_literal: true
+
+require_relative '../base.rb'
 module Figo
   # Object representing a bank, i.e. an connection to a bank
   class Bank < Base

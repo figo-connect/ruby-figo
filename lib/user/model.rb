@@ -1,4 +1,6 @@
-require_relative "../base.rb"
+# frozen_string_literal: true
+
+require_relative '../base.rb'
 module Figo
   # Object representing an User
   class User < Base

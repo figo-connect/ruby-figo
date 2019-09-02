@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Copyright (c) 2013 figo GmbH
 #
@@ -20,28 +22,28 @@
 # THE SOFTWARE.
 #
 
-require "flt"
-require "minitest/autorun"
-require "minitest/reporters"
+require 'flt'
+require 'minitest/autorun'
+require 'minitest/reporters'
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-require_relative "../lib/figo"
-require "yaml"
-require_relative "setup"
+require_relative '../lib/figo'
+require 'yaml'
+require_relative 'setup'
 
 class FigoTest < MiniTest::Unit::TestCase
   CONFIG = YAML.load_file(File.join(__dir__, 'config.yml'))
   include Setup
 
   def test_missing_handling
-    assert_nil figo_session.get_account "A1.42"
+    assert_nil figo_session.get_account 'A1.42'
   end
 
   def test_error_handling
-    assert_raises(Figo::Error) { figo_session.sync_url "http://localhost:3003/", "" }
+    assert_raises(Figo::Error) { figo_session.sync_url 'http://localhost:3003/', '' }
   end
 
   def test_get_version
     response = figo_connection.get_version
-    assert response.has_key?("version")
+    assert response.key?('version')
   end
 end

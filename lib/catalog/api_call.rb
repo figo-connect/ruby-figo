@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 module Figo
-
   def self.included(klass)
-    @prefix = '/rest' if klass.to_s  == 'Session'
+    @prefix = '/rest' if klass.to_s == 'Session'
   end
 
   # List complete catalog (user auth or client auth.)
@@ -20,11 +19,11 @@ module Figo
   private
 
   def list_catalog(q, country, path)
-    options = {q: q, country: country}.delete_if{|k, v| v.nil?}
+    options = { q: q, country: country }.delete_if { |_k, v| v.nil? }
     query_api_object Catalog, "#{path}?#{options.to_query}"
   end
 
-  def complete_path path, objects
-    ["banks", "services"].include?(objects) ? "#{path}/#{objects}" : path
+  def complete_path(path, objects)
+    %w[banks services].include?(objects) ? "#{path}/#{objects}" : path
   end
 end

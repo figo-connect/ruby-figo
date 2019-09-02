@@ -1,8 +1,10 @@
-require_relative "../base.rb"
+# frozen_string_literal: true
+
+require_relative '../base.rb'
 module Figo
   # Object representing a configured notification, e.g. a webhook or email hook
   class Notification < Base
-    @dump_attributes = [:observe_key, :notify_uri, :state]
+    @dump_attributes = %i[observe_key notify_uri state]
 
     def initialize(session, json)
       super(session, json)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Figo
   # Get the URL a user should open in the web browser to start the login process.
   #
@@ -12,10 +14,10 @@ module Figo
   #        e.g. `accounts=ro`
   # @return [String] the URL to be opened by the user.
   def login_url(state, scope = nil)
-    data = { "response_type" => "code", "client_id" => @client_id, "state" => state }
-    data["redirect_uri"] = @redirect_uri unless @redirect_uri.nil?
-    data["scope"] = scope unless scope.nil?
-    return "https://#{$api_endpoint}/auth/code?" + URI.encode_www_form(data)
+    data = { 'response_type' => 'code', 'client_id' => @client_id, 'state' => state }
+    data['redirect_uri'] = @redirect_uri unless @redirect_uri.nil?
+    data['scope'] = scope unless scope.nil?
+    "https://#{$api_endpoint}/auth/code?" + URI.encode_www_form(data)
   end
 
   # Exchange authorization code or refresh token for access token.
@@ -28,12 +30,12 @@ module Figo
   # @return [Hash] object with the keys `access_token`, `refresh_token` and `expires`, as documented in the figo Connect API specification.
   def obtain_access_token(authorization_code_or_refresh_token, scope = nil)
     # Authorization codes always start with "O" and refresh tokens always start with "R".
-    if authorization_code_or_refresh_token[0] == "O"
-      data = { "grant_type" => "authorization_code", "code" => authorization_code_or_refresh_token }
-      data["redirect_uri"] = @redirect_uri unless @redirect_uri.nil?
-    elsif authorization_code_or_refresh_token[0] == "R"
-      data = { "grant_type" => "refresh_token", "refresh_token" => authorization_code_or_refresh_token }
-      data["scope"] = scope unless scope.nil?
+    if authorization_code_or_refresh_token[0] == 'O'
+      data = { 'grant_type' => 'authorization_code', 'code' => authorization_code_or_refresh_token }
+      data['redirect_uri'] = @redirect_uri unless @redirect_uri.nil?
+    elsif authorization_code_or_refresh_token[0] == 'R'
+      data = { 'grant_type' => 'refresh_token', 'refresh_token' => authorization_code_or_refresh_token }
+      data['scope'] = scope unless scope.nil?
     end
     query_api '/auth/token', data
   end

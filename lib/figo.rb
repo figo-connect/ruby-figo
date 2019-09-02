@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Copyright (c) 2013 figo GmbH
 #
@@ -20,27 +22,27 @@
 # THE SOFTWARE.
 #
 
-require "json"
-require "yaml"
+require 'json'
+require 'yaml'
 
-require_relative "./helpers/https.rb"
-require_relative "./helpers/error.rb"
+require_relative './helpers/https.rb'
+require_relative './helpers/error.rb'
 
-require_relative "./authentification/api_call.rb"
+require_relative './authentification/api_call.rb'
 
 require 'active_support/core_ext/object/to_query'
 
 # Ruby bindings for the figo Connect API: http://developer.figo.me
 module Figo
   $config = YAML.load_file(File.join(__dir__, '../config.yml'))
-  $api_endpoint = $config["API_ENDPOINT"]
+  $api_endpoint = $config['API_ENDPOINT']
 
   # Represents a non user-bound connection to the figo Connect API.
   #
   # It's main purpose is to let user login via OAuth 2.0.
   class Connection
-    require_relative "./catalog/model.rb"
-    require_relative "./catalog/api_call.rb"
+    require_relative './catalog/model.rb'
+    require_relative './catalog/api_call.rb'
 
     include Figo
     # Create connection object with client credentials.
@@ -61,15 +63,15 @@ module Figo
     # @param path [String] the URL path on the server
     # @param data [Hash] this optional object will be used as url-encoded POST content.
     # @return [Hash] JSON response
-    def query_api path, data = nil, method = 'POST'
+    def query_api(path, data = nil, method = 'POST')
       uri = URI("https://#{@api_endpoint}#{path}")
 
       # Setup HTTP request.
       request = method == 'POST' ? Net::HTTP::Post.new(path) : Net::HTTP::Get.new(path)
       request.basic_auth(@client_id, @client_secret)
-      request["Accept"] = "application/json"
-      request["Content-Type"] = "application/x-www-form-urlencoded"
-      request["User-Agent"] =  "figo-ruby/1.4.2"
+      request['Accept'] = 'application/json'
+      request['Content-Type'] = 'application/x-www-form-urlencoded'
+      request['User-Agent'] = 'figo-ruby/1.4.2'
       request.body = URI.encode_www_form(data) unless data.nil?
 
       # Send HTTP request.
@@ -79,10 +81,11 @@ module Figo
       response.body && !response.body.empty? ? JSON.parse(response.body) : nil
     end
 
-    def query_api_object(type, path, data=nil, method="GET") # :nodoc:
+    def query_api_object(type, path, data = nil, method = 'GET') # :nodoc:
       response = query_api path, data, method
       return nil if response.nil?
-      return type.new(self, response)
+
+      type.new(self, response)
     end
 
     def get_version
@@ -92,47 +95,47 @@ module Figo
 
   # Represents a user-bound connection to the figo Connect API and allows access to the user's data.
   class Session
-    require_relative "./access/model.rb"
-    require_relative "./access/api_call.rb"
+    require_relative './access/model.rb'
+    require_relative './access/api_call.rb'
 
-    require_relative "./account_balance/model.rb"
-    require_relative "./account_balance/api_call.rb"
+    require_relative './account_balance/model.rb'
+    require_relative './account_balance/api_call.rb'
 
-    require_relative "./account/model.rb"
-    require_relative "./account/api_call.rb"
+    require_relative './account/model.rb'
+    require_relative './account/api_call.rb'
 
-    require_relative "./bank/model.rb"
-    require_relative "./bank/api_call.rb"
+    require_relative './bank/model.rb'
+    require_relative './bank/api_call.rb'
 
-    require_relative "./catalog/model.rb"
-    require_relative "./catalog/api_call.rb"
+    require_relative './catalog/model.rb'
+    require_relative './catalog/api_call.rb'
 
-    require_relative "./notification/model.rb"
-    require_relative "./notification/api_call.rb"
+    require_relative './notification/model.rb'
+    require_relative './notification/api_call.rb'
 
-    require_relative "./payment/model.rb"
-    require_relative "./payment/api_call.rb"
+    require_relative './payment/model.rb'
+    require_relative './payment/api_call.rb'
 
-    require_relative "./synchronization_status/model.rb"
-    require_relative "./synchronization_status/api_call.rb"
+    require_relative './synchronization_status/model.rb'
+    require_relative './synchronization_status/api_call.rb'
 
-    require_relative "./sync/model.rb"
-    require_relative "./sync/api_call.rb"
+    require_relative './sync/model.rb'
+    require_relative './sync/api_call.rb'
 
-    require_relative "./transaction/model.rb"
-    require_relative "./transaction/api_call.rb"
+    require_relative './transaction/model.rb'
+    require_relative './transaction/api_call.rb'
 
-    require_relative "./user/model.rb"
-    require_relative "./user/api_call.rb"
+    require_relative './user/model.rb'
+    require_relative './user/api_call.rb'
 
-    require_relative "./standing_order/model.rb"
-    require_relative "./standing_order/api_call.rb"
+    require_relative './standing_order/model.rb'
+    require_relative './standing_order/api_call.rb'
 
-    require_relative "./security/model.rb"
-    require_relative "./security/api_call.rb"
+    require_relative './security/model.rb'
+    require_relative './security/api_call.rb'
 
-    require_relative "./task/model.rb"
-    require_relative "./task/api_call.rb"
+    require_relative './task/model.rb'
+    require_relative './task/api_call.rb'
 
     include Figo
 
@@ -151,25 +154,25 @@ module Figo
     # @param data [hash] this optional object will be used as JSON-encoded POST content.
     # @param method [String] the HTTP method
     # @return [Hash] JSON response
-    def query_api(path, data=nil, method="GET") # :nodoc:
+    def query_api(path, data = nil, method = 'GET') # :nodoc:
       uri = URI("https://#{@api_endpoint}#{path}")
 
       # Setup HTTP request.
       request = case method
-        when "POST"
-          Net::HTTP::Post.new(path)
-        when "PUT"
-          Net::HTTP::Put.new(path)
-        when "DELETE"
-          Net::HTTP::Delete.new(path)
-        else
-          Net::HTTP::Get.new(path)
+                when 'POST'
+                  Net::HTTP::Post.new(path)
+                when 'PUT'
+                  Net::HTTP::Put.new(path)
+                when 'DELETE'
+                  Net::HTTP::Delete.new(path)
+                else
+                  Net::HTTP::Get.new(path)
       end
 
-      request["Authorization"] = "Bearer #{@access_token}"
-      request["Accept"] = "application/json"
-      request["Content-Type"] = "application/json"
-      request["User-Agent"] =  "figo-ruby/1.4.2"
+      request['Authorization'] = "Bearer #{@access_token}"
+      request['Accept'] = 'application/json'
+      request['Content-Type'] = 'application/json'
+      request['User-Agent'] = 'figo-ruby/1.4.2'
 
       request.body = JSON.generate(data) unless data.nil?
 
@@ -178,14 +181,16 @@ module Figo
 
       # Evaluate HTTP response.
       return nil if response.nil? || response.body.nil? || response.body.empty?
+
       JSON.parse(response.body)
     end
 
-    def query_api_object(type, path, data=nil, method="GET", array_name=nil) # :nodoc:
+    def query_api_object(type, path, data = nil, method = 'GET', array_name = nil) # :nodoc:
       response = query_api path, data, method
       return nil if response.nil?
       return type.new(self, response) if array_name.nil?
-      return response[array_name].map {|entry| type.new(self, entry)}
+
+      response[array_name].map { |entry| type.new(self, entry) }
     end
   end
 end

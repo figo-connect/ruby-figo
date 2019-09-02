@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Figo
   # Base class for all errors transported via the figo Connect API.
   class Error < RuntimeError
@@ -14,7 +16,7 @@ module Figo
     #
     # @return [String] the error description
     def to_s
-      return @error_description
+      @error_description
     end
   end
 end

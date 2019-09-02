@@ -1,4 +1,6 @@
-require_relative "model.rb"
+# frozen_string_literal: true
+
+require_relative 'model.rb'
 module Figo
   # Start provider synchronization
   #
@@ -9,16 +11,16 @@ module Figo
   # @param credentials [Object] Credentials used for authentication with the financial service provider, Optional
   # @param save_secret [Boolean] Indicates whether the confidential parts of the credentials should be saved, Defaulf: False
   # @return [Object] The Sync created with requested params
-  def add_sync(access_id, disable_notifications=false, redirect_uri=nil, state=nil, credentials=nil, save_secret=false)
+  def add_sync(access_id, disable_notifications = false, redirect_uri = nil, state = nil, _credentials = nil, save_secret = false)
     data = {
       disable_notifications: disable_notifications,
       redirect_uri: redirect_uri,
       state: state,
       cedentials: cendentials,
       save_secret: save_secret
-    }.delete_if { |k, v| v.nil? }
+    }.delete_if { |_k, v| v.nil? }
 
-    query_api_object Sync, "rest/accesses/#{access_id}/syncs", data=data, method="POST"
+    query_api_object Sync, "rest/accesses/#{access_id}/syncs", data = data, method = 'POST'
   end
 
   # Get synchronization status
@@ -27,6 +29,6 @@ module Figo
   # @param sync_id [String] Figo ID of the sync to get
   # @return [Object] The Sync created with requested params
   def get_synchronisation_status(access_id, sync_id)
-    query_api_object Sync, "rest/accesses/#{access_id}/syncs/#{sync_id}", method="GET"
+    query_api_object Sync, "rest/accesses/#{access_id}/syncs/#{sync_id}", method = 'GET'
   end
 end

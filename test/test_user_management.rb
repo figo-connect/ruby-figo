@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Copyright (c) 2013 figo GmbH
 #
@@ -31,8 +33,8 @@ require_relative 'setup'
 class FigoTest < MiniTest::Unit::TestCase
   include Setup
 
-  def setup()
-    super(no_user=true)
+  def setup
+    super(no_user = true)
   end
 
   def test_user_management

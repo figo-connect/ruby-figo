@@ -1,4 +1,6 @@
-require_relative "model.rb"
+# frozen_string_literal: true
+
+require_relative 'model.rb'
 module Figo
   # Retrieve list of all payments (on all accounts or one)
   #
@@ -8,14 +10,14 @@ module Figo
   # @param offset [Integer] Skip this number of transactions, Optional, default: 0
   # @param cents [Boolean] If true amounts will be shown in cents, Optional, default: false
   # @return [Payment] an array of `Payment` objects, one for each payment
-  def payments(account_id = nil, accounts = nil, count = 1000, offset = 0, cents = false )
-    options = {accounts: accounts, count: count, offset: offset, cents: cents}.delete_if{ |k, v| v.nil?}.to_query
-    if account_id.nil?
-      path =  "/rest/payments?#{options}"
-    else
-      path = "/rest/accounts/#{account_id}/payments?#{options}"
-    end
-    query_api_object Payment, path, nil, "GET", "payments"
+  def payments(account_id = nil, accounts = nil, count = 1000, offset = 0, cents = false)
+    options = { accounts: accounts, count: count, offset: offset, cents: cents }.delete_if { |_k, v| v.nil? }.to_query
+    path = if account_id.nil?
+             "/rest/payments?#{options}"
+           else
+             "/rest/accounts/#{account_id}/payments?#{options}"
+           end
+    query_api_object Payment, path, nil, 'GET', 'payments'
   end
 
   # Retrieve specific payment.
@@ -33,7 +35,7 @@ module Figo
   # @param payment [Payment] payment object to be created. It should not have a payment_id set, Required
   # @return [Payment] newly created `Payment` object
   def add_payment(payment)
-    query_api_object Payment, "/rest/accounts/#{payment.account_id}/payments", payment.dump(), "POST"
+    query_api_object Payment, "/rest/accounts/#{payment.account_id}/payments", payment.dump, 'POST'
   end
 
   # Modify payment
@@ -41,7 +43,7 @@ module Figo
   # @param payment [Payment] modified payment object, required
   # @return [Payment] modified payment object
   def modify_payment(payment)
-    query_api_object Payment, "/rest/accounts/#{payment.account_id}/payments/#{payment.payment_id}", payment.dump(), "PUT"
+    query_api_object Payment, "/rest/accounts/#{payment.account_id}/payments/#{payment.payment_id}", payment.dump, 'PUT'
   end
 
   # Initiate a payment
@@ -51,10 +53,10 @@ module Figo
   # @param state [String] Any kind of string that will be forwarded in the callback response message, Required
   # @param redirect_uri [String] At the end of the submission process a response will be sent to this callback URL, Optional
   # @return [String] The result parameter is the URL to be opened by the user.
-  def submit_payment (payment, tan_scheme_id, state, redirect_uri)
-    params = {tan_scheme_id: tan_scheme_id, state: state, redirect_uri: redirect_uri}.delete_if{ |k, v| v.nil?}
+  def submit_payment(payment, tan_scheme_id, state, redirect_uri)
+    params = { tan_scheme_id: tan_scheme_id, state: state, redirect_uri: redirect_uri }.delete_if { |_k, v| v.nil? }
 
-    query_api("/rest/accounts/" + payment.account_id + "/payments/" + payment.payment_id + "/init", params, "POST")
+    query_api('/rest/accounts/' + payment.account_id + '/payments/' + payment.payment_id + '/init', params, 'POST')
   end
 
   # Get payment initation status
@@ -63,14 +65,14 @@ module Figo
   # @param payment_id [String] figo ID of the payment to retrieve the initiation status for, Required
   # @param init_id [String] figo ID of the payment initation, Required
   # @return [Object] Initiation status of the payment
-  def submit_payment (account_id, payment_id, init_id)
-    query_api("/rest/accounts/#{account_id}/payments/#{payment_id}/init#{init_id}", nil, "GET")
+  def submit_payment(account_id, payment_id, init_id)
+    query_api("/rest/accounts/#{account_id}/payments/#{payment_id}/init#{init_id}", nil, 'GET')
   end
 
   # Remove payment
   #
   # @param payment [Payment, String] payment object which should be removed
   def remove_payment(payment)
-    query_api "/rest/accounts/#{payment.account_id}/payments/#{payment.payment_id}", nil, "DELETE"
+    query_api "/rest/accounts/#{payment.account_id}/payments/#{payment.payment_id}", nil, 'DELETE'
   end
 end
