@@ -4,11 +4,11 @@ require 'securerandom'
 
 module Setup
   def setup(no_user = false)
-    @no_user = no_user
-    @username = "#{SecureRandom.alphanumeric(8)}@test.com"
-    @password = 'password'
-    @client_id = 'CaESKmC8MAhNpDe5rvmWnSkRE_7pkkVIIgMwclgzGcQY'
-    @client_secret = 'STdzfv0GXtEj_bwYn7AgCVszN1kKq5BdgEIKOM_fzybQ'
+    @no_user ||= no_user
+    @username ||= "#{SecureRandom.alphanumeric(8)}@test.com"
+    @password ||= 'password'
+    @client_id ||= 'CaESKmC8MAhNpDe5rvmWnSkRE_7pkkVIIgMwclgzGcQY'
+    @client_secret ||= 'STdzfv0GXtEj_bwYn7AgCVszN1kKq5BdgEIKOM_fzybQ'
     create_user unless @no_user
   end
 
@@ -20,13 +20,14 @@ module Setup
 
   attr_reader :username, :password, :client_id, :client_secret
 
-  def access_token
-    response = figo_connection.user_credential_request(username, password)
+  def access_token(scope)
+    response = figo_connection.user_credential_request(username, password, scope)
     response['access_token']
   end
 
-  def figo_session
-    @figo_session ||= Figo::Session.new(access_token)
+  def figo_session(scope = 'accounts=rw balance=rw create_user offline securities=rw transactions=rw user=rw')
+    token = access_token(scope)
+    @figo_session ||= Figo::Session.new(token)
   end
 
   def figo_connection
