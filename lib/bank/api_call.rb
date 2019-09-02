@@ -31,19 +31,4 @@ module Figo
   def find_bank(bank_code, country_code = "DE")
     query_api "/rest/catalog/banks/#{country_code}/#{bank_code}"
   end
-
-  # Get supported services
-  #
-  # @param country_code [String] the country code the service comes from
-  # @param service [String] filter the type of service to request (optional): `banks`, `services` or everything (default)
-  def get_supported_payment_services(country_code="DE", service)
-    case service
-    when "banks"
-      query_api("/rest/catalog/banks/" + country_code, nil)
-    when "service"
-      query_api("/rest/catalog/services/" + country_code, nil)
-    else
-      query_api("/rest/catalog/" + country_code, nil)
-    end
-  end
 end
