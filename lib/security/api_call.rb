@@ -18,8 +18,10 @@ module Figo
   # @param options [Object] - further options (all are optional)
   #   @param options.account_id [String] - ID of the account for which to retrieve the securities
   #   @param options.accounts [Array] - filter the securities to be only from these accounts
-  #   @param options.since [Date] - ISO date filtering the returned securities by their creation or last modification date
-  #   @param options.since_type [String] - defines hot the `since` will be interpreted: `traded`, `created` or `modified`
+  #   @param options.since [Date] - ISO date filtering the returned securities by
+  #                                 their creation or last modification date
+  #   @param options.since_type [String] - defines hot the `since` will
+  #                                        be interpreted: `traded`, `created` or `modified`
   #   @param options.count [Number] - limit the number of returned transactions
   #   @param options.offset [Number] - offset into the implicit list of transactions
   # @return [Security] - An array of `Security` objects.
@@ -27,12 +29,18 @@ module Figo
     options ||= {}
     options['count'] ||= 1000
     options['offset'] ||= 0
-    if !options['account_id']
+    if options['account_id'].nil? || options['account_id'].empty?
       query_api_object Security, '/rest/securities?' + URI.encode_www_form(options), nil, 'GET', 'securities'
     else
       account_id = options['account_id']
       options.delete('account_id')
-      query_api_object Security, '/rest/accounts/' + account_id + '/securities?' + URI.encode_www_form(options), nil, 'GET', 'securities'
+      query_api_object(
+        Security,
+        "/rest/accounts/#{account_id}/securities?#{URI.encode_www_form(options)}",
+        nil,
+        'GET',
+        'securities'
+      )
     end
   end
 

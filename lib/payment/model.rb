@@ -70,7 +70,8 @@ module Figo
     # @return [DateTime]
     attr_accessor :modification_timestamp
 
-    # ID of the transaction corresponding to this payment. This field is only set if the payment has been matched to a transaction
+    # ID of the transaction corresponding to this payment.
+    # This field is only set if the payment has been matched to a transaction
     # @return [String]
     attr_accessor :transaction_id
   end

@@ -37,7 +37,7 @@ class FigoTest < MiniTest::Unit::TestCase
   ##  Payments
   # Retrieve all Payments
   def test_retrieve_all_payments
-    session = figo_session(scope = 'accounts=rw user=rw payments=rw')
+    session = figo_session('accounts=rw user=rw payments=rw')
     payments = session.payments
     assert payments.instance_of?(Array)
   end

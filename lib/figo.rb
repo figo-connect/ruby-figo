@@ -23,19 +23,15 @@
 #
 
 require 'json'
-require 'yaml'
+require 'active_support/core_ext/object/to_query'
 
 require_relative './helpers/https.rb'
 require_relative './helpers/error.rb'
-
 require_relative './authentification/api_call.rb'
-
-require 'active_support/core_ext/object/to_query'
 
 # Ruby bindings for the figo Connect API: http://developer.figo.me
 module Figo
-  $config = YAML.load_file(File.join(__dir__, '../config.yml'))
-  $api_endpoint = $config['API_ENDPOINT']
+  API_ENDPOINT = 'api-preview.figo.me'
 
   # Represents a non user-bound connection to the figo Connect API.
   #
@@ -50,12 +46,11 @@ module Figo
     # @param client_id [String] the client ID
     # @param client_secret [String] the client secret
     # @param redirect_uri [String] optional redirect URI
-    def initialize(client_id, client_secret, redirect_uri = nil, api_endpoint = $api_endpoint)
+    def initialize(client_id, client_secret, redirect_uri = nil)
       @client_id = client_id
       @client_secret = client_secret
       @redirect_uri = redirect_uri
       @https = HTTPS.new("figo-#{client_id}", nil)
-      @api_endpoint = api_endpoint
     end
 
     # Helper method for making a OAuth 2.0 request.
@@ -64,7 +59,7 @@ module Figo
     # @param data [Hash] this optional object will be used as url-encoded POST content.
     # @return [Hash] JSON response
     def query_api(path, data = nil, method = 'POST')
-      uri = URI("https://#{@api_endpoint}#{path}")
+      uri = URI("https://#{API_ENDPOINT}#{path}")
 
       # Setup HTTP request.
       request = method == 'POST' ? Net::HTTP::Post.new(path) : Net::HTTP::Get.new(path)
@@ -89,7 +84,7 @@ module Figo
     end
 
     def get_version
-      query_api '/version', data = nil, method = 'GET'
+      query_api '/version', nil, 'GET'
     end
   end
 
@@ -142,10 +137,9 @@ module Figo
     # Create session object with access token.
     #
     # @param access_token [String] the access token
-    def initialize(access_token, api_endpoint = $api_endpoint)
+    def initialize(access_token)
       @access_token = access_token
       @https = HTTPS.new("figo-#{access_token}", nil)
-      @api_endpoint = api_endpoint
     end
 
     # Helper method for making a REST request.
@@ -155,7 +149,7 @@ module Figo
     # @param method [String] the HTTP method
     # @return [Hash] JSON response
     def query_api(path, data = nil, method = 'GET') # :nodoc:
-      uri = URI("https://#{@api_endpoint}#{path}")
+      uri = URI("https://#{API_ENDPOINT}#{path}")
 
       # Setup HTTP request.
       request = case method
@@ -167,7 +161,7 @@ module Figo
                   Net::HTTP::Delete.new(path)
                 else
                   Net::HTTP::Get.new(path)
-      end
+                end
 
       request['Authorization'] = "Bearer #{@access_token}"
       request['Accept'] = 'application/json'

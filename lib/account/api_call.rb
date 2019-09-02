@@ -21,12 +21,14 @@ module Figo
   #
   # @param account [Account, String] the account to be removed or its ID
   def remove_account(account)
-    query_api account.is_a?(String) ? "/rest/accounts/#{account}" : "/rest/accounts/#{account.account_id}", nil, 'DELETE'
+    path = account.is_a?(String) ? "/rest/accounts/#{account}" : "/rest/accounts/#{account.account_id}"
+    query_api path, nil, 'DELETE'
   end
 
   # # Set bank account sort order
   # #
-  # # @param accounts [Array] List of JSON objects with the field account_id set to the internal figo Connect account ID (the accounts will be sorted in the list order)
+  # # @param accounts [Array] List of JSON objects with the field account_id
+  # #   set to the internal figo Connect account ID (the accounts will be sorted in the list order)
   # def account_sort_order (accounts)
   #   query_api "/rest/accounts", accounts, "PUT"
   # end

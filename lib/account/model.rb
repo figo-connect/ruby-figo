@@ -82,7 +82,8 @@ module Figo
     #
     # @param since [String, Date] this parameter can either be a transaction ID or a date
     # @param count [Integer] limit the number of returned transactions
-    # @param offset [Integer] which offset into the result set should be used to determin the first transaction to return (useful in combination with count)
+    # @param offset [Integer] which offset into the result set should be used to determin
+    #        the first transaction to return (useful in combination with count)
     # @param include_pending [Boolean] this flag indicates whether pending transactions should be included
     #        in the response; pending transactions are always included as a complete set, regardless of
     #        the `since` parameter

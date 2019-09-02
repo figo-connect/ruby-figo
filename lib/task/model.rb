@@ -29,7 +29,8 @@ module Figo
     # @param is_waiting_for_pin [Boolean] - The figo Connect server is waiting for PIN
     attr_accessor :is_waiting_for_pin
 
-    # @param is_waiting_for_response [Boolean] - The figo Connect server is waiting for a response to the parameter challenge
+    # @param is_waiting_for_response [Boolean] - The figo Connect server is waiting for
+    #                                            a response to the parameter challenge
     attr_accessor :is_waiting_for_response
 
     # @param is_erroneous [Boolean] - An error occured and the figo Connect server is waiting for continuation

@@ -17,7 +17,7 @@ Now you can create a new session and access data:
 ```ruby
 require "figo"
 
-session = Figo::Session.new("ASHWLIkouP2O6_bgA2wWReRhletgWKHYjLqDaqb0LFfamim9RjexTo22ujRIP_cjLiRiSyQXyt2kM1eXU2XLFZQ0Hro15HikJQT_eNeT_9XQ")
+session = Figo::Session.new(<acces_token>)
 
 # Print out list of account numbers and balances.
 session.accounts.each do |account|
@@ -31,45 +31,28 @@ session.get_account("A1.1").transactions.each do |transaction|
 end
 ```
 
-It is just as simple to allow users to login through the API:
-
 ```ruby
-require "figo"
-require "launchy"
+require 'figo'
+require 'launchy'
 
-connection = Figo::Connection.new("<client ID>", "<client secret>", "http://my-domain.org/redirect-url")
+connection = Figo::Connection.new(<client_id>, <client_secret>)
 
-def start_login
-  # Open webbrowser to kick of the login process.
-  Launchy.open(connection.login_url("qweqwe"))
-end
+# Trade in user credentials, refresh token or authorization code for access token.
+token_hash = connection.user_credential_request(<username>, <password>) # or..
+token_hash = connection.refresh_token_request(<refresh_token>) # or..
+token_hash = connection.authorization_code_request(<authorization_code>, <redirect_uri>)
 
-def process_redirect(authorization_code, state)
-  # Handle the redirect URL invocation from the initial start_login call.
+# Start session.
+session = Figo::Session.new(token_hash['access_token'])
 
-  # Ignore bogus redirects.
-  if state != "qweqwe"
-    return
-  end
-
-  # Trade in authorization code for access token.
-  token_hash = connection.obtain_access_token(authorization_code)
-
-  # Start session.
-  session = Figo::Session.new(token_hash["access_token"])
-
-  # Print out list of account numbers.
-  session.accounts.each do |account|
-    puts account.account_number
-  end
-end
+# Retrieve data
+session.accounts.each do |account|
+  puts account.account_number
+  ...
+}
 ```
 
 You can find more documentation at http://rubydoc.info/github/figo-connect/ruby-figo/master/frames
-
-Demos
------
-In this repository you can also have a look at a simple console(`console_demo.rb`) and web demo(`web_demo`). While the console demo simply accesses the figo API, the web demo implements the full OAuth flow.
 
 Requirements
 ------------
