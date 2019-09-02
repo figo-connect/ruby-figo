@@ -12,29 +12,10 @@ First, you've to install the gem:
 gem install figo
 ```
 
-Now you can create a new session and access data:
-
-```ruby
-require "figo"
-
-session = Figo::Session.new(<acces_token>)
-
-# Print out list of account numbers and balances.
-session.accounts.each do |account|
-  puts account.account_number
-  puts account.balance.balance
-end
-
-# Print out the list of all transaction originators/recipients of a specific account.
-session.get_account("A1.1").transactions.each do |transaction|
-  puts transaction.name
-end
-```
+Now you can retrieve data with an user bound session
 
 ```ruby
 require 'figo'
-require 'launchy'
-
 connection = Figo::Connection.new(<client_id>, <client_secret>)
 
 # Trade in user credentials, refresh token or authorization code for access token.
@@ -53,8 +34,3 @@ session.accounts.each do |account|
 ```
 
 You can find more documentation at http://rubydoc.info/github/figo-connect/ruby-figo/master/frames
-
-Requirements
-------------
-
-This gem requires Ruby 1.9.
