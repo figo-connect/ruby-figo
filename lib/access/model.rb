@@ -6,10 +6,6 @@ module Figo
   class Access < Base
     @dump_attributes = []
 
-    def initialize(session, json)
-      super(session, json)
-    end
-
     # Figo ID of the access
     # @return [String]
     attr_accessor :id
