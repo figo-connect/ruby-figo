@@ -186,5 +186,11 @@ module Figo
 
       response[array_name].map { |entry| type.new(self, entry) }
     end
+
+    def encodeOptions(options)
+      options.delete_if { |k, v| v.nil? }.to_query
+      optionsEncoded = URI.encode_www_form(options)
+      return optionsEncoded
+    end
   end
 end
