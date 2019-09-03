@@ -22,22 +22,18 @@
 # THE SOFTWARE.
 #
 
-require 'flt'
-require 'minitest/autorun'
-require 'minitest/reporters'
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-require_relative '../lib/figo'
 require_relative 'setup'
 
-class FigoTest < MiniTest::Unit::TestCase
+class FigoTest < MiniTest::Spec
   include Setup
 
-  i_suck_and_my_tests_are_order_dependent!
+  before { create_user }
+  after { destroy_user }
 
   ##  Payments
   # Retrieve all Payments
   def test_retrieve_all_payments
-    session = figo_session(scope = 'accounts=rw user=rw payments=rw')
+    session = figo_session('accounts=rw user=rw payments=rw')
     payments = session.payments
     assert payments.instance_of?(Array)
   end

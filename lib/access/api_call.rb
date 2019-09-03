@@ -17,7 +17,7 @@ module Figo
   # @return [Access] access object created
   def add_access(access_method_id, credentials, consent)
     data = { access_method_id: access_method_id, credentials: credentials, consent: consent }
-    query_api('/rest/accesses', data = data, method = 'POST')
+    query_api('/rest/accesses', data, 'POST')
   end
 
   # Retrieve specific access.
@@ -25,7 +25,7 @@ module Figo
   # @param access_id [String] ID of the access to be retrieved.
   # @return [Access] access object
   def get_access(access_id)
-    query_api_object Access, "/rest/accesses/#{access_id}", method = 'GET'
+    query_api_object Access, "/rest/accesses/#{access_id}", 'GET'
   end
 
   # Remove stored PIN.

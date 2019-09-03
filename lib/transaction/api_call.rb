@@ -27,6 +27,15 @@ module Figo
   #                                 be included in the response. Pending transactions are always
   #                                 included as a complete set, regardless of the `since` parameter.
   #           include_statistics (bool): Includes statistics on the returned transactionsif true, Default: false.
+=======
+  # @param account_id [String] ID of the account for which to list the transactions
+  # @param since [String, Date] this parameter can either be a transaction ID or a date
+  # @param count [Integer] limit the number of returned transactions
+  # @param offset [Integer] which offset into the result set should be used to determin the first
+  #                         transaction to return (useful in combination with count)
+  # @param include_pending [Boolean] this flag indicates whether pending transactions should be included
+  #        in the response; pending transactions are always included as a complete set, regardless of
+  #        the `since` parameter
   # @return [Array] an array of `Transaction` objects, one for each transaction of the user
   def list_transactions(options)
     path =  "/rest/transactions?#{encodeOptions options}"

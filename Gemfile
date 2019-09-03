@@ -4,9 +4,9 @@ source 'http://rubygems.org'
 
 gemspec
 
-gem 'activesupport', '~> 6.0'
+gem 'activesupport', '~> 5.2.3'
 gem 'minitest'
 gem 'minitest-reporters'
-gem 'net-http-persistent', '>= 3.0.0'
+gem 'net-http-persistent'
 gem 'rake'
 gem 'rubocop'

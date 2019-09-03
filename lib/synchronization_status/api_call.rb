@@ -8,9 +8,10 @@ module Figo
   # @param state [String] This string will be passed on through the complete synchronization process
   # @return [String] The result parameter is the URL to be opened by the user.
   def get_sync_url(redirect_uri, state)
-    res = query_api '/rest/sync', { redirect_uri: redirect_uri, state: state }.to_query, 'POST'
+    data = { redirect_uri: redirect_uri, state: state }.to_query
+    res = query_api '/rest/sync', data, 'POST'
 
-    'https://' + Config.api_endpoint + '/task/start?id=' + res['task_token']
+    "https://#{API_ENDPOINT}/task/start?id=#{res['task_token']}"
   end
 
   # Retrieve the URL a user should open in the web browser to start the synchronization process.
@@ -22,8 +23,9 @@ module Figo
   # @param if_not_synced_since [Integer] if this parameter is set, only those accounts will be
   #        synchronized, which have not been synchronized within the specified number of minutes.
   # @return [String] the URL to be opened by the user.
-  def sync_url(redirect_uri, state, if_not_synced_since = 0)
-    response = query_api '/rest/sync', { 'redirect_uri' => redirect_uri, 'state' => state, 'if_not_synced_since' => if_not_synced_since }, 'POST'
-    "https://#{$api_endpoint}/task/start?id=#{response['task_token']}"
+  def sync_url(redirect_uri, state, if_not_synced_since)
+    data = { redirect_uri: redirect_uri, state: state, if_not_synced_since: if_not_synced_since }.to_query
+    response = query_api '/rest/sync', data, 'POST'
+    "https://#{API_ENDPOINT}/task/start?id=#{response['task_token']}"
   end
 end

@@ -37,6 +37,8 @@ module Figo
   #
   # @param notification [Notification, String] notification object which should be deleted or its ID
   def remove_notification(notification)
-    query_api notification.is_a?(String) ? "/rest/notifications/#{notification}" : "/rest/notifications/#{notification.notification_id}", nil, 'DELETE'
+    path = '/rest/notifications/'
+    path += notification.is_a?(String) ? notification : notification.notification_id
+    query_api path, nil, 'DELETE'
   end
 end

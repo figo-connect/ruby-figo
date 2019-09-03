@@ -6,10 +6,6 @@ module Figo
   class StandingOrder < Base
     @dump_attributes = []
 
-    def initialize(session, json)
-      super(session, json)
-    end
-
     # Name of creditor or debtor
     # @return [String]
     attr_accessor :name
@@ -34,13 +30,10 @@ module Figo
     # @return [Number]
     attr_accessor :execution_day
 
-    # The interval the standing order gets executed (possible values are weekly, monthly, two monthly, quarterly, half yearly and yearly)
+    # The interval the standing order gets executed (possible values are weekly, monthly,
+    # two monthly, quarterly, half yearly and yearly)
     # @return [String]
     attr_accessor :interval
-
-    # Name of recipient
-    # @return [String]
-    attr_accessor :name
 
     # Account number recipient
     # @return [String]

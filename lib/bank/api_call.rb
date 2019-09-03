@@ -22,7 +22,8 @@ module Figo
   # @param bank [Bank, String] the bank whose stored PIN should be removed or its ID
   # @return [nil]
   def remove_bank_pin(bank)
-    query_api bank.is_a?(String) ? "/rest/banks/#{bank}/remove_pin" : "/rest/banks/#{bank.bank_id}/remove_pin", nil, 'POST'
+    path = bank.is_a?(String) ? "/rest/banks/#{bank}/remove_pin" : "/rest/banks/#{bank.bank_id}/remove_pin"
+    query_api path, nil, 'POST'
   end
 
   # Get bank information from standard bank code

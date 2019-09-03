@@ -22,20 +22,10 @@
 # THE SOFTWARE.
 #
 
-require 'flt'
-require 'minitest/autorun'
-require 'minitest/reporters'
-
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-require_relative '../lib/figo'
 require_relative 'setup'
 
-class FigoTest < MiniTest::Unit::TestCase
+class FigoTest < MiniTest::Spec
   include Setup
-
-  def setup
-    super(no_user = true)
-  end
 
   def test_user_management
     assert create_user # Create User

@@ -19,7 +19,8 @@ module Figo
   # Get all standing orders.
   # @param cents [Boolean] - whether to show the balance in cents, Optional, default: false
   # @param account_id [String] - ID of account, Optional
-  # @param accounts [Array] - ID of accounts to retreived the standing orders, Optional, (cannot be used with account_id)
+  # @param accounts [Array] - ID of accounts to retreived the standing orders, Optional,
+  #                           (cannot be used with account_id)
   # @return [StandingOrder] a list of `standing_order` objects.
   def get_standing_orders(account_id = nil, cents = false, accounts = nil)
     if account_id.nil?
@@ -47,6 +48,6 @@ module Figo
            else
              "/rest/accounts/#{account_id}/standing_orders"
            end
-    query_api "/rest/accounts/#{account_id}/standing_orders", nil, 'DELETE'
+    query_api path, nil, 'DELETE'
   end
 end

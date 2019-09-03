@@ -6,10 +6,6 @@ module Figo
   class Notification < Base
     @dump_attributes = %i[observe_key notify_uri state]
 
-    def initialize(session, json)
-      super(session, json)
-    end
-
     # Internal figo Connect notification ID from the notification registration response
     # @return [String]
     attr_accessor :notification_id

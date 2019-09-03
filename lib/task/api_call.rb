@@ -14,14 +14,16 @@ module Figo
   # @param task [Object] - Task object
   # @param options [Object] - further options (optional)
   #    @param options.pin [Boolean] - submit PIN
-  #    @param options.continue [Boolean] - this flag signals to continue after an error condition or to skip a PIN or challenge-response entry
-  #    @param options.save_pin [Boolean] - this flag indicates whether the user has chosen to save the PIN on the figo Connect server
+  #    @param options.continue [Boolean] - this flag signals to continue after an error condition or
+  #                                        to skip a PIN or challenge-response entry
+  #    @param options.save_pin [Boolean] - this flag indicates whether the user has chosen to
+  #                                        save the PIN on the figo Connect server
   #    @param options.response [Boolean] - submit response to challenge
   # @return [TaskState] The result parameter is a TaskState object which represents the current status of the task.
   def get_task_state(task, options)
     options ||= {}
     options['id'] = task['task_token']
-    options.save_pin ||= 0 if options.pin
+    options.save_pin ||= 0 if options['pin']
     options.continue ||= 0
 
     query_api_object TaskState, '/task/progress?id=' + task.task_token, options.to_query, 'POST', nil
