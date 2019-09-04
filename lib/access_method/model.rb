@@ -1,19 +1,11 @@
 # frozen_string_literal: true
 
-require_relative '../base.rb'
-
 module Figo
-  class AccessMethod < Base
-    @dump_attributes = %i[
-      id in_psd2_scope type supported_account_types configurable_consent
-      requires_account_identifiers customer_authentication_flows advice
-      credentials
-    ]
-
+  class AccessMethod
     def initialize(hash)
       hash.keys.each do |key|
         send("#{key}=", hash[key])
-      end
+      end unless hash.nil? || hash.empty?
     end
 
     # @return [String] figo ID of the provider access method.

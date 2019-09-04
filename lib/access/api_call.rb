@@ -6,7 +6,7 @@ module Figo
   #
   # @return [Array] an array of `Access` objects, one for each access of the user
   def accesses
-    query_api_object Access, '/rest/accesses', nil, 'GET', 'access'
+    query_api_object Access, '/rest/accesses', nil, 'GET'
   end
 
   # Create access associated with account
@@ -15,8 +15,9 @@ module Figo
   # @param credentials [Object] Credentials used for authentication with the financial service provider.
   # @param consent [Object] Configuration of the PSD2 consents
   # @return [Access] access object created
-  def add_access(access_method_id, credentials, consent)
+  def add_access(access_method_id, credentials = nil, consent = nil)
     data = { access_method_id: access_method_id, credentials: credentials, consent: consent }
+    data = data.delete_if { |_, v| v.nil? || v.empty? }
     query_api('/rest/accesses', data, 'POST')
   end
 

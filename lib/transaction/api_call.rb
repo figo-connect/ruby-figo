@@ -27,7 +27,6 @@ module Figo
   #                                 be included in the response. Pending transactions are always
   #                                 included as a complete set, regardless of the `since` parameter.
   #           include_statistics (bool): Includes statistics on the returned transactionsif true, Default: false.
-=======
   # @param account_id [String] ID of the account for which to list the transactions
   # @param since [String, Date] this parameter can either be a transaction ID or a date
   # @param count [Integer] limit the number of returned transactions
@@ -38,7 +37,8 @@ module Figo
   #        the `since` parameter
   # @return [Array] an array of `Transaction` objects, one for each transaction of the user
   def list_transactions(options)
-    path =  "/rest/transactions?#{encodeOptions options}"
+    query_params = options.delete_if { |_, v| v.nil? }.to_query
+    path =  "/rest/transactions?#{query_params}"
     query_api_object Transaction, path, nil, "GET", "transactions"
   end
 
@@ -69,7 +69,8 @@ module Figo
   #           include_statistics (bool): Includes statistics on the returned transactionsif true, Default: false.
   # @return [Array] an array of `Transaction` objects, one for each transaction of the user
   def list_transactions_of_account(account_id, options)
-    path = "/rest/accounts/#{account_id}/transactions?#{encodeOptions options}"
+    query_params = options.delete_if { |_, v| v.nil? }.to_query
+    path = "/rest/accounts/#{account_id}/transactions?#{query_params}"
     query_api_object Transaction, path, nil, "GET", "transactions"
   end
 

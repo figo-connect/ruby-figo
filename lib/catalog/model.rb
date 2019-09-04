@@ -11,18 +11,19 @@ module Figo
     def initialize(session, hash)
       hash.keys.each do |key|
         send("#{key}=", hash[key])
-      end
+      end unless hash.nil? || hash.empty?
     end
 
-    # List of banks
-    # @return [Array]
+    # @return [Array] List of banks
     attr_reader :banks
     def banks=(array)
       @banks = array.map { |hash| Figo::Bank.new(hash) }
     end
 
-    # List of services
-    # @return [Array]
-    attr_accessor :services
+    # @return [Array] List of services
+    attr_reader :services
+    def services=(array)
+      @services = array.map { |hash| Figo::Service.new(hash) }
+    end
   end
 end

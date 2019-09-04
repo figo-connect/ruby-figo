@@ -6,10 +6,6 @@ module Figo
   class Transaction < Base
     @dump_attributes = []
 
-    def initialize(session, json)
-      super(session, json)
-    end
-
     # Internal figo Connect transaction ID
     # @return [String]
     attr_accessor :transaction_id
