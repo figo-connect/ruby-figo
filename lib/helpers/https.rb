@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'net/http/persistent'
+
 module Figo
   # HTTPS class with certificate authentication and enhanced error handling.
   class HTTPS < Net::HTTP::Persistent
@@ -20,8 +21,8 @@ module Figo
       when Net::HTTPSuccess
         return response
       when Net::HTTPBadRequest
-        hash = JSON.parse(response.body)
-        raise Error.new(hash['error'], hash['error']['description'])
+        parsed_response = JSON.parse(response.body)
+        raise Error.new(parsed_response['error'], parsed_response['error']['description'])
       when Net::HTTPUnauthorized
         raise Error.new('unauthorized', 'Missing, invalid or expired access token.')
       when Net::HTTPForbidden
@@ -33,7 +34,8 @@ module Figo
       when Net::HTTPServiceUnavailable
         raise Error.new('service_unavailable', 'Exceeded rate limit.')
       else
-        raise Error.new('internal_server_error', 'We are very sorry, but something went wrong.')
+        parsed_response = JSON.parse(response.body)
+        raise Error.new(parsed_response['error'], parsed_response['error']['description'])
       end
     end
   end

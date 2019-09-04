@@ -111,6 +111,10 @@ module Figo
     require_relative './payment/model.rb'
     require_relative './payment/api_call.rb'
 
+    require_relative './strong_customer_authentication/auth_method/model.rb'
+    require_relative './strong_customer_authentication/synchronization_challenge/model.rb'
+    require_relative './strong_customer_authentication/api_call.rb'
+
     require_relative './synchronization_status/model.rb'
     require_relative './synchronization_status/api_call.rb'
 
