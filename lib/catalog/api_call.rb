@@ -14,7 +14,7 @@ module Figo
   # @params objects [Enum] "banks" or "services", decide what is included in the api response.
   #         If not specified, it returns both
   # @return [Catalog] modified bank object returned by server
-  def get_supported_payment_services(q: nil, country: nil, objects: nil)
+  def list_complete_catalog(q: nil, country: nil, objects: nil)
     list_catalog(q, country, complete_path("#{@prefix}/catalog", objects))
   end
 

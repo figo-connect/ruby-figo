@@ -28,17 +28,17 @@ class FigoTest < MiniTest::Spec
   ##   Account Setup & Synchronization
   # Retrieve List of Supported Banks, Credit Cards, other Payment Services
   def test_retrieve_list_of_supported_baks_cards_services
-    assert_nil figo_session.get_supported_payment_services('DE', 'whatever')
+    assert_nil figo_session.list_complete_catalog('DE', 'whatever')
   end
 
   # Retrieve List of Supported Credit Cards and other Payment Services
   def test_retrieve_list_of_supported_cards_services
-    assert_nil figo_session.get_supported_payment_services('DE', 'services')
+    assert_nil figo_session.list_complete_catalog('DE', 'services')
   end
 
   # Retrieve List of all Supported Banks
   def test_retreive_list_of_all_supported_banks
-    assert_raises(Figo::Error) { figo_session.get_supported_payment_services('DE', 'banks') }
+    assert_raises(Figo::Error) { figo_session.list_complete_catalog('DE', 'banks') }
   end
 
   # Retrieve Login Settings for a Bank or Service
