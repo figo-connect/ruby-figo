@@ -6,10 +6,6 @@ module Figo
   class Account < Base
     @dump_attributes = %i[name owner auto_sync]
 
-    def initialize(session, json)
-      super(session, json)
-    end
-
     # Internal figo Connect account ID
     # @return [String]
     attr_accessor :account_id

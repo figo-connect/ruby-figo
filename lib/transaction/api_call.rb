@@ -38,8 +38,8 @@ module Figo
   # @return [Array] an array of `Transaction` objects, one for each transaction of the user
   def list_transactions(options)
     query_params = options.delete_if { |_, v| v.nil? }.to_query
-    path =  "/rest/transactions?#{query_params}"
-    query_api_object Transaction, path, nil, "GET", "transactions"
+    path = "/rest/transactions?#{query_params}"
+    query_api_object Transaction, path, nil, 'GET', 'transactions'
   end
 
   # Retrieve list of transactions (on a specific account)
@@ -71,7 +71,7 @@ module Figo
   def list_transactions_of_account(account_id, options)
     query_params = options.delete_if { |_, v| v.nil? }.to_query
     path = "/rest/accounts/#{account_id}/transactions?#{query_params}"
-    query_api_object Transaction, path, nil, "GET", "transactions"
+    query_api_object Transaction, path, nil, 'GET', 'transactions'
   end
 
   # Retrieve a specific transaction

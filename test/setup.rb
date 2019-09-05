@@ -36,7 +36,7 @@ module Setup
   end
 
   def create_user
-    figo_connection.create_user(email: username, password: password, language: 'en', full_name: 'Ruby Test')
+    figo_connection.create_user(username, password, 'Ruby Test', 'en')
   end
 
   def destroy_user

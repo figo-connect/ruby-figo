@@ -29,7 +29,7 @@ class FigoTest < MiniTest::Spec
 
   # Retrieve Transactions of all Accounts
   def test_retreive_transactions_of_all_accounts
-    options = {cents: true, accounts: nil}
+    options = { cents: true, accounts: nil }
     transactions = figo_session.list_transactions(options)
     assert transactions.instance_of?(Array)
   end

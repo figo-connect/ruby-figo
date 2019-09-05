@@ -11,10 +11,6 @@ module Figo
       purchase_price_currency visited
     ]
 
-    def initialize(session, json)
-      super(session, json)
-    end
-
     # Name of creditor or debtor
     # @return [String]
     attr_accessor :name

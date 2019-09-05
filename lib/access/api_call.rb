@@ -16,9 +16,11 @@ module Figo
   # @param consent [Object] Configuration of the PSD2 consents
   # @return [Access] access object created
   def add_access(access_method_id, credentials = nil, consent = nil)
-    data = { access_method_id: access_method_id, credentials: credentials, consent: consent }
-    data = data.delete_if { |_, v| v.nil? || v.empty? }
-    query_api('/rest/accesses', data, 'POST')
+    data = { access_method_id: access_method_id }
+    data[:credentials] = credentials if credentials
+    data[:consent] = consent if consent
+    
+    query_api_object Access, '/rest/accesses', data, 'POST'
   end
 
   # Retrieve specific access.
@@ -34,6 +36,6 @@ module Figo
   # @param access_id [String] ID of the access to remove the PIN for.
   # @return [Access] access object
   def remove_pin(access_id)
-    query_api "/rest/accesses/#{access_id}/remove_pin", nil, 'DELETE'
+    query_api_object Access, "/rest/accesses/#{access_id}/remove_pin", nil, 'DELETE'
   end
 end

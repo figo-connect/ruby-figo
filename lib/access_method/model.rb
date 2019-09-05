@@ -3,9 +3,11 @@
 module Figo
   class AccessMethod
     def initialize(hash)
-      hash.keys.each do |key|
-        send("#{key}=", hash[key])
-      end unless hash.nil? || hash.empty?
+      unless hash.nil?
+        hash.keys.each do |key|
+          send("#{key}=", hash[key])
+        end
+      end
     end
 
     # @return [String] figo ID of the provider access method.

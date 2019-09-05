@@ -1,11 +1,15 @@
+# frozen_string_literal: true
+
 require_relative '../access_method/model'
 
 module Figo
   class Service
-    def initialize(hash)
-      hash.keys.each do |key|
-        send("#{key}=", hash[key])
-      end unless hash.nil? || hash.empty?
+    def initialize(_, hash)
+      unless hash.nil?
+        hash.keys.each do |key|
+          send("#{key}=", hash[key])
+        end
+      end
     end
 
     # @return [String] figo ID of financial service provider.
@@ -21,7 +25,7 @@ module Figo
     attr_accessor :supported
 
     # @return [String] Country in which the financial service provider operates.
-    attr_accessor :country 
+    attr_accessor :country
 
     # @return [Object]
     attr_accessor :language

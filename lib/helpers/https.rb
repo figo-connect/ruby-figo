@@ -20,9 +20,6 @@ module Figo
       case response
       when Net::HTTPSuccess
         return response
-      when Net::HTTPBadRequest
-        parsed_response = JSON.parse(response.body)
-        raise Error.new(parsed_response['error'], parsed_response['error']['description'])
       when Net::HTTPUnauthorized
         raise Error.new('unauthorized', 'Missing, invalid or expired access token.')
       when Net::HTTPForbidden

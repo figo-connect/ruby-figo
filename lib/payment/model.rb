@@ -6,10 +6,6 @@ module Figo
   class Payment < Base
     @dump_attributes = %i[type name account_number bank_code amount currency purpose]
 
-    def initialize(session, json)
-      super(session, json)
-    end
-
     # Internal figo Connect payment ID
     # @return [String]
     attr_accessor :payment_id

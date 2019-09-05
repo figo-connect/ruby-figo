@@ -5,9 +5,6 @@ module Figo
   class TaskToken < Base
     @dump_attributes = [:task_token]
 
-    def initialize(session, json)
-      super(session, json)
-    end
     # Name of creditor or debtor
     # @param task_token [Hash] - Task ID
     attr_accessor :task_token
@@ -15,10 +12,6 @@ module Figo
 
   class TaskState < Base
     @dump_attributes = %i[account_id message is_waiting_for_pin is_waiting_for_response is_erroneous is_ended challenge]
-
-    def initialize(session, json)
-      super(session, json)
-    end
 
     # @param account_id [String] - Account ID of currently processed accoount
     attr_accessor :account_id

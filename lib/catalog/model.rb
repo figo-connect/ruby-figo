@@ -9,7 +9,7 @@ module Figo
     @dump_attributes = %i[banks services]
 
     def initialize(_session, hash)
-      unless hash.nil? || hash.empty?
+      unless hash.nil?
         hash.keys.each do |key|
           send("#{key}=", hash[key])
         end

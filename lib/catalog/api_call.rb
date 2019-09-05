@@ -31,12 +31,4 @@ module Figo
     path = '/catalog/services'
     query_api_object(Service, parameterized_path(path, options), nil, 'GET', 'services')
   end
-
-  private
-
-  def parameterized_path(path, options)
-    hash = options.delete_if { |_, v| v.nil? }
-    query_params = hash.to_a.map { |e| e.join('=') }.join('&')
-    query_params.empty? ? path : "#{path}?#{query_params}"
-  end
 end

@@ -34,7 +34,7 @@ module Figo
   # @param password [String] New figo Account password; It must obey the figo username & password policy
   # @param language [String] Two-letter code of preferred language
   # @return [Hash]  an object with the key `recovery_password` as documented in the figo Connect API specification.
-  def create_user(full_name:, email:, password:, language:)
+  def create_user(email, password, full_name = nil, language = nil)
     options = { email: email, password: password }
     options[:language] = language if language
     options[:full_name] = full_name if full_name

@@ -6,10 +6,6 @@ module Figo
   class AccountBalance < Base
     @dump_attributes = %i[credit_line monthly_spending_limit]
 
-    def initialize(session, json)
-      super(session, json)
-    end
-
     # Account balance or `nil` if the balance is not yet known
     # @return [DecNum]
     attr_accessor :balance
