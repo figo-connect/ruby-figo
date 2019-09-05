@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'flt'
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'securerandom'

@@ -74,7 +74,7 @@ class FigoTest < MiniTest::Spec
   end
 
   def notification
-    @notification ||= Figo::Notification.new(
+    @notification ||= Figo::Model::Notification.new(
       figo_session,
       observe_key: '/rest/transactions',
       notify_uri: 'http://figo.me/test',

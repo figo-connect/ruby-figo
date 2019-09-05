@@ -26,7 +26,6 @@ require 'active_support/core_ext/object/to_query'
 
 require_relative 'authentification/api_call'
 require_relative 'catalog/api_call'
-require_relative 'catalog/model'
 require_relative 'connection'
 require_relative 'helpers/error'
 require_relative 'helpers/https'

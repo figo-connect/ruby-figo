@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+require_relative '../model/synchronization_status'
 
-require_relative 'model.rb'
 module Figo
   # Retrieve the URL a user should open in the web browser to start the synchronization process.
   #

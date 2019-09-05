@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+require_relative '../model/payment'
 
-require_relative 'model.rb'
 module Figo
   # Retrieve list of all payments (on all accounts or one)
   #
@@ -17,7 +17,7 @@ module Figo
            else
              "/rest/accounts/#{account_id}/payments?#{options}"
            end
-    query_api_object Payment, path, nil, 'GET', 'payments'
+    query_api_object Model::Payment, path, nil, 'GET', 'payments'
   end
 
   # Retrieve specific payment.
@@ -27,7 +27,7 @@ module Figo
   # @param cents [Boolean] If true amounts will be shown in cents, Optional, default: false
   # @return [Payment] `Payment` object for the respective payment
   def get_payment(account_id, payment_id, cents = false)
-    query_api_object Payment, "/rest/accounts/#{account_id}/payments/#{payment_id}?cents=#{cents}"
+    query_api_object Model::Payment, "/rest/accounts/#{account_id}/payments/#{payment_id}?cents=#{cents}"
   end
 
   # Create new payment
@@ -35,7 +35,7 @@ module Figo
   # @param payment [Payment] payment object to be created. It should not have a payment_id set, Required
   # @return [Payment] newly created `Payment` object
   def create_payment(payment)
-    query_api_object Payment, "/rest/accounts/#{payment.account_id}/payments", payment.dump, 'POST'
+    query_api_object Model::Payment, "/rest/accounts/#{payment.account_id}/payments", payment.to_hash, 'POST'
   end
 
   # Modify payment
@@ -43,7 +43,7 @@ module Figo
   # @param payment [Payment] modified payment object, required
   # @return [Payment] modified payment object
   def modify_payment(payment)
-    query_api_object Payment, "/rest/accounts/#{payment.account_id}/payments/#{payment.payment_id}", payment.dump, 'PUT'
+    query_api_object Model::Payment, "/rest/accounts/#{payment.account_id}/payments/#{payment.payment_id}", payment.to_hash, 'PUT'
   end
 
   # Initiate a payment

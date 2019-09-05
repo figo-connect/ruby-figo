@@ -10,8 +10,8 @@ class FigoTest < MiniTest::Spec
     if response
       assert response.services.instance_of? Array
       assert response.banks.instance_of? Array
-      assert response.banks.first.instance_of? Figo::Bank if response.banks.count.positive?
-      assert response.services.first.instance_of? Figo::Service if response.services.count.positive?
+      assert response.banks.first.instance_of? Figo::Model::Bank if response.banks.count.positive?
+      assert response.services.first.instance_of? Figo::Model::Service if response.services.count.positive?
     end
   end
 
@@ -21,8 +21,8 @@ class FigoTest < MiniTest::Spec
     if response
       assert response.services.instance_of? Array
       assert response.banks.instance_of? Array
-      assert response.banks.first.instance_of? Figo::Bank if response.banks.count.positive?
-      assert response.services.first.instance_of? Figo::Service if response.services.count.positive?
+      assert response.banks.first.instance_of? Figo::Model::Bank if response.banks.count.positive?
+      assert response.services.first.instance_of? Figo::Model::Service if response.services.count.positive?
     end
     destroy_user
   end
@@ -32,7 +32,7 @@ class FigoTest < MiniTest::Spec
     response = figo_session.list_services
     if response
       assert response.instance_of? Array
-      assert response.first.instance_of? Figo::Service if response.count.positive?
+      assert response.first.instance_of? Figo::Model::Service if response.count.positive?
     end
     destroy_user
   end
@@ -42,7 +42,7 @@ class FigoTest < MiniTest::Spec
     response = figo_session.list_banks
     if response
       assert response.instance_of? Array
-      assert response.first.instance_of? Figo::Bank if response.count.positive?
+      assert response.first.instance_of? Figo::Model::Bank if response.count.positive?
     end
     destroy_user
   end

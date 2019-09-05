@@ -1,12 +1,12 @@
 # frozen_string_literal: true
+require_relative '../model/bank'
 
-require_relative 'model.rb'
 module Figo
   # Retrieve specific bank
   #
   # @return [Bank] bank object
   def get_bank(bank_id)
-    query_api_object Bank, "/rest/banks/#{bank_id}"
+    query_api_object Model::Bank, "/rest/banks/#{bank_id}"
   end
 
   # Modify bank
@@ -14,7 +14,7 @@ module Figo
   # @param bank [Bank] modified bank object
   # @return [Bank] modified bank object returned by server
   def modify_bank(bank)
-    query_api_object Bank, "/rest/banks/#{bank.bank_id}", bank.dump, 'PUT'
+    query_api_object Model::Bank, "/rest/banks/#{bank.bank_id}", bank.to_hash, 'PUT'
   end
 
   # Remove stored PIN from bank

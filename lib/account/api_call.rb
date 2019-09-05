@@ -1,13 +1,13 @@
 # frozen_string_literal: true
+require_relative '../model/account'
+require_relative '../model/account_balance'
 
-require_relative 'model.rb'
-require_relative '../account_balance/model'
 module Figo
   # Retrieve all accounts
   #
   # @return [Array] an array of `Account` objects, one for each account the user has granted the app access
   def list_accounts
-    query_api_object Account, '/rest/accounts', nil, 'GET', 'accounts'
+    query_api_object Model::Account, '/rest/accounts', nil, 'GET', 'accounts'
   end
 
   # Retrieve specific account.
@@ -15,7 +15,7 @@ module Figo
   # @param account_id [String] ID of the account to be retrieved.
   # @return [Account] account object
   def get_account(account_id, cents = false)
-    query_api_object Account, "/rest/accounts/#{account_id}?cents=#{cents}"
+    query_api_object Model::Account, "/rest/accounts/#{account_id}?cents=#{cents}"
   end
 
   # Remove specific account
@@ -31,6 +31,6 @@ module Figo
   # @param cents [Boolean] If true amounts will be shown in cents.
   # @return [AccountBalance] account balance object
   def get_account_balance(account_id, cents = false)
-    query_api_object AccountBalance, "/rest/accounts/#{account_id}/balance?cents=#{cents}"
+    query_api_object Model::AccountBalance, "/rest/accounts/#{account_id}/balance?cents=#{cents}"
   end
 end

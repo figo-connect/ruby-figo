@@ -1,12 +1,12 @@
 # frozen_string_literal: true
+require_relative '../model/notification'
 
-require_relative 'model.rb'
 module Figo
   # Retrieve list of registered notifications.
   #
   # @return [Notification] an array of `Notification` objects, one for each registered notification
   def notifications
-    query_api_object Notification, '/rest/notifications', nil, 'GET', 'notifications'
+    query_api_object Model::Notification, '/rest/notifications', nil, 'GET', 'notifications'
   end
 
   # Retrieve specific notification.
@@ -14,7 +14,7 @@ module Figo
   # @param notification_id [String] ID of the notification to be retrieved
   # @return [Notification] `Notification` object for the respective notification
   def get_notification(notification_id)
-    query_api_object Notification, "/rest/notifications/#{notification_id}"
+    query_api_object Model::Notification, "/rest/notifications/#{notification_id}"
   end
 
   # Register a new notification.
@@ -22,7 +22,7 @@ module Figo
   # @param notification [Notification] notification to be crated. It should not have a notification_id set.
   # @return [Notification] newly created `Notification` object
   def add_notification(notification)
-    query_api_object Notification, '/rest/notifications', notification.dump, 'POST'
+    query_api_object Model::Notification, '/rest/notifications', notification.to_hash, 'POST'
   end
 
   # Modify notification.
@@ -30,7 +30,7 @@ module Figo
   # @param notification [Notification] modified notification object
   # @return [Notification] modified notification returned by server
   def modify_notification(notification)
-    query_api_object Notification, "/rest/notifications/#{notification.notification_id}", notification.dump, 'PUT'
+    query_api_object Model::Notification, "/rest/notifications/#{notification.notification_id}", notification.to_hash, 'PUT'
   end
 
   # Unregister notification.

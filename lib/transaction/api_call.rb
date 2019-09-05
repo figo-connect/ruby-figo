@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+require_relative '../model/transaction'
 
-require_relative 'model.rb'
 module Figo
   # Retrieve list of transactions (on all accounts)
   #
@@ -39,7 +39,7 @@ module Figo
   def list_transactions(options)
     query_params = options.delete_if { |_, v| v.nil? }.to_query
     path = "/rest/transactions?#{query_params}"
-    query_api_object Transaction, path, nil, 'GET', 'transactions'
+    query_api_object Model::Transaction, path, nil, 'GET', 'transactions'
   end
 
   # Retrieve list of transactions (on a specific account)
@@ -71,7 +71,7 @@ module Figo
   def list_transactions_of_account(account_id, options)
     query_params = options.delete_if { |_, v| v.nil? }.to_query
     path = "/rest/accounts/#{account_id}/transactions?#{query_params}"
-    query_api_object Transaction, path, nil, 'GET', 'transactions'
+    query_api_object Model::Transaction, path, nil, 'GET', 'transactions'
   end
 
   # Retrieve a specific transaction
@@ -82,9 +82,9 @@ module Figo
   # @return [Transaction] transaction object
   def get_transaction(account_id, transaction_id, cents = false)
     if transaction_id.nil?
-      query_api_object Transaction, "/rest/accounts/#{account_id}/transactions?cents=#{cents}"
+      query_api_object Model::Transaction, "/rest/accounts/#{account_id}/transactions?cents=#{cents}"
     else
-      query_api_object Transaction, "/rest/accounts/#{account_id}/transactions/#{transaction_id}?cents=#{cents}"
+      query_api_object Model::Transaction, "/rest/accounts/#{account_id}/transactions/#{transaction_id}?cents=#{cents}"
     end
   end
 end

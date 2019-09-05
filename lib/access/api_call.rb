@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
-require_relative 'model.rb'
+require_relative '../model/access'
+
 module Figo
   # Retrieve all accesses associated with account
   #
   # @return [Array] an array of `Access` objects, one for each access of the user
   def accesses
-    query_api_object Access, '/rest/accesses', nil, 'GET'
+    query_api_object Model::Access, '/rest/accesses', nil, 'GET'
   end
 
   # Create access associated with account
@@ -20,7 +21,7 @@ module Figo
     data[:credentials] = credentials if credentials
     data[:consent] = consent if consent
     
-    query_api_object Access, '/rest/accesses', data, 'POST'
+    query_api_object Model::Access, '/rest/accesses', data, 'POST'
   end
 
   # Retrieve specific access.
@@ -28,7 +29,7 @@ module Figo
   # @param access_id [String] ID of the access to be retrieved.
   # @return [Access] access object
   def get_access(access_id)
-    query_api_object Access, "/rest/accesses/#{access_id}", 'GET'
+    query_api_object Model::Access, "/rest/accesses/#{access_id}", 'GET'
   end
 
   # Remove stored PIN.
@@ -36,6 +37,6 @@ module Figo
   # @param access_id [String] ID of the access to remove the PIN for.
   # @return [Access] access object
   def remove_pin(access_id)
-    query_api_object Access, "/rest/accesses/#{access_id}/remove_pin", nil, 'DELETE'
+    query_api_object Model::Access, "/rest/accesses/#{access_id}/remove_pin", nil, 'DELETE'
   end
 end

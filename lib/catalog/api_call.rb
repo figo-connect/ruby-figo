@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require_relative '../model/catalog'
 
 module Figo
   def self.included(klass)
@@ -17,18 +18,18 @@ module Figo
   def list_complete_catalog(q = nil, country = nil)
     options = { q: q, country: country }
     path = "#{@prefix}/catalog"
-    query_api_object(Catalog, parameterized_path(path, options), nil, 'GET')
+    query_api_object(Model::Catalog, parameterized_path(path, options), nil, 'GET')
   end
 
   def list_banks(q = nil, country = nil)
     options = { q: q, country: country }
     path = '/catalog/banks'
-    query_api_object(Bank, parameterized_path(path, options), nil, 'GET', 'banks')
+    query_api_object(Model::Bank, parameterized_path(path, options), nil, 'GET', 'banks')
   end
 
   def list_services(q = nil, country = nil)
     options = { q: q, country: country }
     path = '/catalog/services'
-    query_api_object(Service, parameterized_path(path, options), nil, 'GET', 'services')
+    query_api_object(Model::Service, parameterized_path(path, options), nil, 'GET', 'services')
   end
 end

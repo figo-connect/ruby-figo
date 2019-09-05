@@ -1,7 +1,5 @@
 # frozen_string_literal: true
-
-require_relative 'model.rb'
-require 'json'
+require_relative '../model/security'
 
 module Figo
   # Retrieve a security.
@@ -10,7 +8,7 @@ module Figo
   # @param security_id [String] - ID of the security to retrieve
   # @return [Security] - A single security object.
   def get_security(account_id, security_id)
-    query_api_object Security, '/rest/accounts/' + account_id + '/securities/' + security_id, nil, 'GET', nil
+    query_api_object Model::Security, '/rest/accounts/' + account_id + '/securities/' + security_id, nil, 'GET', nil
   end
 
   # Retrieve securities of one or all accounts.
@@ -30,12 +28,12 @@ module Figo
     options['count'] ||= 1000
     options['offset'] ||= 0
     if options['account_id'].nil? || options['account_id'].empty?
-      query_api_object Security, '/rest/securities?' + URI.encode_www_form(options), nil, 'GET', 'securities'
+      query_api_object Model::Security, '/rest/securities?' + URI.encode_www_form(options), nil, 'GET', 'securities'
     else
       account_id = options['account_id']
       options.delete('account_id')
       query_api_object(
-        Security,
+        Model::Security,
         "/rest/accounts/#{account_id}/securities?#{URI.encode_www_form(options)}",
         nil,
         'GET',

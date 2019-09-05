@@ -1,11 +1,11 @@
 # frozen_string_literal: true
+require_relative '../model/user'
 
-require_relative 'model.rb'
 module Figo
   # Retrieve current User
   # @return [User] the current user
   def get_user
-    query_api_object User, '/rest/user'
+    query_api_object Model::User, '/rest/user'
   end
 
   # Modify the current user
@@ -13,7 +13,7 @@ module Figo
   # @param user [User] the modified user object to be saved
   # @return [User] the modified user returned
   def modify_user(user)
-    query_api_object User, '/rest/user', user.dump, 'PUT'
+    query_api_object Model::User, '/rest/user', user.to_hash, 'PUT'
   end
 
   # Remove the current user

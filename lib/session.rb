@@ -1,33 +1,18 @@
 # frozen_string_literal: true
 
 require_relative 'access/api_call'
-require_relative 'access/model'
 require_relative 'account/api_call'
-require_relative 'account/model'
-require_relative 'account_balance/model'
 require_relative 'bank/api_call'
-require_relative 'bank/model'
 require_relative 'notification/api_call'
-require_relative 'notification/model'
 require_relative 'payment/api_call'
-require_relative 'payment/model'
 require_relative 'security/api_call'
-require_relative 'security/model'
 require_relative 'standing_order/api_call'
-require_relative 'standing_order/model'
 require_relative 'strong_customer_authentication/api_call'
-require_relative 'strong_customer_authentication/auth_method/model'
-require_relative 'strong_customer_authentication/synchronization_challenge/model'
 require_relative 'sync/api_call'
-require_relative 'sync/model'
 require_relative 'synchronization_status/api_call'
-require_relative 'synchronization_status/model'
 require_relative 'task/api_call'
-require_relative 'task/model'
 require_relative 'transaction/api_call'
-require_relative 'transaction/model'
 require_relative 'user/api_call'
-require_relative 'user/model'
 
 module Figo
   # Represents a user-bound connection to the figo Connect API and allows access to the user's data.

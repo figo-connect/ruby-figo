@@ -26,6 +26,8 @@ require_relative 'setup'
 
 class FigoTest < MiniTest::Spec
   include Setup
+  before { create_user }
+  after { destroy_user }
 
   # Retrieve Transactions of all Accounts
   def test_retreive_transactions_of_all_accounts

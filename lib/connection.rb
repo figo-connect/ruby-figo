@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'json'
+
 module Figo
   # Represents a non user-bound connection to the figo Connect API.
   # Its main purpose is to let user login via OAuth 2.0.

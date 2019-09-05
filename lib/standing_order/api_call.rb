@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+require_relative '../model/standing_order'
 
-require_relative 'model.rb'
 module Figo
   # Retreive a specific standing order.
   # @param standing_order_id [String] - ID of standing order to retreive
@@ -13,7 +13,7 @@ module Figo
            else
              "/rest/accounts/#{account_id}/standing_orders/#{standing_order_id}?cents=#{cents}"
            end
-    query_api_object StandingOrder, path, nil, 'GET', nil
+    query_api_object Model::StandingOrder, path, nil, 'GET', nil
   end
 
   # Get all standing orders.
@@ -29,14 +29,14 @@ module Figo
     else
       path = "/rest/accounts/#{account_id}/standing_orders?cents=#{cents}"
     end
-    query_api_object StandingOrder, path, nil, 'GET', 'standing_orders'
+    query_api_object Model::StandingOrder, path, nil, 'GET', 'standing_orders'
   end
 
   # Mofify stading order of account
   # @param account_id [Boolean] - ID of account to standing order, Required
   # @return [StandingOrder] a list of `standing_order` objects.
   def get_account_standing_orders(standing_order, account_id = nil)
-    query_api_object StandingOrder, "/rest/accounts/#{account_id}/standing_orders", standing_order.dump, 'PUT'
+    query_api_object Model::StandingOrder, "/rest/accounts/#{account_id}/standing_orders", standing_order.to_hash, 'PUT'
   end
 
   # Delete stading order

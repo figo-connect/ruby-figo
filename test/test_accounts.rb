@@ -12,7 +12,7 @@ class FigoTest < MiniTest::Spec
   def test_retreive_all_bank_accounts
     accounts = figo_session.list_accounts
     assert accounts.instance_of? Array
-    assert accounts.first.instance_of? Figo::Account unless accounts.empty?
+    assert accounts.first.instance_of? Figo::Model::Account unless accounts.empty?
   end
 
   # Retrieve Bank Account
@@ -20,7 +20,7 @@ class FigoTest < MiniTest::Spec
     accounts = figo_session.list_accounts
     unless accounts.empty?
       account = figo_session.get_account accounts.first.id
-      assert account.instance_of? Figo::Account
+      assert account.instance_of? Figo::Model::Account
     end
   end
 
@@ -30,7 +30,7 @@ class FigoTest < MiniTest::Spec
     accounts = figo_session.list_accounts
     unless accounts.empty?
       account = figo_session.get_account accounts.first
-      assert account.instance_of? Figo::Account
+      assert account.instance_of? Figo::Model::Account
       assert_nil figo_session.delete_account account.id
     end
   end
@@ -40,7 +40,7 @@ class FigoTest < MiniTest::Spec
     accounts = figo_session.list_accounts
     unless accounts.empty?
       account = figo_session.get_account accounts.first
-      assert account.instance_of? Figo::Account
+      assert account.instance_of? Figo::Model::Account
       assert_nil figo_session.get_account_balance account.id
     end
   end

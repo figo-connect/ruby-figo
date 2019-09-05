@@ -27,10 +27,6 @@ require_relative 'setup'
 class FigoTest < MiniTest::Spec
   include Setup
 
-  def test_missing_handling
-    assert_nil figo_session.get_account 'A1.42'
-  end
-
   def test_error_handling
     assert_raises(Figo::Error) { figo_session.sync_url 'http://localhost:3003/', '' }
   end

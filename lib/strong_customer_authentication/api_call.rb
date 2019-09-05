@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require_relative '../model/synchronization_challenge'
 
 module Figo
   # List synchronization challenges
@@ -8,7 +9,7 @@ module Figo
   # @return [Array] an array of `SynchronizationChallenge` objects
   def list_synchronization_challenges(access_id, sync_id)
     path = "/rest/accesses/#{access_id}/syncs/#{sync_id}/challenges"
-    query_api_object SynchronizationChallenge, path, nil, 'GET', 'synchronization_challenges'
+    query_api_object Model::SynchronizationChallenge, path, nil, 'GET', 'synchronization_challenges'
   end
 
   # Get synchronization challenge
@@ -19,7 +20,7 @@ module Figo
   # @return [Object] a SynchronizationChallenge object
   def get_synchronization_challenge(access_id, sync_id, challenge_id)
     path = "/rest/accesses/#{access_id}/syncs/#{sync_id}/challenges/#{challenge_id}"
-    query_api_object SynchronizationChallenge, path, nil, 'GET'
+    query_api_object Model::SynchronizationChallenge, path, nil, 'GET'
   end
 
   # Solve synchronization challenge
@@ -41,7 +42,7 @@ module Figo
   # @return [Array] an array of `SynchronizationChallenge` objects
   def list_payment_challenges(account_id, payment_id, init_d)
     path = "/rest/accounts/#{account_id}/payments/#{payment_id}/init/#{init_id}/challenges"
-    query_api_object SynchronizationChallenge, path, nil, 'GET', 'synchronization_challenges'
+    query_api_object Model::SynchronizationChallenge, path, nil, 'GET', 'synchronization_challenges'
   end
 
   # Get payment challenge
@@ -53,7 +54,7 @@ module Figo
   # @return [Object] a SynchronizationChallenge object
   def get_payment_challenge(account_id, payment_id, init_d, challenge_id)
     path = "/rest/accounts/#{account_id}/payments/#{payment_id}/init/#{init_id}/challenges"
-    query_api_object SynchronizationChallenge, path, nil, 'GET'
+    query_api_object Model::SynchronizationChallenge, path, nil, 'GET'
   end
 
   # Solve payment challenge

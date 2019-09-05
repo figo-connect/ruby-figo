@@ -11,8 +11,8 @@ class FigoTest < MiniTest::Spec
     access_method_id = figo_session.list_banks.first.access_methods.first.id
     figo_session.add_access(access_method_id) # add provider access
     access = figo_session.accesses.first # list provider accesses
-    assert figo_session.get_access(access.id).instance_of? Figo::Access # get provider access
-    assert figo_session.get_access(access.id).instance_of? Figo::Access # remove stored pin
+    assert figo_session.get_access(access.id).instance_of? Figo::Model::Access # get provider access
+    assert figo_session.get_access(access.id).instance_of? Figo::Model::Access # remove stored pin
     destroy_user
   end
 end
