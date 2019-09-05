@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'access/api_call'
 require_relative 'access/model'
 require_relative 'account/api_call'
@@ -79,10 +81,15 @@ module Figo
 
     def query_api_object(type, path, data = nil, method = 'GET', array_name = nil) # :nodoc:
       response = query_api path, data, method
-      return nil if response.nil?
-      return type.new(self, response) if array_name.nil?
+      unless response.nil?
+        if response.is_a? Hash
+          return response[array_name].map { |entry| type.new(self, entry) } if array_name
 
-      response[array_name].map { |entry| type.new(self, entry) }
+          type.new(self, response)
+        elsif response.is_a? Array
+          response.map { |entry| type.new(self, entry) }
+        end
+      end
     end
   end
 end

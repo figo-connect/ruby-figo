@@ -7,33 +7,43 @@ class FigoTest < MiniTest::Spec
 
   def test_get_catalog_client_auth
     response = figo_connection.list_complete_catalog
-    assert response.services.instance_of? Array
-    assert response.banks.instance_of? Array
-    assert response.banks.first.instance_of? Figo::Bank if response.banks.count > 0
-    assert response.services.first.instance_of? Figo::Service if response.services.count > 0
+    if response
+      assert response.services.instance_of? Array
+      assert response.banks.instance_of? Array
+      assert response.banks.first.instance_of? Figo::Bank if response.banks.count.positive?
+      assert response.services.first.instance_of? Figo::Service if response.services.count.positive?
+    end
   end
 
   def test_get_catalog_user_auth
     create_user
     response = figo_session.list_complete_catalog
-    assert response.services.instance_of? Array
-    assert response.banks.instance_of? Array
-    assert response.banks.first.instance_of? Figo::Bank if response.banks.count > 0
-    assert response.services.first.instance_of? Figo::Service if response.services.count > 0
+    if response
+      assert response.services.instance_of? Array
+      assert response.banks.instance_of? Array
+      assert response.banks.first.instance_of? Figo::Bank if response.banks.count.positive?
+      assert response.services.first.instance_of? Figo::Service if response.services.count.positive?
+    end
     destroy_user
   end
 
   def test_get_services_catalog_user_auth
     create_user
-    response = figo_session.list_complete_catalog(objects: 'services')
-    assert response.instance_of? Array
+    response = figo_session.list_services
+    if response
+      assert response.instance_of? Array
+      assert response.first.instance_of? Figo::Service if response.count.positive?
+    end
     destroy_user
   end
 
   def test_get_banks_catalog_user_auth
     create_user
-    response = figo_session.list_complete_catalog(objects: 'banks')
-    assert response.instance_of? Array
+    response = figo_session.list_banks
+    if response
+      assert response.instance_of? Array
+      assert response.first.instance_of? Figo::Bank if response.count.positive?
+    end
     destroy_user
   end
 end

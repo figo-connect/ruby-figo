@@ -14,18 +14,29 @@ module Figo
   # @params objects [Enum] "banks" or "services", decide what is included in the api response.
   #         If not specified, it returns both
   # @return [Catalog] modified bank object returned by server
-  def list_complete_catalog(q: nil, country: nil, objects: nil)
-    list_catalog(q, country, complete_path("#{@prefix}/catalog", objects))
+  def list_complete_catalog(q = nil, country = nil)
+    options = { q: q, country: country }
+    path = "#{@prefix}/catalog"
+    query_api_object(Catalog, parameterized_path(path, options), nil, 'GET')
+  end
+
+  def list_banks(q = nil, country = nil)
+    options = { q: q, country: country }
+    path = '/catalog/banks'
+    query_api_object(Bank, parameterized_path(path, options), nil, 'GET', 'banks')
+  end
+
+  def list_services(q = nil, country = nil)
+    options = { q: q, country: country }
+    path = '/catalog/services'
+    query_api_object(Service, parameterized_path(path, options), nil, 'GET', 'services')
   end
 
   private
 
-  def list_catalog(q, country, path)
-    options = { q: q, country: country }.delete_if { |_k, v| v.nil? }
-    query_api_object Catalog, "#{path}?#{options.to_query}"
-  end
-
-  def complete_path(path, objects)
-    %w[banks services].include?(objects) ? "#{path}/#{objects}" : path
+  def parameterized_path(path, options)
+    hash = options.delete_if { |_, v| v.nil? }
+    query_params = hash.to_a.map { |e| e.join('=') }.join('&')
+    query_params.empty? ? path : "#{path}?#{query_params}"
   end
 end
