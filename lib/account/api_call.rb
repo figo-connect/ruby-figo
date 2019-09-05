@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 require_relative 'model.rb'
+require_relative '../account_balance/model'
 module Figo
   # Retrieve all accounts
   #
   # @return [Array] an array of `Account` objects, one for each account the user has granted the app access
-  def accounts
+  def list_accounts
     query_api_object Account, '/rest/accounts', nil, 'GET', 'accounts'
   end
 
@@ -19,17 +20,17 @@ module Figo
 
   # Remove specific account
   #
-  # @param account [Account, String] the account to be removed or its ID
-  def remove_account(account)
-    path = account.is_a?(String) ? "/rest/accounts/#{account}" : "/rest/accounts/#{account.account_id}"
-    query_api path, nil, 'DELETE'
+  # @param account_id [String] the ID of thr account to remove
+  def delete_account(account_id)
+    account_id = account.is_a?(String) ? account : account.account_id
+    query_api "/rest/accounts/#{account_id}", nil, 'DELETE'
   end
 
-  # # Set bank account sort order
-  # #
-  # # @param accounts [Array] List of JSON objects with the field account_id
-  # #   set to the internal figo Connect account ID (the accounts will be sorted in the list order)
-  # def account_sort_order (accounts)
-  #   query_api "/rest/accounts", accounts, "PUT"
-  # end
+  # Retrieve balance of an account.
+  #
+  # @param cents [Boolean] If true amounts will be shown in cents.
+  # @return [AccountBalance] account balance object
+  def get_account_balance(account_id, cents = false)
+    query_api_object AccountBalance, "/rest/accounts/#{account_id}/balance?cents=#{cents}"
+  end
 end
