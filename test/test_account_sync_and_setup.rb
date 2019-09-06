@@ -1,59 +1,31 @@
-#
-# Copyright (c) 2013 figo GmbH
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-#
+# frozen_string_literal: true
 
-require "flt"
-require "minitest/autorun"
-require "minitest/reporters"
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-require_relative "../lib/figo"
+require_relative 'setup'
 
-class FigoTest < MiniTest::Unit::TestCase
-  def setup
-    @sut = Figo::Session.new(CONFIG["ACCESS_TOKEN"])
-  end
-
+class FigoTest < MiniTest::Spec
   ##   Account Setup & Synchronization
   # Retrieve List of Supported Banks, Credit Cards, other Payment Services
   def test_retrieve_list_of_supported_baks_cards_services
-    assert_nil @sut.get_supported_payment_services("DE", "whatever")
+    assert_nil figo_session.list_complete_catalog('DE', 'whatever')
   end
 
   # Retrieve List of Supported Credit Cards and other Payment Services
   def test_retrieve_list_of_supported_cards_services
-    assert_nil @sut.get_supported_payment_services("DE", "services")
+    assert_nil figo_session.list_complete_catalog('DE', 'services')
   end
 
   # Retrieve List of all Supported Banks
   def test_retreive_list_of_all_supported_banks
-    assert_raises(Figo::Error) { @sut.get_supported_payment_services("DE", "banks") }
+    assert_raises(Figo::Error) { figo_session.list_complete_catalog('DE', 'banks') }
   end
 
   # Retrieve Login Settings for a Bank or Service
   def test_retreive_login_settings_for_a_bank_or_service
-    assert_raises(Figo::Error) { @sut.find_bank("B1.1") }
+    assert_raises(Figo::Error) { figo_session.find_bank('B1.1') }
   end
 
   # Setup New Bank Account
   def test_setup_new_bank_account
-    assert @sut.get_bank("B1.1")
+    assert figo_session.get_bank('B1.1')
   end
 end
