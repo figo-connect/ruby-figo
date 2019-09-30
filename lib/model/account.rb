@@ -27,6 +27,22 @@ module Figo
       # @return [Boolean]
       attr_accessor :auto_sync
 
+      # Supported Tan Schemes
+      # @return [Array]
+      attr_accessor :supported_tan_schemes
+
+      # Save Pin
+      # @return [Boolean]
+      attr_accessor :save_pin
+
+      # Supported Payments
+      # @return [Hash]
+      attr_accessor :supported_payments
+
+      # Internal figo Connect account ID
+      # @return [String]
+      attr_accessor :access_id
+
       # Account number
       # @return [String]
       attr_accessor :account_number
