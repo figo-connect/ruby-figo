@@ -21,7 +21,7 @@ module Figo
   # Remove specific account
   #
   # @param account_id [String] the ID of thr account to remove
-  def delete_account(account_id)
+  def delete_account(account)
     account_id = account.is_a?(String) ? account : account.account_id
     query_api "/rest/accounts/#{account_id}", nil, 'DELETE'
   end
