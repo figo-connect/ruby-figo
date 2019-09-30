@@ -32,7 +32,7 @@ require_relative 'helpers/https'
 require_relative 'session'
 
 module Figo
-  API_ENDPOINT = 'api-preview.figo.me'
+  API_ENDPOINT = 'api.figo.me'
 
   private
 
