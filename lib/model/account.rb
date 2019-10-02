@@ -102,7 +102,8 @@ module Figo
       #        the `since` parameter
       # @return [Array] an array of `Transaction` objects, one for each transaction of this account
       def transactions(since = nil, count = 1000, offset = 0, include_pending = false)
-        @session.transactions @account_id, since, count, offset, include_pending
+        params = { since: since, count: count, offset: offset, include_pending: include_pending }
+        @session.list_transactions_of_account @account_id, params
       end
 
       # Request specific transaction.
