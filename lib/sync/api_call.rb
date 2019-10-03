@@ -13,8 +13,8 @@ module Figo
   # @param save_secret [Boolean] Indicates whether the confidential parts
   #        of the credentials should be saved, Defaulf: False
   # @return [Object] The Sync created with requested params
-  def add_sync(access_id, options)
-    data = options.delete_if { |_, v| v.nil? }
+  def add_sync(access_id, options = nil)
+    data = options.delete_if { |_, v| v.nil? } if options
     query_api_object Model::Sync, "/rest/accesses/#{access_id}/syncs", data, 'POST'
   end
 
