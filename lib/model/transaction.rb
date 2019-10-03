@@ -38,10 +38,6 @@ module Figo
       # @return [String]
       attr_accessor :currency
 
-      # Booking date
-      # @return [Date]
-      attr_accessor :booking_date
-
       # Value date
       # @return [Date]
       attr_accessor :value_date
