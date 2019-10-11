@@ -42,11 +42,17 @@ module Figo
       response.body && !response.body.empty? ? JSON.parse(response.body) : nil
     end
 
-    def query_api_object(type, path, data = nil, method = 'GET') # :nodoc:
+    def query_api_object(type, path, data = nil, method = 'GET', array_name = nil) # :nodoc:
       response = query_api path, data, method
       return nil if response.nil?
 
-      type.new(self, response)
+      if response.is_a? Hash
+        return response[array_name].map { |entry| type.new(self, entry) } if array_name
+
+        type.new(self, response)
+      elsif response.is_a? Array
+        response.map { |entry| type.new(self, entry) }
+      end
     end
 
     def get_version

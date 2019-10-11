@@ -37,6 +37,14 @@ class FigoTest < MiniTest::Spec
     destroy_user
   end
 
+  def test_get_services_catalog_client_auth
+    response = figo_connection.list_services
+    if response
+      assert response.instance_of? Array
+      assert response.first.instance_of? Figo::Model::Service if response.count.positive?
+    end
+  end
+
   def test_get_banks_catalog_user_auth
     create_user
     response = figo_session.list_banks
@@ -45,5 +53,13 @@ class FigoTest < MiniTest::Spec
       assert response.first.instance_of? Figo::Model::Bank if response.count.positive?
     end
     destroy_user
+  end
+
+  def test_get_banks_catalog_client_auth
+    response = figo_connection.list_banks
+    if response
+      assert response.instance_of? Array
+      assert response.first.instance_of? Figo::Model::Bank if response.count.positive?
+    end
   end
 end
