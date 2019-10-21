@@ -98,6 +98,10 @@ module Figo
       # @return [String]
       attr_accessor :sepa_remittance_info
 
+      # Attitional Info
+      # @return [String]
+      attr_accessor :additional_info
+
       # Booking Key
       # @return [String]
       attr_accessor :booking_key
