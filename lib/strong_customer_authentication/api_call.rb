@@ -29,9 +29,9 @@ module Figo
   # @param sync_id [String] ID of the access to be retrieved.
   # @param challenge_id [String] ID of the access to be retrieved.
   # @return [Object]
-  def solve_synchronization_challenge(access_id, sync_id, challenge_id)
+  def solve_synchronization_challenge(access_id, sync_id, challenge_id, data)
     path = "/rest/accesses/#{access_id}/syncs/#{sync_id}/challenges/#{challenge_id}/response"
-    query_api path, nil, 'POST'
+    query_api path, data, 'POST'
   end
 
   # List payment challenges
