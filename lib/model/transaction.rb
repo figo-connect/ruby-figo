@@ -137,6 +137,10 @@ module Figo
       # BIC
       # @return [String]
       attr_accessor :bic
+
+      # Text key addition
+      # @return [String]
+      attr_accessor :text_key_addition
     end
   end
 end
