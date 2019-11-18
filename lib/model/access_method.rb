@@ -4,9 +4,7 @@ require_relative 'base'
 module Figo
   module Model
     class AccessMethod < Base
-      DUMP_ATTRIBUTES = %i[
-        id consent auth_methods access_method_id created_at
-      ].freeze
+      DUMP_ATTRIBUTES = %i[id configurable_consent].freeze
 
       def initialize(hash)
         super(nil, hash)
