@@ -5,7 +5,7 @@ module Figo
   module Model
     # Object representing one access of the User
     class Access < Base
-      DUMP_ATTRIBUTES = %i[id consent auth_methods access_method_id created_at].freeze
+      DUMP_ATTRIBUTES = %i[id consent auth_methods access_method_id selected_auth_method created_at].freeze
       # Figo ID of the access
       # @return [String]
       attr_accessor :id
@@ -17,6 +17,10 @@ module Figo
       # Authentification methods associated with the access
       # @return [AuthMethods]
       attr_accessor :auth_methods
+
+      # Selected authentification method
+      # @return [AuthMethod]
+      attr_accessor :selected_auth_method
 
       # Figo ID of the provider access method.
       # @return [String]
