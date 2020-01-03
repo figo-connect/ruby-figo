@@ -64,8 +64,8 @@ module Figo
   # @param init_d [String] figo ID of the payment initation.
   # @param challenge_id [String] figo ID of the challenge.
   # @return [Object]
-  def solve_payment_challenge(account_id, payment_id, init_d, challenge_id)
-    path = "/rest/accounts/#{account_id}/payments/#{payment_id}/init/#{init_id}/challenges/#{challenge_id}"
-    query_api path, nil, 'POST'
+  def solve_payment_challenge(account_id, payment_id, init_id, challenge_id, data)
+    path = "/rest/accounts/#{account_id}/payments/#{payment_id}/init/#{init_id}/challenges/#{challenge_id}/response"
+    query_api path, data, 'POST'
   end
 end
