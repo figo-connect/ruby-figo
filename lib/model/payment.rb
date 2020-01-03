@@ -27,6 +27,10 @@ module Figo
       # @return [String]
       attr_accessor :account_number
 
+      # IBAN of creditor
+      # @return [String]
+      attr_accessor :iban
+
       # Bank code of creditor or debtor
       # @return [String]
       attr_accessor :bank_code
@@ -57,14 +61,17 @@ module Figo
 
       # Timestamp of submission to the bank server
       # @return [DateTime]
+      attr_accessor :submitted_at
       attr_accessor :submission_timestamp
 
       # Internal creation timestamp on the figo Connect server
       # @return [DateTime]
+      attr_accessor :created_at
       attr_accessor :creation_timestamp
 
       # Internal modification timestamp on the figo Connect server
       # @return [DateTime]
+      attr_accessor :modified_at
       attr_accessor :modification_timestamp
 
       # ID of the transaction corresponding to this payment.
