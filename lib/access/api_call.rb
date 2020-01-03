@@ -20,7 +20,7 @@ module Figo
     data = { access_method_id: access_method_id }
     data[:credentials] = credentials if credentials
     data[:consent] = consent if consent
-    
+
     query_api_object Model::Access, '/rest/accesses', data, 'POST'
   end
 
@@ -37,6 +37,6 @@ module Figo
   # @param access_id [String] ID of the access to remove the PIN for.
   # @return [Access] access object
   def remove_pin(access_id)
-    query_api_object Model::Access, "/rest/accesses/#{access_id}/remove_pin", nil, 'DELETE'
+    query_api_object Model::Access, "/rest/accesses/#{access_id}/remove_pin", nil, 'POST'
   end
 end
