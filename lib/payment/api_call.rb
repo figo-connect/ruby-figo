@@ -32,10 +32,11 @@ module Figo
 
   # Create new payment
   #
+  # @param account_id [String] ID of the account related to Payment object to be created.
   # @param payment [Payment] payment object to be created. It should not have a payment_id set, Required
   # @return [Payment] newly created `Payment` object
-  def create_payment(payment)
-    query_api_object Model::Payment, "/rest/accounts/#{payment.account_id}/payments", payment.to_hash, 'POST'
+  def create_payment(account_id, data)
+    query_api_object Model::Payment, "/rest/accounts/#{account_id}/payments", data, 'POST'
   end
 
   # Modify payment
@@ -49,26 +50,21 @@ module Figo
   # Initiate a payment
   #
   # @param payment [Payment] payment to be submitted
-  # @param tan_scheme_id [String] TAN scheme ID of user-selected TAN scheme, Required
   # @param state [String] Any kind of string that will be forwarded in the callback response message, Required
-  # @param redirect_uri [String] At the end of the submission process a response will
-  #        be sent to this callback URL, Optional
   # @return [String] The result parameter is the URL to be opened by the user.
 
-  def initiate_payment(payment, tan_scheme_id, state, redirect_uri)
-    params = { tan_scheme_id: tan_scheme_id, state: state, redirect_uri: redirect_uri }.delete_if { |_k, v| v.nil? }
-
+  def initiate_payment(payment, data)
+    params = data.delete_if { |_k, v| v.nil? }
     query_api('/rest/accounts/' + payment.account_id + '/payments/' + payment.payment_id + '/init', params, 'POST')
   end
 
   # Get payment initation status
   #
-  # @param account_id [String] figoID for the account on which the payment was created, Required
-  # @param payment_id [String] figo ID of the payment to retrieve the initiation status for, Required
+  # @param payment [Payment] payment object
   # @param init_id [String] figo ID of the payment initation, Required
   # @return [Object] Initiation status of the payment
-  def get_payment_initiation_status(account_id, payment_id, init_id)
-    query_api("/rest/accounts/#{account_id}/payments/#{payment_id}/init#{init_id}", nil, 'GET')
+  def get_payment_initiation_status(payment, init_id)
+    query_api("/rest/accounts/#{payment.account_id}/payments/#{payment.payment_id}/init/#{init_id}", nil, 'GET')
   end
 
   # Remove payment
@@ -77,18 +73,4 @@ module Figo
   def remove_payment(payment)
     query_api "/rest/accounts/#{payment.account_id}/payments/#{payment.payment_id}", nil, 'DELETE'
   end
-
-  # TODO: OUT OLD IMPLEMENTATION - CHECK DIFFS
-  # def submit_payment(payment, tan_scheme_id, state, redirect_uri)
-  #   params = {tan_scheme_id: tan_scheme_id, state: state}
-  #   if(redirect_uri)
-  #     params["redirect_uri"] = redirect_uri;
-  #   end
-
-  #   res = query_api("/rest/accounts/#{payment.account_id}/payments/#{payment.payment_id}/submit", params, "POST")
-  #   task_token = res['task_token'] if res
-
-  #   url = "https://#{$api_endpoint}/task/start?id=#{task_token}" if task_token
-  #   url ? url : res
-  # end
 end
