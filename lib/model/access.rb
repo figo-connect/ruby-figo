@@ -29,6 +29,18 @@ module Figo
       # Timestamps of the access
       # return [Date]
       attr_accessor :created_at
+
+      # Status of the access
+      # return [Date]
+      attr_accessor :status
+
+      # save_pin flag of the access
+      # return [Date]
+      attr_accessor :save_pin
+
+      # auto_sync flag of the access
+      # return [Date]
+      attr_accessor :auto_sync
     end
   end
 end
