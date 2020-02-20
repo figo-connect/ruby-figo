@@ -21,6 +21,10 @@ module Figo
       # @return [Error]
       attr_accessor :error
 
+      # Synchronization type
+      # @return [String]
+      attr_accessor :type
+
       # Timestamp of synchronization
       # @return [DateTime]
       attr_accessor :created_at
