@@ -25,6 +25,10 @@ module Figo
       # @return [String]
       attr_accessor :type
 
+      # redirect_uri of synchronization
+      # @return [String]
+      attr_accessor :redirect_uri
+
       # Timestamp of synchronization
       # @return [DateTime]
       attr_accessor :created_at
