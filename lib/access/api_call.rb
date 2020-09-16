@@ -39,4 +39,12 @@ module Figo
   def remove_pin(access_id)
     query_api_object Model::Access, "/rest/accesses/#{access_id}/remove_pin", nil, 'POST'
   end
+
+  # Remove access with given access_id
+  #
+  # @param access_id [String] ID of access object
+  # @return nil
+  def remove_access(access_id)
+    query_api_object Model::Access, "/rest/accesses/#{access_id}", nil, 'DELETE'
+  end
 end
