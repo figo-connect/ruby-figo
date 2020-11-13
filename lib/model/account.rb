@@ -91,6 +91,10 @@ module Figo
       # @return [AccountBalance]
       attr_accessor :balance
 
+      # Is account managed by multiple people
+      # @return [Boolean]
+      attr_accessor :is_jointly_managed
+
       # Request list of transactions of this account
       #
       # @param since [String, Date] this parameter can either be a transaction ID or a date
