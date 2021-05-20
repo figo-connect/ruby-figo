@@ -23,6 +23,9 @@ module Figo
       # @return [Object]
       attr_accessor :language
 
+      # @return [Object]
+      attr_accessor :group
+
       # @return [Array] List of access methods available for this catalog item.
       attr_reader :access_methods
       def access_methods=(array)
