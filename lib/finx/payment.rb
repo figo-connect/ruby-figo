@@ -2,7 +2,7 @@
 module FinX
   module Payment
     # Create a new payment on finleap side via finX API
-    def create_finx_payment(account_id, data)
+    def create_finx_payment(data)
       query_api_object(Model::Payment, "/rest/payments", data, 'POST', FINX_API_HOST)
     end
 

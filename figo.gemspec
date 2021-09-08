@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name          = "figo"
-  s.version       = "2.0.12"
+  s.version       = "2.0.13"
   s.authors       = ["figo GmbH", "Netguru"]
   s.email         = ['devs@figo.io', "lukasz.ozimek@netguru.com", "robert.kusmirek@netguru.com"]
   s.homepage      = "https://github.com/figo-connect/ruby-figo"
