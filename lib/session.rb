@@ -13,11 +13,13 @@ require_relative 'synchronization_status/api_call'
 require_relative 'task/api_call'
 require_relative 'transaction/api_call'
 require_relative 'user/api_call'
+require_relative 'finx/finx'
 
 module Figo
   # Represents a user-bound connection to the figo Connect API and allows access to the user's data.
   class Session
     include Figo
+    include FinX
     # Create session object with access token.
     #
     # @param access_token [String] the access token
@@ -32,8 +34,8 @@ module Figo
     # @param data [hash] this optional object will be used as JSON-encoded POST content.
     # @param method [String] the HTTP method
     # @return [Hash] JSON response
-    def query_api(path, data = nil, method = 'GET') # :nodoc:
-      uri = URI("https://#{API_ENDPOINT}#{path}")
+    def query_api(path, data = nil, method = 'GET', host = API_ENDPOINT) # :nodoc:
+      uri = URI("https://#{host}#{path}")
 
       # Setup HTTP request.
       request = case method
@@ -63,8 +65,8 @@ module Figo
       JSON.parse(response.body)
     end
 
-    def query_api_object(type, path, data = nil, method = 'GET', array_name = nil) # :nodoc:
-      response = query_api path, data, method
+    def query_api_object(type, path, data = nil, method = 'GET', array_name = nil, host = API_ENDPOINT) # :nodoc:
+      response = query_api(path, data, method, host)
       unless response.nil?
         if response.is_a? Hash
           return response[array_name].map { |entry| type.new(self, entry) } if array_name
